@@ -1,0 +1,742 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>frmWasser</class>
+ <widget class="QWidget" name="frmWasser">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>362</width>
+    <height>426</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Themenbereich Wasser</string>
+  </property>
+  <widget class="QToolBox" name="toolBox">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>361</width>
+     <height>371</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <widget class="QWidget" name="toolBoxPage1">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>359</width>
+      <height>153</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Wasserversorgung</string>
+    </attribute>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>30</y>
+       <width>151</width>
+       <height>68</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QCheckBox" name="ckQuellen">
+        <property name="text">
+         <string>Quellen</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckBrunnen">
+        <property name="text">
+         <string>Brunnen</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckSchutzSchongebiete">
+        <property name="text">
+         <string>Schutz- und Schongebiete</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="toolBoxPage2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>359</width>
+      <height>153</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Thermische Nutzung</string>
+    </attribute>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>21</x>
+       <y>11</y>
+       <width>258</width>
+       <height>116</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QCheckBox" name="ckGWWaermepumpen">
+        <property name="text">
+         <string>Grundwasserwärme-Pumpen</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckErdwaermeanlagen">
+        <property name="text">
+         <string>Erdwärmeanlagen</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckKuehlwasseranlagenGW">
+        <property name="text">
+         <string>Kühlwasseranlagen Grundwasser</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckKuehlwasseranlagenOG">
+        <property name="text">
+         <string>Kühlwasseranlagen Oberflächengewässer</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckWeitereAnlagen">
+        <property name="text">
+         <string>weitere Grundwasseranlagen (z.B. Versickerung)</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="toolBoxPage3">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>359</width>
+      <height>153</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Wassernutzung / Schutzwasserbau</string>
+    </attribute>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>10</y>
+       <width>246</width>
+       <height>116</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QCheckBox" name="ckKraftwerke">
+        <property name="text">
+         <string>Kraftwerke</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckSonstigeBetriebe">
+        <property name="text">
+         <string>Betriebe (z.B. Beschneiungsanlagen)</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckGeschiebe">
+        <property name="text">
+         <string>Geschieberückhalteeinrichtungen</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckSonstigeAnlagen">
+        <property name="text">
+         <string> Anlagen an Gewässern (z.B. Entnahmen)</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckUeberflutungsflaechen">
+        <property name="text">
+         <string>Überflutungsflächen in Bearbeitung</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="toolBoxPage4">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>359</width>
+      <height>153</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Abwasserentsorgung / Gefährdung</string>
+    </attribute>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>146</width>
+       <height>92</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <widget class="QCheckBox" name="ckKommunaleKlaeranlagen">
+        <property name="text">
+         <string>Kommunale Kläranlagen</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckKleinklaeranlagen">
+        <property name="text">
+         <string>Kleinkläranalgen</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckBetrieblicheKlaeranlagen">
+        <property name="text">
+         <string>Betriebliche Kläranlagen</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckOeffentlicheTankstellen">
+        <property name="text">
+         <string>Öffentliche Tankstellen</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="toolBoxPage5">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>359</width>
+      <height>153</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Hydrographie</string>
+    </attribute>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>0</y>
+       <width>184</width>
+       <height>140</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <widget class="QCheckBox" name="ckEzQuellen">
+        <property name="text">
+         <string>Quelleinzugsgebiete</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckEzFliessgewaesser">
+        <property name="text">
+         <string>Einzugsgebiete Fließgewässer</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckNiederschlagmessstellen">
+        <property name="text">
+         <string>Niederschlag-Messstellen</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckOberflaechenwassermessstellen">
+        <property name="text">
+         <string>Oberflächenwasser-Messstellen</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckGrundwassermessstellen">
+        <property name="text">
+         <string>Grundwasser-Messstellen</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckGrundwasserfelder">
+        <property name="text">
+         <string>Grundwasserfelder</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="page">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>359</width>
+      <height>153</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Fließgewässer Netz (FGW)</string>
+    </attribute>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>325</width>
+       <height>92</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_6">
+      <item>
+       <widget class="QCheckBox" name="ckGewaessernetz2012Vlbg">
+        <property name="text">
+         <string>Gewässernetz 2012 Vorarlberg</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckGewaessernetz2012Umgebung">
+        <property name="text">
+         <string>Gewaessernetz 2012 Vorarlberg + Umgebung</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckGewaessernetz2000Vlbg">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Gewässernetz 2000 Vorarlberg</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckGewaessernetz2000Umgebung">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Gewaessernetz 2000 Vorarlberg + Umgebung</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="page_3">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>359</width>
+      <height>153</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Fließgewässer Strukturgüte</string>
+    </attribute>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>10</y>
+       <width>169</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="ckDirekteinleitungen">
+        <property name="text">
+         <string>Direkteinleitungen</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="ckKontinuumsunterbrechungen">
+        <property name="text">
+         <string>Kontinuumsunterbrechungen</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="ckSohleBoeschung">
+        <property name="text">
+         <string>Sohle Böschung</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="ckStrukturzustand">
+        <property name="text">
+         <string>Strukturzustand</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QCheckBox" name="ckUfervegetation">
+        <property name="text">
+         <string>Ufervegetation</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="page_2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>359</width>
+      <height>153</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Stehende Gewässer</string>
+    </attribute>
+    <widget class="QPushButton" name="btnSeen">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>105</y>
+       <width>25</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>i</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>3</y>
+       <width>256</width>
+       <height>141</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_7">
+      <item>
+       <widget class="QCheckBox" name="ckBodenseeAlles">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Bodensee -&gt; alles</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckBodenseeWasserflaeche">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Bodensee -&gt; nur Wasserfläche</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckBodensee25m">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Bodensee -&gt; nur 25m Tiefenlinie</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckBodensee5m">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Bodensee -&gt; nur 5m Tiefenlinien</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckBodenseeUferlinie">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Bodensee -&gt; nur Uferlinie</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckSeen">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Andere Seen u. stehende Gewässer Vorarlbergs</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>390</y>
+     <width>101</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Themen Laden</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>390</y>
+     <width>101</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Schließen</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>frmWasser</receiver>
+   <slot>abbrechen()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>219</x>
+     <y>378</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>303</x>
+     <y>363</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>frmWasser</receiver>
+   <slot>datenladen()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>90</x>
+     <y>375</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>156</x>
+     <y>356</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnSeen</sender>
+   <signal>clicked()</signal>
+   <receiver>frmWasser</receiver>
+   <slot>infobuttton()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>286</x>
+     <y>303</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>13</x>
+     <y>363</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>abbrechen()</slot>
+  <slot>datenladen()</slot>
+  <slot>infobuttton()</slot>
+ </slots>
+ <buttongroups>
+  <buttongroup name="ckButtons"/>
+ </buttongroups>
+</ui>

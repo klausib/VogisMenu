@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>frmTopokarten</class>
+ <widget class="QDialog" name="frmTopokarten">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>382</width>
+    <height>524</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Topographische Karten</string>
+  </property>
+  <widget class="QPushButton" name="ButtonTopokartenOk">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>470</y>
+     <width>121</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Themen laden</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ButtonTopokartenCancel">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>470</y>
+     <width>121</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Schließen</string>
+   </property>
+  </widget>
+  <widget class="QToolBox" name="toolBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>361</width>
+     <height>441</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="page">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>361</width>
+      <height>387</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Topographische Karten</string>
+    </attribute>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>310</y>
+       <width>281</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string comment="aaaa" extracomment="aaaa">Sonstiges</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QRadioButton" name="radioButton_11">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Namen ÖK50</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>checkButtonsGroup</string>
+        </attribute>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>10</y>
+       <width>281</width>
+       <height>293</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string comment="aaaa" extracomment="aaaa">Topographische Karten</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QCheckBox" name="checkBox">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Topogr. Karte (VoGIS)</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>checkButtonsGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_2">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Topogr. Karte Winter (VoGIS)</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>checkButtonsGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_3">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Topogr. Karte PDF-Ebenen (VoGIS)</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>checkButtonsGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_4">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Topogr. Karte (Verkehrsverbund)</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>checkButtonsGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_5">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>ÖK 1:50.000 Vlbg. (BEV)</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>checkButtonsGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_6">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>ÖK 1:50.000 Vlbg. + Umg. (BEV)</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>checkButtonsGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_7">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Heimatkarte 1:100.000 (FreytagBerndt)</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>checkButtonsGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_8">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>ÖK 1:200.000  (BEV)</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>checkButtonsGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_9">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>ÖK 1:500.000  (BEV)</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>checkButtonsGroup</string>
+        </attribute>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="page_2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>98</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Historische Karten</string>
+    </attribute>
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>30</y>
+       <width>265</width>
+       <height>261</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="title">
+      <string>Historische Karten</string>
+     </property>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>219</width>
+        <height>212</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QCheckBox" name="checkBox_12">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Urmappe:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_15">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>3. Landesaufnahme 1871 - 1872:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_17">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Reambulierte 3. LA 1887:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_26">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Spezialkarten 1908-15 / 1934-37:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_29">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Provisorische ÖK 1946-47:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_30">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>ÖK50 1953-67:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_31">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>ÖK50 1961-74:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_32">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>ÖK50 1971-80:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup</string>
+         </attribute>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>ButtonTopokartenOk</sender>
+   <signal>clicked()</signal>
+   <receiver>frmTopokarten</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>150</x>
+     <y>481</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>260</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ButtonTopokartenCancel</sender>
+   <signal>clicked()</signal>
+   <receiver>frmTopokarten</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>160</x>
+     <y>471</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>175</x>
+     <y>277</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>doHistorische_Karten()</slot>
+ </slots>
+ <buttongroups>
+  <buttongroup name="checkButtonsGroup"/>
+ </buttongroups>
+</ui>

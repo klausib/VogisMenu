@@ -1,0 +1,2848 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>frmGeologie</class>
+ <widget class="QDialog" name="frmGeologie">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>813</width>
+    <height>638</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Geologie</string>
+  </property>
+  <widget class="QPushButton" name="ButtonGeolgoieOk">
+   <property name="geometry">
+    <rect>
+     <x>236</x>
+     <y>588</y>
+     <width>121</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Themen laden</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ButtonGeologieCancel">
+   <property name="geometry">
+    <rect>
+     <x>436</x>
+     <y>588</y>
+     <width>121</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Schließen</string>
+   </property>
+  </widget>
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
+    <rect>
+     <x>32</x>
+     <y>24</y>
+     <width>757</width>
+     <height>537</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="tab">
+    <attribute name="title">
+     <string>Allgemein</string>
+    </attribute>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="geometry">
+      <rect>
+       <x>176</x>
+       <y>40</y>
+       <width>345</width>
+       <height>449</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="title">
+      <string>Allgemein</string>
+     </property>
+     <widget class="QCheckBox" name="checkBox">
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>30</y>
+        <width>271</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Geologische Karte Vorarlberg (GBA, 2007)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_2">
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>60</y>
+        <width>272</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Geologische_Tektonische Karte (GBA, 1998)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup</string>
+      </attribute>
+     </widget>
+     <widget class="QPushButton" name="Button_Legend_Geologie_2007">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>30</y>
+        <width>20</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="baseSize">
+       <size>
+        <width>23</width>
+        <height>23</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="resources.qrc">
+        <normaloff>:/plugins/VogisMenu/icons/gui-rv.info.gif</normaloff>:/plugins/VogisMenu/icons/gui-rv.info.gif</iconset>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Button_Legend_Tektonisch_1998">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>60</y>
+        <width>20</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="baseSize">
+       <size>
+        <width>23</width>
+        <height>23</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="resources.qrc">
+        <normaloff>:/plugins/VogisMenu/icons/gui-rv.info.gif</normaloff>:/plugins/VogisMenu/icons/gui-rv.info.gif</iconset>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>31</x>
+        <y>90</y>
+        <width>130</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Profilschnitt Vorarlberg</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Profilschintt_Vorarlberg">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>92</y>
+        <width>20</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="baseSize">
+       <size>
+        <width>23</width>
+        <height>23</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="resources.qrc">
+        <normaloff>:/plugins/VogisMenu/icons/gui-rv.info.gif</normaloff>:/plugins/VogisMenu/icons/gui-rv.info.gif</iconset>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_3">
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>128</y>
+        <width>80</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Bohrprofile</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_5">
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>176</y>
+        <width>219</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Geologische Detailuntersuchungen</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_6">
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>200</y>
+        <width>180</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Geologische Karte (Richter)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_7">
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>224</y>
+        <width>209</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Geologie Rheintal (Starck, 1970)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_8">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>11</x>
+        <y>296</y>
+        <width>221</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Gefahrenhinweiskarte (GBA, 2006)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_9">
+      <property name="geometry">
+       <rect>
+        <x>11</x>
+        <y>320</y>
+        <width>220</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Georisken Montafon (Bertle, 1995)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_23">
+      <property name="geometry">
+       <rect>
+        <x>11</x>
+        <y>356</y>
+        <width>116</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Geotop-Inventar</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_25">
+      <property name="geometry">
+       <rect>
+        <x>11</x>
+        <y>392</y>
+        <width>270</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Grundwasser-Chemismus Rheintal (Starck)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_24">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>11</x>
+        <y>416</y>
+        <width>309</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Grundwasser-Schichten_Linien Rheintal (nur VIIa)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_11">
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>248</y>
+        <width>269</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Historische Übersichtskarte (Schmidt 1839-1841)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_19">
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>152</y>
+        <width>221</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Ereigniskataster (Starck, 1974-2003)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup</string>
+      </attribute>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_2">
+    <attribute name="title">
+     <string>Geologische Gebietskarten</string>
+    </attribute>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="geometry">
+      <rect>
+       <x>164</x>
+       <y>28</y>
+       <width>429</width>
+       <height>461</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="title">
+      <string>Geologische Gebietskarten</string>
+     </property>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>30</y>
+        <width>397</width>
+        <height>417</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
+        <widget class="QCheckBox" name="checkBox_4">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Übersichtskarten</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup2</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QCheckBox" name="checkBox_10">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Arlberggebiet (GBA, 1932)</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup2</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QCheckBox" name="checkBox_12">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Bezau (GBA, Manuskript)</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup2</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QCheckBox" name="checkBox_13">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Bregenz (GBA, 1982)</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup2</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QCheckBox" name="checkBox_14">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Dornbirn Nord (GBA, 1984)</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup2</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QCheckBox" name="checkBox_15">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Dornbirn Süd (GBA, 1982)</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup2</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QCheckBox" name="checkBox_16">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Flexenpass (Doert und Helmcke, 1975)</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup2</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QCheckBox" name="checkBox_17">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Heiterwand (Tirol) (GBA, 1932)</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup2</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QCheckBox" name="checkBox_18">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Klostertal (Helmcke, 1972)</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup2</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QCheckBox" name="checkBox_26">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Klostertaler Alpen (GBA, 1932)</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup2</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="QCheckBox" name="checkBox_27">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Liechtenstein (RFL, 1985)</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup2</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="QCheckBox" name="checkBox_28">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Mittelberg (GBA, 1990)</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup2</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="12" column="0">
+        <widget class="QCheckBox" name="checkBox_29">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Parseiergruppe (Tirol)  (GBA, 1932)</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup2</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="13" column="0">
+        <widget class="QCheckBox" name="checkBox_30">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Partenen Ost (GBA, 1980)</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup2</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="14" column="0">
+        <widget class="QCheckBox" name="checkBox_33">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Partenen West (GBA, 1980)</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup2</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QCheckBox" name="checkBox_37">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Walgau (GBA, 1967)</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup2</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QCheckBox" name="checkBox_38">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Walsertal (Otte und Helmcke)</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup2</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QCheckBox" name="checkBox_36">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Vorderwald (Muheim, 1934)</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup2</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QCheckBox" name="checkBox_35">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Sulzberg (GBA, 1984)</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup2</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QCheckBox" name="checkBox_31">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Stuben (GBA, 1937)</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup2</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="checkBox_34">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Schönenbach</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup2</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QCheckBox" name="checkBox_32">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Rätikon (GBA)</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup2</string>
+         </attribute>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_3">
+    <attribute name="title">
+     <string>Geologische Detailkarten</string>
+    </attribute>
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>36</y>
+       <width>345</width>
+       <height>397</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="title">
+      <string>Geologische Detailkarten</string>
+     </property>
+     <widget class="QCheckBox" name="checkBox_20">
+      <property name="geometry">
+       <rect>
+        <x>13</x>
+        <y>40</y>
+        <width>272</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Ausser Montafon (Bertha, 1978)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup3</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_21">
+      <property name="geometry">
+       <rect>
+        <x>13</x>
+        <y>64</y>
+        <width>165</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Dalaas (Koehler, 1977)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup3</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_22">
+      <property name="geometry">
+       <rect>
+        <x>13</x>
+        <y>88</y>
+        <width>219</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Davenna (Kasper, 1990)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup3</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_39">
+      <property name="geometry">
+       <rect>
+        <x>13</x>
+        <y>112</y>
+        <width>180</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Firstkette (Golde, 1993)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup3</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_40">
+      <property name="geometry">
+       <rect>
+        <x>13</x>
+        <y>136</y>
+        <width>209</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Gafadura (Post, 1996)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup3</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_41">
+      <property name="geometry">
+       <rect>
+        <x>13</x>
+        <y>160</y>
+        <width>279</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Gargellen (Bertle, 1972)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup3</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_42">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>184</y>
+        <width>221</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Gopfberg (Oberhauser M., 1993)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup3</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_43">
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>208</y>
+        <width>220</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Rätikon östlich (Steinacher, 2004)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup3</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_44">
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>232</y>
+        <width>201</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Rätikon östlich (Mayerl, 2005)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup3</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_45">
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>256</y>
+        <width>270</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Sibratsgfäll (Haak, 1995)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup3</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_46">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>280</y>
+        <width>309</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Tschagguns - Mauren (Bertle, 1995)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup3</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_47">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>304</y>
+        <width>309</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Tschöppa (Bertle, 1992)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup3</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_48">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>328</y>
+        <width>309</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Winterstaude (Oberhauser)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup3</string>
+      </attribute>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_49">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>352</y>
+        <width>309</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Winterstaude (Alexander)</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>checkButtonsGroup3</string>
+      </attribute>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_4">
+    <attribute name="title">
+     <string>Georisiko-Karten (AGK)</string>
+    </attribute>
+    <widget class="QGroupBox" name="groupBox_4">
+     <property name="geometry">
+      <rect>
+       <x>12</x>
+       <y>28</y>
+       <width>169</width>
+       <height>161</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="title">
+      <string>Geologie</string>
+     </property>
+     <widget class="QGroupBox" name="groupBox_5">
+      <property name="geometry">
+       <rect>
+        <x>208</x>
+        <y>168</y>
+        <width>213</width>
+        <height>169</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="title">
+       <string>Geologie</string>
+      </property>
+      <widget class="QCheckBox" name="checkBox_55">
+       <property name="geometry">
+        <rect>
+         <x>13</x>
+         <y>24</y>
+         <width>257</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Alberschwende</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_56">
+       <property name="geometry">
+        <rect>
+         <x>13</x>
+         <y>48</y>
+         <width>165</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Au</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_57">
+       <property name="geometry">
+        <rect>
+         <x>13</x>
+         <y>72</y>
+         <width>219</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Faschina</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_58">
+       <property name="geometry">
+        <rect>
+         <x>13</x>
+         <y>96</y>
+         <width>180</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Hochtannberg/Arlberg</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_59">
+       <property name="geometry">
+        <rect>
+         <x>13</x>
+         <y>120</y>
+         <width>209</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Sibratsgfaell</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>13</x>
+        <y>24</y>
+        <width>133</width>
+        <height>116</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QCheckBox" name="checkBox_50">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Alberschwende</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_51">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Au</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_52">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Faschina</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_53">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Hochtannberg/Arlberg</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_54">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Sibratsgfäll</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_6">
+     <property name="geometry">
+      <rect>
+       <x>364</x>
+       <y>28</y>
+       <width>137</width>
+       <height>161</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="title">
+      <string>Rutschung</string>
+     </property>
+     <widget class="QGroupBox" name="groupBox_7">
+      <property name="geometry">
+       <rect>
+        <x>208</x>
+        <y>168</y>
+        <width>213</width>
+        <height>169</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="title">
+       <string>Geologie</string>
+      </property>
+      <widget class="QCheckBox" name="checkBox_65">
+       <property name="geometry">
+        <rect>
+         <x>13</x>
+         <y>24</y>
+         <width>257</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Alberschwende</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_66">
+       <property name="geometry">
+        <rect>
+         <x>13</x>
+         <y>48</y>
+         <width>165</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Au</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_67">
+       <property name="geometry">
+        <rect>
+         <x>13</x>
+         <y>72</y>
+         <width>219</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Faschina</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_68">
+       <property name="geometry">
+        <rect>
+         <x>13</x>
+         <y>96</y>
+         <width>180</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Hochtannberg/Arlberg</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_69">
+       <property name="geometry">
+        <rect>
+         <x>13</x>
+         <y>120</y>
+         <width>209</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Sibratsgfaell</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>13</x>
+        <y>24</y>
+        <width>99</width>
+        <height>116</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QCheckBox" name="checkBox_60">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Alberschwende</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_61">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Faschina</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_62">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Hochtannberg</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_63">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Schoppernau</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_64">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Walgau</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_8">
+     <property name="geometry">
+      <rect>
+       <x>192</x>
+       <y>28</y>
+       <width>153</width>
+       <height>161</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="title">
+      <string>Steinschlag</string>
+     </property>
+     <widget class="QGroupBox" name="groupBox_9">
+      <property name="geometry">
+       <rect>
+        <x>208</x>
+        <y>168</y>
+        <width>213</width>
+        <height>169</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="title">
+       <string>Geologie</string>
+      </property>
+      <widget class="QCheckBox" name="checkBox_75">
+       <property name="geometry">
+        <rect>
+         <x>13</x>
+         <y>24</y>
+         <width>257</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Alberschwende</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_76">
+       <property name="geometry">
+        <rect>
+         <x>13</x>
+         <y>48</y>
+         <width>165</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Au</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_77">
+       <property name="geometry">
+        <rect>
+         <x>13</x>
+         <y>72</y>
+         <width>219</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Faschina</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_78">
+       <property name="geometry">
+        <rect>
+         <x>13</x>
+         <y>96</y>
+         <width>180</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Hochtannberg/Arlberg</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_79">
+       <property name="geometry">
+        <rect>
+         <x>13</x>
+         <y>120</y>
+         <width>209</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Sibratsgfaell</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>13</x>
+        <y>24</y>
+        <width>94</width>
+        <height>116</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QCheckBox" name="checkBox_70">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Hochtannberg</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_71">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Klostertal</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_72">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Mellau</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_73">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Schröcken</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_74">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Walgau</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_10">
+     <property name="geometry">
+      <rect>
+       <x>528</x>
+       <y>28</y>
+       <width>177</width>
+       <height>345</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="title">
+      <string>Geotechnik</string>
+     </property>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>13</x>
+        <y>24</y>
+        <width>126</width>
+        <height>308</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QCheckBox" name="checkBox_80">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Alberschwende Nord</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_81">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Alberschwende Süd</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_82">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Au</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_83">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Flexenpass</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_84">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Ippacherwald</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_85">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Lech</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_86">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Mellau</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_87">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Schoppernau</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_88">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Schröcken</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_89">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Schwarzachtobel</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_90">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Sibratsgfäll</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_91">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Warth</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_92">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Warth/Saloberkopf</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup4</string>
+         </attribute>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_5">
+    <attribute name="title">
+     <string>Geomorphologische Karten (Uni Amsterdam)</string>
+    </attribute>
+    <widget class="QGroupBox" name="groupBox_11">
+     <property name="geometry">
+      <rect>
+       <x>72</x>
+       <y>20</y>
+       <width>549</width>
+       <height>473</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="title">
+      <string>Geomophologische Karten (Uni-Amsterdam)</string>
+     </property>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>356</x>
+        <y>28</y>
+        <width>164</width>
+        <height>428</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <widget class="QCheckBox" name="checkBox_122">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Hopfreben:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_123">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Ludesch:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_124">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Marul:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_125">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Mellau:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_126">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Mellenspitze:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_127">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Mittleres Silbertal:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_128">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Nenzinger Himmel:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_129">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Rellstal-Golm:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_130">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Rellstal-Zimba:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_131">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Satteins:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_132">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Schnepfau:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_133">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Schnifis:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_134">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Schoppernau:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_135">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Schönenbach:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_136">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Silbertal:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_137">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Sonntag:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_138">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt St. Gallenkirch:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_139">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Zitterklapfen:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>92</y>
+        <width>200</width>
+        <height>361</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_7">
+       <item>
+        <widget class="QCheckBox" name="checkBox_108">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Au:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_109">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Bartholomäberg:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_110">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Bezau:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_111">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Bizau:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_112">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Brand-Nord:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_113">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Brand-Süd:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_114">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Damüls:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_115">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Damülser Mittagsspitze:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_116">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Diedamskopf:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_117">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Dunza-Tschengla:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_118">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Fundelkopf:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_119">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Gampberg:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_120">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Gurtis:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_121">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Blatt Klaus-Weiler:</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string>checkButtonsGroup5</string>
+         </attribute>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QPushButton" name="Button_Legend_Geomorpg_Orig">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>28</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="baseSize">
+       <size>
+        <width>23</width>
+        <height>23</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="resources.qrc">
+        <normaloff>:/plugins/VogisMenu/icons/gui-rv.info.gif</normaloff>:/plugins/VogisMenu/icons/gui-rv.info.gif</iconset>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>76</x>
+        <y>56</y>
+        <width>153</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Geomorph. Legende (Deutsch)</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>76</x>
+        <y>32</y>
+        <width>153</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Geomorph. Legende (Orginal)</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Button_Legend_Geomorph_Deutsch">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>52</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="baseSize">
+       <size>
+        <width>23</width>
+        <height>23</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="resources.qrc">
+        <normaloff>:/plugins/VogisMenu/icons/gui-rv.info.gif</normaloff>:/plugins/VogisMenu/icons/gui-rv.info.gif</iconset>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <resources>
+  <include location="resources.qrc"/>
+  <include location="../../../../../.qgis/python/plugins/VogisMenu/tools/resources.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>ButtonGeolgoieOk</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGeologie</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>150</x>
+     <y>481</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>260</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ButtonGeologieCancel</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGeologie</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>160</x>
+     <y>471</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>175</x>
+     <y>277</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Button_Legend_Geologie_2007</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGeologie</receiver>
+   <slot>clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>490</x>
+     <y>135</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>484</x>
+     <y>494</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Button_Legend_Tektonisch_1998</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGeologie</receiver>
+   <slot>clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>490</x>
+     <y>165</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>548</x>
+     <y>658</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Profilschintt_Vorarlberg</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGeologie</receiver>
+   <slot>clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>490</x>
+     <y>197</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>443</x>
+     <y>516</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Button_Legend_Geomorpg_Orig</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGeologie</receiver>
+   <slot>clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>152</x>
+     <y>101</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>111</x>
+     <y>595</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Button_Legend_Geomorph_Deutsch</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGeologie</receiver>
+   <slot>clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>157</x>
+     <y>125</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>203</x>
+     <y>581</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <designerdata>
+  <property name="gridDeltaX">
+   <number>4</number>
+  </property>
+  <property name="gridDeltaY">
+   <number>4</number>
+  </property>
+  <property name="gridSnapX">
+   <bool>true</bool>
+  </property>
+  <property name="gridSnapY">
+   <bool>true</bool>
+  </property>
+  <property name="gridVisible">
+   <bool>true</bool>
+  </property>
+ </designerdata>
+ <slots>
+  <slot>clicked()</slot>
+  <slot>doGeomorphologie_Amsterdam()</slot>
+ </slots>
+ <buttongroups>
+  <buttongroup name="checkButtonsGroup4"/>
+  <buttongroup name="checkButtonsGroup5"/>
+  <buttongroup name="checkButtonsGroup"/>
+  <buttongroup name="checkButtonsGroup2"/>
+  <buttongroup name="checkButtonsGroup3"/>
+ </buttongroups>
+</ui>

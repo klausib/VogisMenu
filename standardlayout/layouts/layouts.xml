@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<layouts>
+
+    <layout id="Hochformat" orientation="portrait">
+        <margins>
+        <!--  top - right - bottom - left -->
+            <margin>6</margin>
+            <margin>6</margin>
+            <margin>6</margin>
+            <margin>6</margin>
+        </margins>
+
+        <decorations>
+            <decoration type="footer" affinity="bottom,right" offset_x="80" offset_y="0" height="38.0" width="80" frame-width="0.2"/>
+            <decoration type="title" affinity="bottom,right" offset_x="23" offset_y="32.5" font-family="Calibri" font-size="12"/>
+            <decoration type="subtitle" affinity="bottom,right" offset_x="23" offset_y="27" font-family="Calibri" font-size="9"/>
+            <decoration type="map" offset_x="0" offset_y="0"  />
+            <decoration type="scaletext" affinity="bottom,right" offset_x="28" offset_y="18" font-family="Calibri" font-size="8">Maßstab:</decoration>
+            <decoration type="date" affinity="bottom,right" offset_x="60" offset_y="18" font-family="Calibri" font-size="8" >Druckdatum: </decoration>
+            <decoration type="picture" affinity="bottom,right" offset_x="80" offset_y="19.3" width="80" height="18.7" >Vorarlberg_Logo_2014.jpg</decoration>
+            <decoration type="northarrow" affinity="bottom,right" offset_x="75" offset_y="5" width="10" height="10" >north-arrow_3_simple_symmetric_triangular.svg</decoration>
+            <decoration type="person" affinity="bottom,right" offset_x="60" offset_y="14" font-family="Calibri" font-size="8" font-style="Bold" >Bearbeitung: </decoration>
+            <decoration type="copyright" affinity="bottom,right" offset_x="60" offset_y="5" font-family="Calibri" font-size="6" >Quellen: Land Vorarlberg, BEV  </decoration>
+            <decoration type="legend" affinity="top,left" offset_x="0.2" offset_y="0.2" font-family="Calibri" font-size="10">Legende</decoration>
+            <decoration type="crsdescription" affinity="bottom,right" offset_x="60" offset_y="10" font-family="Calibri" font-size="8">KBS: </decoration>
+            <decoration type="department" affinity="bottom,right" offset_x="23" offset_y="22" font-family="Calibri" font-size="6">www.vorarlberg.at/</decoration>
+        </decorations>
+    </layout>
+
+    <layout id="Querformat" orientation="landscape">
+        <margins>
+        <!--  top - right - bottom - left -->
+            <margin>6</margin>
+            <margin>6</margin>
+            <margin>6</margin>
+            <margin>6</margin>
+        </margins>
+
+        <decorations>
+            <decoration type="footer" affinity="bottom,right" offset_x="80" offset_y="0" height="38.0" width="80" frame-width="0.2"/>
+            <decoration type="title" affinity="bottom,right" offset_x="23" offset_y="32.5" font-family="Calibri" font-size="12"/>
+            <decoration type="subtitle" affinity="bottom,right" offset_x="23" offset_y="27" font-family="Calibri" font-size="9"/>
+            <decoration type="map" offset_x="0" offset_y="0"  />
+            <decoration type="scaletext" affinity="bottom,right" offset_x="28" offset_y="18" font-family="Calibri" font-size="8">Maßstab:</decoration>
+            <decoration type="date" affinity="bottom,right" offset_x="60" offset_y="18" font-family="Calibri" font-size="8" >Druckdatum: </decoration>
+            <decoration type="picture" affinity="bottom,right" offset_x="80" offset_y="19.3" width="80" height="18.7" >Vorarlberg_Logo_2014.jpg</decoration>
+            <decoration type="northarrow" affinity="bottom,right" offset_x="75" offset_y="5" width="10" height="10" >north-arrow_3_simple_symmetric_triangular.svg</decoration>
+            <decoration type="person" affinity="bottom,right" offset_x="60" offset_y="14" font-family="Calibri" font-size="8">Bearbeitung: </decoration>
+            <decoration type="copyright" affinity="bottom,right" offset_x="60" offset_y="5" font-family="Calibri" font-size="6" >Quellen: Land Vorarlberg, BEV  </decoration>
+            <decoration type="legend" affinity="top,left" offset_x="0.2" offset_y="0.2" font-family="Calibri" font-size="10">Legende</decoration>
+            <decoration type="crsdescription" affinity="bottom,right" offset_x="60" offset_y="10" font-family="Calibri" font-size="8">KBS: </decoration>
+            <decoration type="department" affinity="bottom,right" offset_x="23" offset_y="22" font-family="Calibri" font-size="6">www.vorarlberg.at/</decoration>
+        </decorations>
+    </layout>
+
+
+
+</layouts>

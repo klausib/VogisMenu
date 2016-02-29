@@ -1,0 +1,60 @@
+<preferences>
+
+
+    <scales>
+        <scale>100</scale>
+        <scale>250</scale>
+        <scale>500</scale>
+        <scale>1.000</scale>
+        <scale>2.000</scale>
+        <scale>5.000</scale>
+        <scale>10.000</scale>
+        <scale>25.000</scale>
+        <scale>50.000</scale>
+        <scale>100.000</scale>
+        <scale>250.000</scale>
+        <scale>500.000</scale>
+        <scale>1.000.000</scale>
+        <scale>2.000.000</scale>
+        <scale>5.000.000</scale>
+    </scales>
+
+    <paperformats>
+        <format height="297" width="210">A4</format>
+        <format height="420" width="297">A3</format>
+        <format height="594" width="420">A2</format>
+        <format height="841" width="594">A1</format>
+        <format height="1189" width="841">A0</format>
+        <!--format height="840" width="297">A4-4L</format-->
+    </paperformats>
+
+    <departments>
+        <department>vogis</department>
+        <department>abb</department>
+        <department>abfallwirtschaft</department>
+        <department>bhbludenz</department>
+        <department>bhbregenz</department>
+        <department>bhdornbirn</department>
+        <department>bhfeldkirch</department>
+        <department>elektrotechnik</department>
+        <department>forstwesen</department>
+        <department>finanzen</department>
+        <department>gesundheit</department>
+        <department>hochbau</department>
+        <department>landwirtschaft</department>
+        <department>lvg</department>
+        <department>maschinenbau</department>
+        <department>raumplanung</department>
+        <department>strassenbau</department>
+        <department>umwelt</department>
+        <department>umweltinstitut</department>
+        <department>verkehrsrecht</department>
+        <department>veterinaer</department>
+        <department>wasserwirtschaft</department>
+        <department>wirtschaft</department>
+        <department>wirtschaftsrecht</department>
+        <department>wohnbaufoerderung</department>
+    </departments>
+
+
+</preferences>

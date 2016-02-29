@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>frmTopo</class>
+ <widget class="QWidget" name="frmTopo">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>703</width>
+    <height>913</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Topographie LVA Punkte</string>
+  </property>
+  <widget class="QTextEdit" name="textView">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>20</y>
+     <width>631</width>
+     <height>831</height>
+    </rect>
+   </property>
+   <property name="lineWrapMode">
+    <enum>QTextEdit::FixedPixelWidth</enum>
+   </property>
+   <property name="lineWrapColumnOrWidth">
+    <number>500</number>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnText">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>870</y>
+     <width>161</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Topographie Drucken</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ButtonBlattschnitteCancel">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>870</y>
+     <width>111</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Schließen</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>btnText</sender>
+   <signal>clicked()</signal>
+   <receiver>frmTopo</receiver>
+   <slot>drucken_text()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>311</x>
+     <y>900</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>685</x>
+     <y>890</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ButtonBlattschnitteCancel</sender>
+   <signal>clicked()</signal>
+   <receiver>frmTopo</receiver>
+   <slot>closeEvent()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>490</x>
+     <y>876</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>579</x>
+     <y>866</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>drucken()</slot>
+  <slot>drucken_text()</slot>
+  <slot>closeEvent()</slot>
+ </slots>
+</ui>

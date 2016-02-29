@@ -1,0 +1,864 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>frmGstsuche</class>
+ <widget class="QWidget" name="frmGstsuche">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>421</width>
+    <height>776</height>
+   </rect>
+  </property>
+  <property name="focusPolicy">
+   <enum>Qt::NoFocus</enum>
+  </property>
+  <property name="windowTitle">
+   <string>DKM,Objektdaten, Urmappe</string>
+  </property>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>700</y>
+     <width>361</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="title">
+    <string>Historischer Kataster</string>
+   </property>
+   <widget class="QPushButton" name="btUrmappe">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>20</y>
+      <width>281</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Urmappe 1857</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>630</y>
+     <width>361</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="title">
+    <string>Objektdaten Gemeinden/VKW/VEG</string>
+   </property>
+   <widget class="QPushButton" name="btObjektdaten">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>20</y>
+      <width>281</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Gebäudehaupt- und Nebenkonturen</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="gbDkm">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>20</y>
+     <width>361</width>
+     <height>601</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="title">
+    <string>Digitale Katastralmappe (DKM)     Stand: dd.mm.yyyy</string>
+   </property>
+   <widget class="QGroupBox" name="groupBox_3">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>321</width>
+      <height>181</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
+    <property name="title">
+     <string>Auswahl Gemeinde</string>
+    </property>
+    <widget class="QPushButton" name="btGmdChoice">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>130</y>
+       <width>31</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="palette">
+      <palette>
+       <active>
+        <colorrole role="ButtonText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>0</green>
+           <blue>127</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </active>
+       <inactive>
+        <colorrole role="ButtonText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>0</green>
+           <blue>127</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </inactive>
+       <disabled>
+        <colorrole role="ButtonText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>106</red>
+           <green>104</green>
+           <blue>100</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </disabled>
+      </palette>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="text">
+      <string>+</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QListView" name="lstPolgem">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>131</width>
+       <height>131</height>
+      </rect>
+     </property>
+     <property name="locale">
+      <locale language="German" country="Austria"/>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::CurrentChanged|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
+     </property>
+     <property name="tabKeyNavigation">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QListView" name="lstKatgem">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>20</y>
+       <width>161</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <property name="tabKeyNavigation">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>130</y>
+       <width>78</width>
+       <height>42</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QRadioButton" name="rbKG">
+        <property name="text">
+         <string>nach KGNR</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="rbName">
+        <property name="text">
+         <string>nach Name</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_4">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>210</y>
+      <width>321</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
+    <property name="title">
+     <string>Grundstückssuche in</string>
+    </property>
+    <widget class="QLineEdit" name="txtGstnr">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>131</width>
+       <height>21</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnGstsuche">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>20</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Suchen</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="gefunden">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>291</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="frame">
+      <bool>false</bool>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_5">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>310</y>
+      <width>321</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
+    <property name="title">
+     <string>DKM Ebenen</string>
+    </property>
+    <widget class="QPushButton" name="btnAlles">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>20</y>
+       <width>121</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Alle auswählen</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnStandard">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>20</y>
+       <width>121</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Standardauswahl</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_6">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>370</y>
+      <width>321</width>
+      <height>181</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>10</y>
+       <width>140</width>
+       <height>141</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QCheckBox" name="checkBox_2">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Grundstück Nr</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string>auswahlBoxen</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_4">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Nutzungsflächen Umriss</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>auswahlBoxen</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_9">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Sonstige Grenzen</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>auswahlBoxen</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_10">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Sonstige Symbole</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>auswahlBoxen</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_13">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Grenzpunkt Symbole</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>auswahlBoxen</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_11">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Sonstige Texte</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>auswahlBoxen</string>
+        </attribute>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>129</width>
+       <height>164</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QCheckBox" name="checkBox">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Grundstücke</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string>auswahlBoxen</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_3">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Nutzungsflächen</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>auswahlBoxen</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_6">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Gebäudeflächen</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>auswahlBoxen</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_5">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Nutzungs Symbole</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>auswahlBoxen</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_12">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Grenzpunkt Nr</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>auswahlBoxen</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_8">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Grenzpunkt-Infos</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>auswahlBoxen</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_7">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Festpunkte</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>auswahlBoxen</string>
+        </attribute>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="btAbbrechen">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>560</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Schließen</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>560</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>DKM laden</string>
+    </property>
+   </widget>
+  </widget>
+  <zorder>gbDkm</zorder>
+  <zorder>groupBox</zorder>
+  <zorder>groupBox_2</zorder>
+ </widget>
+ <tabstops>
+  <tabstop>lstPolgem</tabstop>
+  <tabstop>lstKatgem</tabstop>
+  <tabstop>btGmdChoice</tabstop>
+  <tabstop>btAbbrechen</tabstop>
+  <tabstop>btUrmappe</tabstop>
+  <tabstop>btObjektdaten</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>txtGstnr</tabstop>
+  <tabstop>btnGstsuche</tabstop>
+  <tabstop>gefunden</tabstop>
+  <tabstop>btnAlles</tabstop>
+  <tabstop>btnStandard</tabstop>
+  <tabstop>checkBox_2</tabstop>
+  <tabstop>checkBox_4</tabstop>
+  <tabstop>checkBox_9</tabstop>
+  <tabstop>checkBox_10</tabstop>
+  <tabstop>checkBox_13</tabstop>
+  <tabstop>checkBox_11</tabstop>
+  <tabstop>checkBox</tabstop>
+  <tabstop>checkBox_3</tabstop>
+  <tabstop>checkBox_6</tabstop>
+  <tabstop>checkBox_5</tabstop>
+  <tabstop>checkBox_12</tabstop>
+  <tabstop>checkBox_8</tabstop>
+  <tabstop>checkBox_7</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>btGmdChoice</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGstsuche</receiver>
+   <slot>gmd_choice_toggled()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>208</x>
+     <y>186</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>388</x>
+     <y>106</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lstPolgem</sender>
+   <signal>clicked(QModelIndex)</signal>
+   <receiver>frmGstsuche</receiver>
+   <slot>auswahlaenderung()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>130</x>
+     <y>127</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>408</x>
+     <y>247</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGstsuche</receiver>
+   <slot>ladeGemeinde()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>180</x>
+     <y>610</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>407</x>
+     <y>463</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnGstsuche</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGstsuche</receiver>
+   <slot>gstsuche()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>291</x>
+     <y>245</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>407</x>
+     <y>323</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lstKatgem</sender>
+   <signal>clicked(QModelIndex)</signal>
+   <receiver>frmGstsuche</receiver>
+   <slot>gstsuche_aktivieren()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>273</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>402</x>
+     <y>176</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnAlles</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGstsuche</receiver>
+   <slot>alles_auswaehlen()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>123</x>
+     <y>362</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>10</x>
+     <y>374</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnStandard</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGstsuche</receiver>
+   <slot>standard_auswaehlen()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>267</x>
+     <y>363</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>18</x>
+     <y>336</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btAbbrechen</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGstsuche</receiver>
+   <slot>closeEvent()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>250</x>
+     <y>610</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>62</x>
+     <y>566</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btUrmappe</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGstsuche</receiver>
+   <slot>ladeurmappe()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>144</x>
+     <y>722</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>760</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btObjektdaten</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGstsuche</receiver>
+   <slot>ladeobjekte()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>196</x>
+     <y>656</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>405</x>
+     <y>740</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rbName</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGstsuche</receiver>
+   <slot>sort()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>298</x>
+     <y>190</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>405</x>
+     <y>215</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rbKG</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGstsuche</receiver>
+   <slot>sort()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>317</x>
+     <y>166</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>411</x>
+     <y>137</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>gmd_choice_toggled()</slot>
+  <slot>gmd_choice_released()</slot>
+  <slot>auswahlaenderung()</slot>
+  <slot>ladeGemeinde()</slot>
+  <slot>gstsuche()</slot>
+  <slot>gstsuche_aktivieren()</slot>
+  <slot>alles_auswaehlen()</slot>
+  <slot>standard_auswaehlen()</slot>
+  <slot>ladeurmappe()</slot>
+  <slot>ladeobjekte()</slot>
+  <slot>closeEvent()</slot>
+  <slot>sort()</slot>
+ </slots>
+ <buttongroups>
+  <buttongroup name="auswahlBoxen">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+ </buttongroups>
+</ui>

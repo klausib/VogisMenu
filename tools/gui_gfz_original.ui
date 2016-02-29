@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>frmGFZ</class>
+ <widget class="QWidget" name="frmGFZ">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>354</width>
+    <height>549</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Gefahrenzonenplane</string>
+  </property>
+  <widget class="QPushButton" name="btnAbbrechen">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>480</y>
+     <width>111</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Abbrechen</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>311</width>
+     <height>241</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Wildbach- und Lawinenbverbauung</string>
+   </property>
+   <widget class="QPushButton" name="btnGFZ">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>200</y>
+      <width>111</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>GFZ laden</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btGmdChoice">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>200</y>
+      <width>31</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="palette">
+     <palette>
+      <active>
+       <colorrole role="ButtonText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>0</green>
+          <blue>127</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </active>
+      <inactive>
+       <colorrole role="ButtonText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>0</green>
+          <blue>127</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </inactive>
+      <disabled>
+       <colorrole role="ButtonText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>106</red>
+          <green>104</green>
+          <blue>100</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </disabled>
+     </palette>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::StrongFocus</enum>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QListView" name="lstGemeinden">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>20</y>
+      <width>256</width>
+      <height>161</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>270</y>
+     <width>311</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Abt. VIId - Wasserwirtschft</string>
+   </property>
+   <widget class="QPushButton" name="btnGFZVIId">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>100</y>
+      <width>111</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>GFZ laden</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="Alfenz">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>20</y>
+      <width>82</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Alfenz</string>
+    </property>
+    <attribute name="buttonGroup">
+     <string>buttonGroup</string>
+    </attribute>
+   </widget>
+   <widget class="QRadioButton" name="Bregenzerache">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>40</y>
+      <width>101</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Bregenzerache</string>
+    </property>
+    <attribute name="buttonGroup">
+     <string>buttonGroup</string>
+    </attribute>
+   </widget>
+   <widget class="QRadioButton" name="Dornbirnerache">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>60</y>
+      <width>101</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Dornbirnerache</string>
+    </property>
+    <attribute name="buttonGroup">
+     <string>buttonGroup</string>
+    </attribute>
+   </widget>
+   <widget class="QRadioButton" name="Harder_Baeche">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>20</y>
+      <width>101</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Harder Bäche</string>
+    </property>
+    <attribute name="buttonGroup">
+     <string>buttonGroup</string>
+    </attribute>
+   </widget>
+   <widget class="QRadioButton" name="Lech">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>40</y>
+      <width>82</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Lech</string>
+    </property>
+    <attribute name="buttonGroup">
+     <string>buttonGroup</string>
+    </attribute>
+   </widget>
+   <widget class="QRadioButton" name="Schwarzach">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>60</y>
+      <width>121</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Schwarzach</string>
+    </property>
+    <attribute name="buttonGroup">
+     <string>buttonGroup</string>
+    </attribute>
+   </widget>
+   <widget class="QPushButton" name="btnKompetenzgrenzen">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>140</y>
+      <width>161</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Betreuungsbereich WLV - BWV</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>btnAbbrechen</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGFZ</receiver>
+   <slot>abbrechen()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>196</x>
+     <y>492</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>54</x>
+     <y>311</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnGFZ</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGFZ</receiver>
+   <slot>ladeGemeinde()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>154</x>
+     <y>220</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>57</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btGmdChoice</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>frmGFZ</receiver>
+   <slot>gmd_choice_toggled()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>255</x>
+     <y>218</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>317</x>
+     <y>309</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lstGemeinden</sender>
+   <signal>clicked(QModelIndex)</signal>
+   <receiver>frmGFZ</receiver>
+   <slot>auswahlaenderung()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>158</x>
+     <y>152</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>13</x>
+     <y>102</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnGFZVIId</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGFZ</receiver>
+   <slot>ladeGFZWB()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>143</x>
+     <y>377</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>288</x>
+     <y>453</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnKompetenzgrenzen</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGFZ</receiver>
+   <slot>ladeKompetenzgrenzen()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>104</x>
+     <y>423</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>50</x>
+     <y>497</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>abbrechen()</slot>
+  <slot>gmd_choice_toggled()</slot>
+  <slot>ladeGemeinde()</slot>
+  <slot>auswahlaenderung()</slot>
+  <slot>ladeGFZWB()</slot>
+  <slot>ladeKompetenzgrenzen()</slot>
+ </slots>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
+</ui>

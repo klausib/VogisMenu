@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/plugins/VogisMenu" >
+    <file>icons/gui-rv.info.gif</file>
+  </qresource>
+
+</RCC>

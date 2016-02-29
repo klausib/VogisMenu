@@ -1,0 +1,16 @@
+[ODBC]
+DRIVER=Microsoft dBase Driver (*.dbf)
+UID=admin
+UserCommitSync=Yes
+Threads=3
+Statistics=0
+SafeTransactions=0
+PageTimeout=600
+MaxScanRows=8
+MaxBufferSize=2048
+FIL=dBase IV
+DriverId=277
+Deleted=1
+DefaultDir=D:\
+DBQ=D:\
+CollatingSequence=ASCII

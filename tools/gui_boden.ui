@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>frmBoden</class>
+ <widget class="QWidget" name="frmBoden">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>260</width>
+    <height>168</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Boden</string>
+  </property>
+  <widget class="QPushButton" name="btnAbbrechen">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>110</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Schließen</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnLaden">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>110</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Themen laden</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>40</y>
+     <width>119</width>
+     <height>44</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QCheckBox" name="ckDigitaleBodenkarte">
+      <property name="text">
+       <string>Digitale Bodenkarte</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>ckButtons</string>
+      </attribute>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="ckBodenprofile">
+      <property name="text">
+       <string>Bodenprofile</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>ckButtons</string>
+      </attribute>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QPushButton" name="btnInfo">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>50</y>
+     <width>25</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>i</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>btnLaden</sender>
+   <signal>clicked()</signal>
+   <receiver>frmBoden</receiver>
+   <slot>laden()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>209</x>
+     <y>228</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>283</x>
+     <y>226</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnAbbrechen</sender>
+   <signal>clicked()</signal>
+   <receiver>frmBoden</receiver>
+   <slot>abbrechen()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>90</x>
+     <y>227</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>17</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnInfo</sender>
+   <signal>clicked()</signal>
+   <receiver>frmBoden</receiver>
+   <slot>infobutton()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>203</x>
+     <y>42</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>280</x>
+     <y>138</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>laden()</slot>
+  <slot>abbrechen()</slot>
+  <slot>infobutton()</slot>
+ </slots>
+ <buttongroups>
+  <buttongroup name="ckButtons"/>
+ </buttongroups>
+</ui>

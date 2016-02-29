@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>frmWegtafeln</class>
+ <widget class="QWidget" name="frmWegtafeln">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>453</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Wegtafeln</string>
+  </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>30</y>
+     <width>131</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Tafel Nummer auswählen</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnOK">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>90</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OK</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnAbbrechen">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>140</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Schließen</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="lstNummern">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>60</y>
+     <width>256</width>
+     <height>192</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>btnAbbrechen</sender>
+   <signal>clicked()</signal>
+   <receiver>frmWegtafeln</receiver>
+   <slot>abbrechen()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>374</x>
+     <y>154</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>408</x>
+     <y>232</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnOK</sender>
+   <signal>clicked()</signal>
+   <receiver>frmWegtafeln</receiver>
+   <slot>zoomtafel()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>366</x>
+     <y>101</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>345</x>
+     <y>28</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>abbrechen()</slot>
+  <slot>zoomtafel()</slot>
+ </slots>
+</ui>

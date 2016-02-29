@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>frmKlima</class>
+ <widget class="QDialog" name="frmKlima">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>359</width>
+    <height>587</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Klima</string>
+  </property>
+  <widget class="QPushButton" name="ButtonBlattschnitteOk">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>480</y>
+     <width>101</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Themen laden</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ButtonBlattschnitteCancel">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>530</y>
+     <width>131</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Schließen</string>
+   </property>
+  </widget>
+  <widget class="QToolBox" name="toolBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>331</width>
+     <height>451</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <widget class="QWidget" name="tbTemp">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>329</width>
+      <height>179</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Temperatur</string>
+    </attribute>
+    <widget class="QCheckBox" name="ckTempMaxJahresmittel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>238</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Mittleres Jahresmaximum der Lufttemperatur</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string>ckButtons</string>
+     </attribute>
+    </widget>
+    <widget class="QCheckBox" name="ckTempJahresmittel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>0</y>
+       <width>176</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Jahresmittel der Lufttemperatur</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string>ckButtons</string>
+     </attribute>
+    </widget>
+    <widget class="QCheckBox" name="ckHeisstage">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>238</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Mittlere Zahl von heissen Tagen</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string>ckButtons</string>
+     </attribute>
+    </widget>
+    <widget class="QCheckBox" name="ckEistage">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>90</y>
+       <width>238</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Mittlere Zahl von Eistagen</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string>ckButtons</string>
+     </attribute>
+    </widget>
+    <widget class="QCheckBox" name="ckHeizgrad">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>120</y>
+       <width>238</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Mittlere jährliche Heizgradtagszahl</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string>ckButtons</string>
+     </attribute>
+    </widget>
+    <widget class="QCheckBox" name="ckVegetationsperiode">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>150</y>
+       <width>238</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Dauer der Vegetationsperiode</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string>ckButtons</string>
+     </attribute>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tbFeuchte">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>329</width>
+      <height>179</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Feuchte</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="tabBew">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>329</width>
+      <height>179</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Bewölkung</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="tabNs">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>329</width>
+      <height>179</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Niederschlag</string>
+    </attribute>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>246</width>
+       <height>65</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QCheckBox" name="ckNsJahrGesamt">
+        <property name="text">
+         <string>Jahresniederschlagssumme</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckNTage1mm">
+        <property name="text">
+         <string>Anzahl der Tage mit mind. 1 mm Niederschlag</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckNTage10mm">
+        <property name="text">
+         <string>Anzahl der Tage mit mind. 10 mm Niederschlag</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tabSchnee">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>329</width>
+      <height>179</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Schnee</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="tabVerd">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>329</width>
+      <height>179</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Verdunstung</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="tabDruck">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>329</width>
+      <height>179</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Luftdruck</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="tabWind">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>329</width>
+      <height>179</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Wind</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="tabSolar">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>329</width>
+      <height>179</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Solare Einstrahlung</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="tabKomb">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>329</width>
+      <height>179</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Kombi-Grössen</string>
+    </attribute>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="btnKartePDF">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>480</y>
+     <width>101</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>PDF Karte laden</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnBeschreibungPDF">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>480</y>
+     <width>121</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>Beschreibung laden</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>ButtonBlattschnitteOk</sender>
+   <signal>clicked()</signal>
+   <receiver>frmKlima</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>110</x>
+     <y>502</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>260</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ButtonBlattschnitteCancel</sender>
+   <signal>clicked()</signal>
+   <receiver>frmKlima</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>110</x>
+     <y>552</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>175</x>
+     <y>277</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnKartePDF</sender>
+   <signal>clicked()</signal>
+   <receiver>frmKlima</receiver>
+   <slot>Kartebutton()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>161</x>
+     <y>486</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>283</x>
+     <y>556</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnBeschreibungPDF</sender>
+   <signal>clicked()</signal>
+   <receiver>frmKlima</receiver>
+   <slot>Kartebutton()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>288</x>
+     <y>492</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>42</x>
+     <y>533</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>infobutton()</slot>
+  <slot>Kartebutton()</slot>
+ </slots>
+ <buttongroups>
+  <buttongroup name="ckButtons"/>
+ </buttongroups>
+</ui>

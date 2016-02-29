@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>frmGrenzen</class>
+ <widget class="QWidget" name="frmGrenzen">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>303</width>
+    <height>271</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Grenzen</string>
+  </property>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>10</y>
+     <width>241</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Vorarlberg</string>
+   </property>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>113</width>
+      <height>88</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QCheckBox" name="ckPolitischeGrenzen">
+       <property name="text">
+        <string>Politische Grenzen</string>
+       </property>
+       <attribute name="buttonGroup">
+        <string>buttonGroup</string>
+       </attribute>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="ckKatastralgrenzen">
+       <property name="text">
+        <string>Katastralgrenzen</string>
+       </property>
+       <attribute name="buttonGroup">
+        <string>buttonGroup</string>
+       </attribute>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="ckZaehlsprengel">
+       <property name="text">
+        <string>Zählsprengel</string>
+       </property>
+       <attribute name="buttonGroup">
+        <string>buttonGroup</string>
+       </attribute>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="ckGemeinden">
+       <property name="text">
+        <string>Gemeinden</string>
+       </property>
+       <attribute name="buttonGroup">
+        <string>buttonGroup</string>
+       </attribute>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>140</y>
+     <width>241</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Österreich</string>
+   </property>
+   <widget class="QCheckBox" name="ckLaendergrenzen">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>111</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Länder Grenzen</string>
+    </property>
+    <attribute name="buttonGroup">
+     <string>buttonGroup</string>
+    </attribute>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="btnAbbrechen">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>210</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Schließen</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnLaden">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>210</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Themen laden</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>btnLaden</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGrenzen</receiver>
+   <slot>laden()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>209</x>
+     <y>228</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>283</x>
+     <y>226</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnAbbrechen</sender>
+   <signal>clicked()</signal>
+   <receiver>frmGrenzen</receiver>
+   <slot>abbrechen()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>90</x>
+     <y>227</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>17</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>laden()</slot>
+  <slot>abbrechen()</slot>
+ </slots>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
+</ui>
