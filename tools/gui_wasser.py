@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gui_wasser.ui'
 #
-# Created: Wed Feb 04 10:47:03 2015
+# Created: Wed Mar 30 14:52:39 2016
 #      by: PyQt4 UI code generator 4.8.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -48,10 +48,10 @@ class Ui_frmWasser(object):
         self.verticalLayout.addWidget(self.ckSchutzSchongebiete)
         self.toolBox.addItem(self.toolBoxPage1, _fromUtf8(""))
         self.toolBoxPage2 = QtGui.QWidget()
-        self.toolBoxPage2.setGeometry(QtCore.QRect(0, 0, 359, 153))
+        self.toolBoxPage2.setGeometry(QtCore.QRect(0, 0, 96, 26))
         self.toolBoxPage2.setObjectName(_fromUtf8("toolBoxPage2"))
         self.layoutWidget1 = QtGui.QWidget(self.toolBoxPage2)
-        self.layoutWidget1.setGeometry(QtCore.QRect(21, 11, 258, 116))
+        self.layoutWidget1.setGeometry(QtCore.QRect(21, 11, 259, 116))
         self.layoutWidget1.setObjectName(_fromUtf8("layoutWidget1"))
         self.verticalLayout_2 = QtGui.QVBoxLayout(self.layoutWidget1)
         self.verticalLayout_2.setMargin(0)
@@ -78,7 +78,7 @@ class Ui_frmWasser(object):
         self.verticalLayout_2.addWidget(self.ckWeitereAnlagen)
         self.toolBox.addItem(self.toolBoxPage2, _fromUtf8(""))
         self.toolBoxPage3 = QtGui.QWidget()
-        self.toolBoxPage3.setGeometry(QtCore.QRect(0, 0, 359, 153))
+        self.toolBoxPage3.setGeometry(QtCore.QRect(0, 0, 96, 26))
         self.toolBoxPage3.setObjectName(_fromUtf8("toolBoxPage3"))
         self.layoutWidget2 = QtGui.QWidget(self.toolBoxPage3)
         self.layoutWidget2.setGeometry(QtCore.QRect(20, 10, 246, 116))
@@ -108,7 +108,7 @@ class Ui_frmWasser(object):
         self.verticalLayout_3.addWidget(self.ckUeberflutungsflaechen)
         self.toolBox.addItem(self.toolBoxPage3, _fromUtf8(""))
         self.toolBoxPage4 = QtGui.QWidget()
-        self.toolBoxPage4.setGeometry(QtCore.QRect(0, 0, 359, 153))
+        self.toolBoxPage4.setGeometry(QtCore.QRect(0, 0, 96, 26))
         self.toolBoxPage4.setObjectName(_fromUtf8("toolBoxPage4"))
         self.layoutWidget3 = QtGui.QWidget(self.toolBoxPage4)
         self.layoutWidget3.setGeometry(QtCore.QRect(20, 20, 146, 92))
@@ -134,7 +134,7 @@ class Ui_frmWasser(object):
         self.verticalLayout_4.addWidget(self.ckOeffentlicheTankstellen)
         self.toolBox.addItem(self.toolBoxPage4, _fromUtf8(""))
         self.toolBoxPage5 = QtGui.QWidget()
-        self.toolBoxPage5.setGeometry(QtCore.QRect(0, 0, 359, 153))
+        self.toolBoxPage5.setGeometry(QtCore.QRect(0, 0, 96, 26))
         self.toolBoxPage5.setObjectName(_fromUtf8("toolBoxPage5"))
         self.layoutWidget4 = QtGui.QWidget(self.toolBoxPage5)
         self.layoutWidget4.setGeometry(QtCore.QRect(30, 0, 184, 140))
@@ -168,7 +168,7 @@ class Ui_frmWasser(object):
         self.verticalLayout_5.addWidget(self.ckGrundwasserfelder)
         self.toolBox.addItem(self.toolBoxPage5, _fromUtf8(""))
         self.page = QtGui.QWidget()
-        self.page.setGeometry(QtCore.QRect(0, 0, 359, 153))
+        self.page.setGeometry(QtCore.QRect(0, 0, 96, 26))
         self.page.setObjectName(_fromUtf8("page"))
         self.layoutWidget5 = QtGui.QWidget(self.page)
         self.layoutWidget5.setGeometry(QtCore.QRect(20, 20, 325, 92))
@@ -196,10 +196,10 @@ class Ui_frmWasser(object):
         self.verticalLayout_6.addWidget(self.ckGewaessernetz2000Umgebung)
         self.toolBox.addItem(self.page, _fromUtf8(""))
         self.page_3 = QtGui.QWidget()
-        self.page_3.setGeometry(QtCore.QRect(0, 0, 359, 153))
+        self.page_3.setGeometry(QtCore.QRect(0, 0, 96, 26))
         self.page_3.setObjectName(_fromUtf8("page_3"))
         self.layoutWidget6 = QtGui.QWidget(self.page_3)
-        self.layoutWidget6.setGeometry(QtCore.QRect(50, 10, 169, 111))
+        self.layoutWidget6.setGeometry(QtCore.QRect(50, 10, 170, 116))
         self.layoutWidget6.setObjectName(_fromUtf8("layoutWidget6"))
         self.formLayout = QtGui.QFormLayout(self.layoutWidget6)
         self.formLayout.setMargin(0)
@@ -330,7 +330,7 @@ class Ui_frmWasser(object):
         self.btnSeen.setText(QtGui.QApplication.translate("frmWasser", "i", None, QtGui.QApplication.UnicodeUTF8))
         self.ckBodenseeAlles.setText(QtGui.QApplication.translate("frmWasser", "Bodensee -> alles", None, QtGui.QApplication.UnicodeUTF8))
         self.ckBodenseeWasserflaeche.setText(QtGui.QApplication.translate("frmWasser", "Bodensee -> nur Wasserfläche", None, QtGui.QApplication.UnicodeUTF8))
-        self.ckBodensee25m.setText(QtGui.QApplication.translate("frmWasser", "Bodensee -> nur 25m Tiefenlinie", None, QtGui.QApplication.UnicodeUTF8))
+        self.ckBodensee25m.setText(QtGui.QApplication.translate("frmWasser", "Bodensee -> nur 25m Tiefenlinien", None, QtGui.QApplication.UnicodeUTF8))
         self.ckBodensee5m.setText(QtGui.QApplication.translate("frmWasser", "Bodensee -> nur 5m Tiefenlinien", None, QtGui.QApplication.UnicodeUTF8))
         self.ckBodenseeUferlinie.setText(QtGui.QApplication.translate("frmWasser", "Bodensee -> nur Uferlinie", None, QtGui.QApplication.UnicodeUTF8))
         self.ckSeen.setText(QtGui.QApplication.translate("frmWasser", "Andere Seen u. stehende Gewässer Vorarlbergs", None, QtGui.QApplication.UnicodeUTF8))

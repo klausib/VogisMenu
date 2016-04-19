@@ -88,8 +88,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>359</width>
-      <height>153</height>
+      <width>96</width>
+      <height>26</height>
      </rect>
     </property>
     <attribute name="label">
@@ -100,7 +100,7 @@
       <rect>
        <x>21</x>
        <y>11</y>
-       <width>258</width>
+       <width>259</width>
        <height>116</height>
       </rect>
      </property>
@@ -163,8 +163,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>359</width>
-      <height>153</height>
+      <width>96</width>
+      <height>26</height>
      </rect>
     </property>
     <attribute name="label">
@@ -238,8 +238,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>359</width>
-      <height>153</height>
+      <width>96</width>
+      <height>26</height>
      </rect>
     </property>
     <attribute name="label">
@@ -303,8 +303,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>359</width>
-      <height>153</height>
+      <width>96</width>
+      <height>26</height>
      </rect>
     </property>
     <attribute name="label">
@@ -388,8 +388,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>359</width>
-      <height>153</height>
+      <width>96</width>
+      <height>26</height>
      </rect>
     </property>
     <attribute name="label">
@@ -459,8 +459,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>359</width>
-      <height>153</height>
+      <width>96</width>
+      <height>26</height>
      </rect>
     </property>
     <attribute name="label">
@@ -471,8 +471,8 @@
       <rect>
        <x>50</x>
        <y>10</y>
-       <width>169</width>
-       <height>111</height>
+       <width>170</width>
+       <height>116</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="formLayout">
@@ -603,7 +603,7 @@
          <bool>true</bool>
         </property>
         <property name="text">
-         <string>Bodensee -&gt; nur 25m Tiefenlinie</string>
+         <string>Bodensee -&gt; nur 25m Tiefenlinien</string>
         </property>
         <attribute name="buttonGroup">
          <string>ckButtons</string>

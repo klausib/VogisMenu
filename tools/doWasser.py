@@ -172,13 +172,13 @@ class WasserDialog(QtGui.QDialog, Ui_frmWasser):
 ##                    self.fullpath  = self.pfad +  "Seen/Bodensee/Bodenseetiefenlinie25m/bodenseetiefenlinie25m.qgs"
 ##                    self.wasser.importieren(self.fullpath,None,None,False)
                     self.fullpath  = self.pfad +  "Seen/Bodensee/bodensee.qgs"
-                    bodenseeliste = ['Bodensee_25m-Tiefenlinie_2008','Bodensee_25m-Tiefenlinie_1999','Bodensee_25m-Tiefenlinie_1990']
+                    bodenseeliste = ['Bodensee_25m-Tiefenlinie_2014', 'Bodensee_25m-Tiefenlinie_2008','Bodensee_25m-Tiefenlinie_1999','Bodensee_25m-Tiefenlinie_1990']
                     self.wasser.importieren(self.fullpath,bodenseeliste,None,False)
                 elif   ("ckBodensee5m" in button.objectName()):
 ##                    self.fullpath  = self.pfad +  "Seen/Bodensee/Bodenseetiefenlinie10m/bodenseetiefenlinie10m.qgs"
 ##                    self.wasser.importieren(self.fullpath,None,None,False)
                     self.fullpath  = self.pfad +  "Seen/Bodensee/bodensee.qgs"
-                    bodenseeliste = ['Bodensee_Tiefenlinien_5m_2008','Bodensee_Tiefenlinien_5m_1999','Bodensee_Tiefenlinien_5m_1990']
+                    bodenseeliste = ['Bodensee_Tiefenlinien_5m_2014','Bodensee_Tiefenlinien_5m_2008','Bodensee_Tiefenlinien_5m_1999','Bodensee_Tiefenlinien_5m_1990']
                     self.wasser.importieren(self.fullpath,bodenseeliste,None,False)
                 elif   ("ckBodenseeRelief" in button.objectName()):
 ##                    self.fullpath  = self.pfad +  "Seen/Bodensee/BodenseebeckenRelief/bodenseebecken_relief.qgs"
