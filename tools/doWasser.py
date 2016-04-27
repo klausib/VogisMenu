@@ -111,9 +111,9 @@ class WasserDialog(QtGui.QDialog, Ui_frmWasser):
                 elif   ("EzQuellen" in button.objectName()):
                     self.fullpath  = self.pfad +  "Quellen/Vlbg/Quelleinzugsgebiete/quelleinzugsgebiete.qgs"
                     self.wasser.importieren(self.fullpath)
-                elif   ("EzFliessgewaesser" in button.objectName()):
-                    self.fullpath  = self.pfad +  "Einzugsgebiete/Vlbg/HZB_Einzugsgebiete/einzugsgebiete_hzb.qgs"
-                    self.wasser.importieren(self.fullpath)
+##                elif   ("EzFliessgewaesser" in button.objectName()):
+##                    self.fullpath  = self.pfad +  "Einzugsgebiete/Vlbg/HZB_Einzugsgebiete/einzugsgebiete_hzb.qgs"
+##                    self.wasser.importieren(self.fullpath)
                 elif   ("Niederschlagmessstellen" in button.objectName()):
                     self.fullpath  = self.pfad +  "Messstellen/Vlbg/Messstellen/niederschlag_messstellen.qgs"
                     self.wasser.importieren(self.fullpath,None,"niederschlag",False)

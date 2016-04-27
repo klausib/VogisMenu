@@ -62,6 +62,7 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
         # Das Qgis Projektfile ist ein XML und wird
         # hier eingelesen
         try:
+            #pfad = 'd:/delme.qgs'
             xml = file(pfad).read()
             d = QtXml.QDomDocument()
             d.setContent(xml)
@@ -140,8 +141,7 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                 if (self.maps.item(i).namedItem("id").firstChild().toText().data() == self.legends.item(j).namedItem("filegroup").namedItem("legendlayerfile").attributes().namedItem("layerid").nodeValue()) and laden:
 
 
-
-
+            #ACHTUNG: Wieder aktivieren!!!!!!!!!!
 
                     # wenn nur ein Teil der Layer eines Projekts geladen werden sollen. Die Liste enthält die
                     # Namen dieser Layer
@@ -156,7 +156,6 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
                         if brake_val:
                             continue    # Nächster Layer, ist nicht auf der Liste
-
 
 
 
@@ -214,10 +213,67 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                     # unbedingt ALLES DEselektieren, sonst Probleme mit der Reihenfolge
                     self.iface.layerTreeView().setCurrentLayer(None)    # None entspricht einem Null Pointer -> Auswahl wird entfernt -> nicht ausgewählt
 
-                    # Projekt einlesen!
+
+
+                    # Das Umschalten der Vektordaten auf die Geodatenbank - unter Bedingungen
+                    if self.maps.item(i).attributes().namedItem('type').nodeValue() == 'vector' and vogisDb_global[0] != '':
+
+                        tablename = os.path.basename(self.maps.item(i).namedItem("datasource").firstChild().nodeValue())
+                        tablename = os.path.splitext(tablename)[0]
+
+                        if ergaenzungsname != None:
+                            tablename = string.lower('\"' + ergaenzungsname + '\".\"' + tablename + '\"')
+                        else:
+                            tablename = string.lower('\"Vorarlberg".\"' + tablename + '\"')
+
+                        #dbpath = string.lower(vogisDb_global[0] + ' user=\'bamc\' sslmode=disable key=\'ogc_fid\' srid=31254 table=' +  tablename +  ' (the_geom) sql=')
+                        dbpath = string.lower(vogisDb_global[0] + ' sslmode=disable table=' +  tablename +  ' (the_geom) sql=')
+
+
+                        self.maps.item(i).namedItem("datasource").firstChild().setNodeValue(dbpath)
+                        self.maps.item(i).namedItem("provider").firstChild().setNodeValue('postgres')
+                        self.maps.item(i).namedItem("provider").attributes().namedItem('encoding').setNodeValue('UTF-8')
+
+                        #testen ob die DB gefunden werden kann
+##                        param_list = string.split(dbpath)
+##
+##                        host = ''
+##                        dbname=''
+##                        port=''
+##                        QtGui.QMessageBox.about(None, "Achtung", str(param_list))
+##                        for param in param_list:
+##
+##                            if string.find(param,'dbname') >= 0:
+##                                dbname = string.replace(param,'dbname=','')
+##                            elif string.find(param,'host=') >= 0:
+##                                host = string.replace(param,'host=','')
+##                            elif string.find(param,'port=') >= 0:
+##                                port = string.replace(param,'port=','')
+##
+##                        QtGui.QMessageBox.about(None, "Achtung", host + ' ' + port + ' ' + dbname)
+##                        uri = QgsDataSourceURI()
+##                        uri.setConnection(host, port, dbname)
+##                        provider_test = QgsDataProvider(uri)
+##                        QtGui.QMessageBox.about(None, "Achtung", provider_test.error.summary()) #der DomNode auch gerendert und dargestellt
+
+
+##                        ##################################################
+##                        # DomNode zu Testzwecken als XML
+##                        # Datei rausschreiben
+##                        strinug = QtCore.QByteArray()
+##                        raus = QtCore.QTextStream(strinug)
+##                        self.maps.item(i).save(raus,1)
+##                        file2 = open("D:/vogisini.xml","w+")
+##                        file2.write(str(strinug))
+##                        file2.close()
+##                        #################################################
+
+
+                    # Projekt einlesen!                                                                     #der DomNode auch gerendert und dargestellt
                     if not QgsProject.instance().read(self.maps.item(i)):                                   #hier wird der Layer geladen und gemäß den Eintragungen
                         QtGui.QMessageBox.about(None, "Achtung", "Layer " + self.legends.item(j).attributes().namedItem("name").nodeValue() + " nicht gefunden!") #der DomNode auch gerendert und dargestellt
                         continue
+
 
 
 

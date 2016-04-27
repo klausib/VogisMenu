@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gui_wasser.ui'
 #
-# Created: Wed Mar 30 14:52:39 2016
+# Created: Wed Apr 27 14:42:20 2016
 #      by: PyQt4 UI code generator 4.8.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -134,7 +134,7 @@ class Ui_frmWasser(object):
         self.verticalLayout_4.addWidget(self.ckOeffentlicheTankstellen)
         self.toolBox.addItem(self.toolBoxPage4, _fromUtf8(""))
         self.toolBoxPage5 = QtGui.QWidget()
-        self.toolBoxPage5.setGeometry(QtCore.QRect(0, 0, 96, 26))
+        self.toolBoxPage5.setGeometry(QtCore.QRect(0, 0, 359, 153))
         self.toolBoxPage5.setObjectName(_fromUtf8("toolBoxPage5"))
         self.layoutWidget4 = QtGui.QWidget(self.toolBoxPage5)
         self.layoutWidget4.setGeometry(QtCore.QRect(30, 0, 184, 140))
@@ -146,10 +146,6 @@ class Ui_frmWasser(object):
         self.ckEzQuellen.setObjectName(_fromUtf8("ckEzQuellen"))
         self.ckButtons.addButton(self.ckEzQuellen)
         self.verticalLayout_5.addWidget(self.ckEzQuellen)
-        self.ckEzFliessgewaesser = QtGui.QCheckBox(self.layoutWidget4)
-        self.ckEzFliessgewaesser.setObjectName(_fromUtf8("ckEzFliessgewaesser"))
-        self.ckButtons.addButton(self.ckEzFliessgewaesser)
-        self.verticalLayout_5.addWidget(self.ckEzFliessgewaesser)
         self.ckNiederschlagmessstellen = QtGui.QCheckBox(self.layoutWidget4)
         self.ckNiederschlagmessstellen.setObjectName(_fromUtf8("ckNiederschlagmessstellen"))
         self.ckButtons.addButton(self.ckNiederschlagmessstellen)
@@ -168,7 +164,7 @@ class Ui_frmWasser(object):
         self.verticalLayout_5.addWidget(self.ckGrundwasserfelder)
         self.toolBox.addItem(self.toolBoxPage5, _fromUtf8(""))
         self.page = QtGui.QWidget()
-        self.page.setGeometry(QtCore.QRect(0, 0, 96, 26))
+        self.page.setGeometry(QtCore.QRect(0, 0, 359, 153))
         self.page.setObjectName(_fromUtf8("page"))
         self.layoutWidget5 = QtGui.QWidget(self.page)
         self.layoutWidget5.setGeometry(QtCore.QRect(20, 20, 325, 92))
@@ -196,7 +192,7 @@ class Ui_frmWasser(object):
         self.verticalLayout_6.addWidget(self.ckGewaessernetz2000Umgebung)
         self.toolBox.addItem(self.page, _fromUtf8(""))
         self.page_3 = QtGui.QWidget()
-        self.page_3.setGeometry(QtCore.QRect(0, 0, 96, 26))
+        self.page_3.setGeometry(QtCore.QRect(0, 0, 359, 153))
         self.page_3.setObjectName(_fromUtf8("page_3"))
         self.layoutWidget6 = QtGui.QWidget(self.page_3)
         self.layoutWidget6.setGeometry(QtCore.QRect(50, 10, 170, 116))
@@ -226,7 +222,7 @@ class Ui_frmWasser(object):
         self.formLayout.setWidget(4, QtGui.QFormLayout.LabelRole, self.ckUfervegetation)
         self.toolBox.addItem(self.page_3, _fromUtf8(""))
         self.page_2 = QtGui.QWidget()
-        self.page_2.setGeometry(QtCore.QRect(0, 0, 359, 153))
+        self.page_2.setGeometry(QtCore.QRect(0, 0, 96, 26))
         self.page_2.setObjectName(_fromUtf8("page_2"))
         self.btnSeen = QtGui.QPushButton(self.page_2)
         self.btnSeen.setGeometry(QtCore.QRect(280, 105, 25, 25))
@@ -310,7 +306,6 @@ class Ui_frmWasser(object):
         self.ckOeffentlicheTankstellen.setText(QtGui.QApplication.translate("frmWasser", "Öffentliche Tankstellen", None, QtGui.QApplication.UnicodeUTF8))
         self.toolBox.setItemText(self.toolBox.indexOf(self.toolBoxPage4), QtGui.QApplication.translate("frmWasser", "Abwasserentsorgung / Gefährdung", None, QtGui.QApplication.UnicodeUTF8))
         self.ckEzQuellen.setText(QtGui.QApplication.translate("frmWasser", "Quelleinzugsgebiete", None, QtGui.QApplication.UnicodeUTF8))
-        self.ckEzFliessgewaesser.setText(QtGui.QApplication.translate("frmWasser", "Einzugsgebiete Fließgewässer", None, QtGui.QApplication.UnicodeUTF8))
         self.ckNiederschlagmessstellen.setText(QtGui.QApplication.translate("frmWasser", "Niederschlag-Messstellen", None, QtGui.QApplication.UnicodeUTF8))
         self.ckOberflaechenwassermessstellen.setText(QtGui.QApplication.translate("frmWasser", "Oberflächenwasser-Messstellen", None, QtGui.QApplication.UnicodeUTF8))
         self.ckGrundwassermessstellen.setText(QtGui.QApplication.translate("frmWasser", "Grundwasser-Messstellen", None, QtGui.QApplication.UnicodeUTF8))

@@ -14,7 +14,7 @@ from qgis import core
 
 
 import sys, os.path,string
-import threading
+import threading, locale
 
 
 # Unbedingt den Pfad setzen damit die anderen Module gefunden werden
@@ -119,11 +119,13 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
             mainpath = d.elementsByTagName("mainpath")
             encoding = d.elementsByTagName("encoding")
             kbs = d.elementsByTagName("kbs")
+            db = d.elementsByTagName("db")
 
             #Den Textinhalt (Pfad) des VoGIS Laufwerks einlesen
             self.vogisPfad = mainpath.item(0).toElement().firstChild().toText().data()
             self.vogisEncoding = encoding.item(0).toElement().firstChild().toText().data()
             self.vogisKBS = kbs.item(0).toElement().firstChild().toText().data()
+            self.vogisDb = db.item(0).toElement().firstChild().toText().data()
 
             #prüfen ob alles belegt ist, ansonsten die vogisini komplett neu schreiben
             #mit Standardwerten!
@@ -140,8 +142,10 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
             #werden dann auch im Modul Projektimport verwendet
             del vogisEncoding_global[:]   #neu initialisieren
             del vogisKBS_global[:]
+            del vogisDb_global[:]
             vogisEncoding_global.append(self.vogisEncoding)
             vogisKBS_global.append (self.vogisKBS)
+            vogisDb_global.append (self.vogisDb)
 
         else:
             self.unload()
@@ -417,11 +421,11 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
                 if abfrage.first(): #user gefunden
                     abfrage.exec_("update qgis_user set starts = starts + 1 where user = '" + username + "'")
-                    abfrage.exec_("update qgis_user set version = '1.2.5' where user = '" + username + "'")
+                    abfrage.exec_("update qgis_user set version = '1.2.6' where user = '" + username + "'")
                     abfrage.exec_("update qgis_user set qgis_version = '" + QGis.QGIS_VERSION + "' where user = '" + username + "'")
                     self.db.close()
                 else: #user nicht gefunden, d.h. noch nicht vorhanden
-                    abfrage.exec_("insert into qgis_user ("'user'", "'starts'", "'version'", "'qgis_version'") values ('" + username + "', 1 , '1.2.5', '" + QGis.QGIS_VERSION + "')")
+                    abfrage.exec_("insert into qgis_user ("'user'", "'starts'", "'version'", "'qgis_version'") values ('" + username + "', 1 , '1.2.6', '" + QGis.QGIS_VERSION + "')")
 
                     self.db.close()
 
@@ -688,20 +692,23 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
         mainpath = d.elementsByTagName("mainpath")
         encoding = d.elementsByTagName("encoding")
         kbs = d.elementsByTagName("kbs")
+        db = d.elementsByTagName("db")
 
         #Den geänderten Textinhalt (Pfad) des VoGIS Laufwerks einlesen
         #damit das Menü die geänderten Einstellung sofort verwendet!
         self.vogisPfad = mainpath.item(0).toElement().firstChild().toText().data()
         self.vogisEncoding = encoding.item(0).toElement().firstChild().toText().data()
         self.vogisKBS = kbs.item(0).toElement().firstChild().toText().data()
+        self.vogisDb= db.item(0).toElement().firstChild().toText().data()
 
         #die modulübergreifenden globalen Variablen belegen
         #werden dann auch im Modul Projektimport verwendet
         del vogisEncoding_global[:]   #neu initialisieren
         del vogisKBS_global[:]
+        del vogisDb_global[:]
         vogisEncoding_global.append(self.vogisEncoding)
         vogisKBS_global.append (self.vogisKBS)
-
+        vogisDb_global.append (self.vogisDb)
 
 #Klassendefinition für den Vogis Menüpukt
 #Einstellungen
@@ -719,22 +726,28 @@ class Options (QtGui.QDialog, Ui_frmOptions):
         self.vogisPfad =''
         self.vogisEncoding = ''
         self.vogisKBS = ''
+        self.vogisDb = ''
         #Filedialog Objekt
         self.dialog = QtGui.QFileDialog()
         self.dialog.setFileMode(QFileDialog.Directory)
+
+
+        # Codepage bestimmen Sonderzeicehn im Pfad zum Benutzerhome)
+        code_page =locale.getpreferredencoding()
         try:
             #file = open(os.path.dirname(__file__) + os.sep + "vogisini.xml","r")    #os.path.dirname(__file__) gibt pfad des aktuellen moduls
-            file = open(os.getenv('HOME') + os.sep + "vogisini.xml","r")
+            file = open(os.getenv('HOME').decode(code_page) + os.sep + "vogisini.xml","r")
             xml = file.read()
 
             self.d.setContent(xml)   #d enthält das gesamnte XML
             file.close()
             Flagge = True
         except IOError:
-            QtGui.QMessageBox.critical(None, "Fehler", os.getenv('HOME') + os.sep + ( "vogisini.xml kann nicht gelesen werden - bitte kontrollieren sie die Einstellungen!!").decode("utf-8"))
+            QtGui.QMessageBox.critical(None, "Fehler", os.getenv('HOME').decode(code_page) + os.sep + ( "vogisini.xml kann nicht gelesen werden - bitte kontrollieren sie die Einstellungen!!").decode("utf-8"))
             self.vogisPfad = 'V:/Geodaten/'
             self.vogisEncoding = 'menue'
             self.vogisKBS = 'menue'
+            slef.vogisDb = 'dbname=vogis host=vnvfelfs1.net.vlr.gv.at port=5432'
             Flagge = False
 
         if Flagge:  #vogisin.xml konnte gelesen werden
@@ -743,16 +756,18 @@ class Options (QtGui.QDialog, Ui_frmOptions):
             mainpath = self.d.elementsByTagName("mainpath")
             encoding = self.d.elementsByTagName("encoding")
             kbs = self.d.elementsByTagName("kbs")
+            db = self.d.elementsByTagName("db")
 
             #Den Textinhalt (Pfad) des VoGIS Laufwerks einlesen
             self.vogisPfad = mainpath.item(0).toElement().firstChild().toText().data()
             self.vogisEncoding = encoding.item(0).toElement().firstChild().toText().data()
             self.vogisKBS = kbs.item(0).toElement().firstChild().toText().data()
+            self.vogisDb = db.item(0).toElement().firstChild().toText().data()
 
             #prüfen ob alles belegt ist, ansonsten die vogisini komplett neu schreiben
             #mit Standardwerten!
-            if self.vogisPfad == '' or self.vogisEncoding == '' or self.vogisKBS == '':
-                self.write_vogisini('V:/Geodaten/','menue','menue')
+            if self.vogisPfad == '' or self.vogisEncoding == '' or self.vogisKBS == '' or self.vogisDb == '':
+                self.write_vogisini('V:/Geodaten/','menue','menue', '')
 
             #die Checkboxen befüllen
             if self.vogisEncoding == 'menue':
@@ -764,6 +779,11 @@ class Options (QtGui.QDialog, Ui_frmOptions):
                 self.ckCRS.setCheckState(0)
             else:
                 self.ckCRS.setCheckState(2)
+
+            if self.vogisDb == '':
+                self.ckDb.setCheckState(0)
+            else:
+                self.ckDb.setCheckState(2)
 
             #das labelfeld befüllen
             self.lblPath.setText(self.vogisPfad.replace("\\",""))
@@ -779,6 +799,11 @@ class Options (QtGui.QDialog, Ui_frmOptions):
                 self.ckCRS.setCheckState(0)
             else:
                 self.ckCRS.setCheckState(2)
+
+            if self.vogisDb == '':
+                self.ckDb.setCheckState(0)
+            else:
+                self.ckDb.setCheckState(2)
 
             #das labelfeld befüllen
             self.lblPath.setText(self.vogisPfad.replace("\\",""))
@@ -818,8 +843,13 @@ class Options (QtGui.QDialog, Ui_frmOptions):
         else:
             self.vogisEncoding = 'menue'
 
+        if self.ckDb.checkState() == QtCore.Qt.Checked:
+            self.vogisDb = 'dbname=vogis host=vnvfelfs1.net.vlr.gv.at port=5432'
+        else:
+            self.vogisDb = ''
+
         if rect == QMessageBox.Ok:
-            self.write_vogisini(self.vogisPfad,self.vogisEncoding,self.vogisKBS)
+            self.write_vogisini(self.vogisPfad,self.vogisEncoding,self.vogisKBS, self.vogisDb)
 
             self.lblPath.setText(self.vogisPfad.replace("\\","/"))
 
@@ -839,7 +869,7 @@ class Options (QtGui.QDialog, Ui_frmOptions):
 
 
     #die vogisini anlegen, im lokalen arbeitsverzeichnis des Vogis menüs
-    def write_vogisini(self,mainpath,encoding,kbs):
+    def write_vogisini(self,mainpath,encoding,kbs,db):
 
         raus = QtCore.QByteArray()
         d = QtCore.QXmlStreamWriter(raus)   #Das XMAL Handling für diese Zwecke ist damit OK
@@ -849,9 +879,12 @@ class Options (QtGui.QDialog, Ui_frmOptions):
         d.writeTextElement('mainpath', mainpath)
         d.writeTextElement('encoding', encoding)
         d.writeTextElement('kbs', kbs)
+        d.writeTextElement('db', db)
         d.writeEndElement()
         d.writeEndDocument()
         #file = open(os.path.dirname(__file__) + os.sep + "vogisini.xml","w+")
-        file = open(os.getenv('HOME') + os.sep + "vogisini.xml","w+")    #os.path.dirname(__file__) gibt pfad des aktuellen moduls
+        # Codepage bestimmen 8Sunderzeicehn im Pfad zum Benutzerhome)
+        code_page =locale.getpreferredencoding()
+        file = open(os.getenv('HOME').decode(code_page) + os.sep + "vogisini.xml","w+")    #os.path.dirname(__file__) gibt pfad des aktuellen moduls
         file.write(str(raus))
         file.close()

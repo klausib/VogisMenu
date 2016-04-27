@@ -303,8 +303,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>96</width>
-      <height>26</height>
+      <width>359</width>
+      <height>153</height>
      </rect>
     </property>
     <attribute name="label">
@@ -324,16 +324,6 @@
        <widget class="QCheckBox" name="ckEzQuellen">
         <property name="text">
          <string>Quelleinzugsgebiete</string>
-        </property>
-        <attribute name="buttonGroup">
-         <string>ckButtons</string>
-        </attribute>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="ckEzFliessgewaesser">
-        <property name="text">
-         <string>Einzugsgebiete Fließgewässer</string>
         </property>
         <attribute name="buttonGroup">
          <string>ckButtons</string>
@@ -388,8 +378,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>96</width>
-      <height>26</height>
+      <width>359</width>
+      <height>153</height>
      </rect>
     </property>
     <attribute name="label">
@@ -459,8 +449,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>96</width>
-      <height>26</height>
+      <width>359</width>
+      <height>153</height>
      </rect>
     </property>
     <attribute name="label">
@@ -534,8 +524,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>359</width>
-      <height>153</height>
+      <width>96</width>
+      <height>26</height>
      </rect>
     </property>
     <attribute name="label">

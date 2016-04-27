@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gui_options.ui'
 #
-# Created: Wed Jan 22 08:52:08 2014
+# Created: Tue Apr 26 14:13:21 2016
 #      by: PyQt4 UI code generator 4.8.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,12 +17,12 @@ except AttributeError:
 class Ui_frmOptions(object):
     def setupUi(self, frmOptions):
         frmOptions.setObjectName(_fromUtf8("frmOptions"))
-        frmOptions.resize(349, 191)
+        frmOptions.resize(349, 187)
         self.ButtonSave = QtGui.QPushButton(frmOptions)
-        self.ButtonSave.setGeometry(QtCore.QRect(110, 140, 101, 23))
+        self.ButtonSave.setGeometry(QtCore.QRect(120, 150, 101, 23))
         self.ButtonSave.setObjectName(_fromUtf8("ButtonSave"))
         self.layoutWidget = QtGui.QWidget(frmOptions)
-        self.layoutWidget.setGeometry(QtCore.QRect(40, 20, 269, 61))
+        self.layoutWidget.setGeometry(QtCore.QRect(40, 20, 270, 77))
         self.layoutWidget.setObjectName(_fromUtf8("layoutWidget"))
         self.verticalLayout = QtGui.QVBoxLayout(self.layoutWidget)
         self.verticalLayout.setMargin(0)
@@ -39,11 +39,17 @@ class Ui_frmOptions(object):
         self.ckEncoding.setFont(font)
         self.ckEncoding.setObjectName(_fromUtf8("ckEncoding"))
         self.verticalLayout.addWidget(self.ckEncoding)
+        self.ckDb = QtGui.QCheckBox(self.layoutWidget)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.ckDb.setFont(font)
+        self.ckDb.setObjectName(_fromUtf8("ckDb"))
+        self.verticalLayout.addWidget(self.ckDb)
         self.ButtonPath = QtGui.QPushButton(frmOptions)
-        self.ButtonPath.setGeometry(QtCore.QRect(230, 100, 81, 23))
+        self.ButtonPath.setGeometry(QtCore.QRect(230, 110, 81, 23))
         self.ButtonPath.setObjectName(_fromUtf8("ButtonPath"))
         self.lblPath = QtGui.QLabel(frmOptions)
-        self.lblPath.setGeometry(QtCore.QRect(40, 90, 181, 37))
+        self.lblPath.setGeometry(QtCore.QRect(40, 100, 181, 37))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.lblPath.setFont(font)
@@ -57,6 +63,7 @@ class Ui_frmOptions(object):
         self.ButtonSave.setText(QtGui.QApplication.translate("frmOptions", "OK", None, QtGui.QApplication.UnicodeUTF8))
         self.ckCRS.setText(QtGui.QApplication.translate("frmOptions", "Koordinatenbezugssystem aus Projektdatei", None, QtGui.QApplication.UnicodeUTF8))
         self.ckEncoding.setText(QtGui.QApplication.translate("frmOptions", "Codierung Shapefiles aus Projektdatei", None, QtGui.QApplication.UnicodeUTF8))
+        self.ckDb.setText(QtGui.QApplication.translate("frmOptions", "Vektorlayer aus Geodatenbank (BETA!)", None, QtGui.QApplication.UnicodeUTF8))
         self.ButtonPath.setText(QtGui.QApplication.translate("frmOptions", "Pfad Ändern", None, QtGui.QApplication.UnicodeUTF8))
         self.lblPath.setText(QtGui.QApplication.translate("frmOptions", "Path", None, QtGui.QApplication.UnicodeUTF8))
 
