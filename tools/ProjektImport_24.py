@@ -6,7 +6,7 @@
 # Qgis und PyQT importieren
 # (Gegebenenfalls läßt sich diese Auswahl
 # noch verfeinern)
-from PyQt4 import QtCore, QtGui, QtXml
+from PyQt4 import QtCore, QtGui, QtXml, QtSql
 from qgis.core import *
 from ctypes import *
 from globale_variablen import *     #Die Adresse der Listen importieren: Modulübergreifende globale Variablen sind so möglich
@@ -14,7 +14,7 @@ from globale_variablen import *     #Die Adresse der Listen importieren: Modulü
 #from LayerDialog import *
 
 import os.path
-import string,copy, re
+import string,copy, re, getpass
 
 
 
@@ -210,12 +210,13 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
 
 
-                    # unbedingt ALLES DEselektieren, sonst Probleme mit der Reihenfolge
+                    # unbedingt ALLES DESELEKTIEREN, sonst Probleme mit der Reihenfolge
                     self.iface.layerTreeView().setCurrentLayer(None)    # None entspricht einem Null Pointer -> Auswahl wird entfernt -> nicht ausgewählt
 
 
-
+                    #############################################################################
                     # Das Umschalten der Vektordaten auf die Geodatenbank - unter Bedingungen
+                    #############################################################################
                     if self.maps.item(i).attributes().namedItem('type').nodeValue() == 'vector' and vogisDb_global[0] != '':
 
                         tablename = os.path.basename(self.maps.item(i).namedItem("datasource").firstChild().nodeValue())
@@ -226,7 +227,6 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                         else:
                             tablename = string.lower('\"Vorarlberg".\"' + tablename + '\"')
 
-                        #dbpath = string.lower(vogisDb_global[0] + ' user=\'bamc\' sslmode=disable key=\'ogc_fid\' srid=31254 table=' +  tablename +  ' (the_geom) sql=')
                         dbpath = string.lower(vogisDb_global[0] + ' sslmode=disable table=' +  tablename +  ' (the_geom) sql=')
 
 
@@ -234,28 +234,44 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                         self.maps.item(i).namedItem("provider").firstChild().setNodeValue('postgres')
                         self.maps.item(i).namedItem("provider").attributes().namedItem('encoding').setNodeValue('UTF-8')
 
-                        #testen ob die DB gefunden werden kann
-##                        param_list = string.split(dbpath)
-##
-##                        host = ''
-##                        dbname=''
-##                        port=''
-##                        QtGui.QMessageBox.about(None, "Achtung", str(param_list))
-##                        for param in param_list:
-##
-##                            if string.find(param,'dbname') >= 0:
-##                                dbname = string.replace(param,'dbname=','')
-##                            elif string.find(param,'host=') >= 0:
-##                                host = string.replace(param,'host=','')
-##                            elif string.find(param,'port=') >= 0:
-##                                port = string.replace(param,'port=','')
-##
-##                        QtGui.QMessageBox.about(None, "Achtung", host + ' ' + port + ' ' + dbname)
-##                        uri = QgsDataSourceURI()
-##                        uri.setConnection(host, port, dbname)
-##                        provider_test = QgsDataProvider(uri)
-##                        QtGui.QMessageBox.about(None, "Achtung", provider_test.error.summary()) #der DomNode auch gerendert und dargestellt
 
+                        ##########################################
+                        # testen, ob die DB geöffnet werden kann
+                        ###########################################
+                        param_list = string.split(dbpath)
+
+                        host = ''
+                        dbname=''
+                        port=''
+                        #QtGui.QMessageBox.about(None, "Achtung", str(param_list))
+                        for param in param_list:
+
+                            if string.find(param,'dbname') >= 0:
+                                dbname = string.replace(param,'dbname=','')
+                            elif string.find(param,'host=') >= 0:
+                                host = string.replace(param,'host=','')
+                            elif string.find(param,'port=') >= 0:
+                                port = string.replace(param,'port=','')
+
+                        # Username falls benötigt
+                        #username = getpass.getuser().lower()
+
+                        # Wir verwenden die Wondows Domänen Authentifizierung. Keine User notwendig
+                        db = QtSql.QSqlDatabase.addDatabase("QPSQL","DbTest");  # Der Name macht ie Verbindung individuell - sonst ist eine Default Verbindung
+                        db.setHostName(host)
+                        db.setPort(int(port))
+                        db.setDatabaseName(dbname)
+
+                        ok = db.open()    #Gibt True zurück wenn die Datenbank offen ist
+
+                        if not ok:
+                            QtGui.QMessageBox.about(None, "Fehler", 'Keine Verbindung zur Geodatenbank')
+                            return  #Zurück
+
+
+                        #############################################
+                        # Db Verbindungstest Ende
+                        ##############################################
 
 ##                        ##################################################
 ##                        # DomNode zu Testzwecken als XML
@@ -269,9 +285,14 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 ##                        #################################################
 
 
-                    # Projekt einlesen!                                                                     #der DomNode auch gerendert und dargestellt
-                    if not QgsProject.instance().read(self.maps.item(i)):                                   #hier wird der Layer geladen und gemäß den Eintragungen
-                        QtGui.QMessageBox.about(None, "Achtung", "Layer " + self.legends.item(j).attributes().namedItem("name").nodeValue() + " nicht gefunden!") #der DomNode auch gerendert und dargestellt
+                    ######################################################
+                    # Umschalten auf Geodatenbank Ende
+                    ######################################################
+
+
+                    # Layer  einlesen!
+                    if not QgsProject.instance().read(self.maps.item(i)):                                                                                           #hier wird der Layer geladen und gemäß den Eintragungen
+                        QtGui.QMessageBox.about(None, "Achtung", "Layer " + self.legends.item(j).attributes().namedItem("name").nodeValue() + " nicht gefunden!")   #der DomNode auch gerendert und dargestellt
                         continue
 
 
