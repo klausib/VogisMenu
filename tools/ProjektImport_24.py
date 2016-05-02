@@ -227,6 +227,17 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                         else:
                             tablename = string.lower('\"Vorarlberg".\"' + tablename + '\"')
 
+                        # Sonderzeichen berücksichtigen!
+                        tablename = tablename.replace(('ä').decode('utf8'),'ae')
+                        tablename = tablename.replace(('Ä').decode('utf8'),'Ae')
+                        tablename = tablename.replace(('ö').decode('utf8'),'oe')
+                        tablename = tablename.replace(('Ö').decode('utf8'),'Oe')
+                        tablename = tablename.replace(('ü').decode('utf8'),'ue')
+                        tablename = tablename.replace(('Ü').decode('utf8'),'Ue')
+                        tablename = tablename.replace(('ß').decode('utf8'),'ss')
+                        tablename = tablename.replace('. ','_')
+
+
                         dbpath = string.lower(vogisDb_global[0] + ' sslmode=disable table=' +  tablename +  ' (the_geom) sql=')
 
 
@@ -256,7 +267,7 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                         # Username falls benötigt
                         #username = getpass.getuser().lower()
 
-                        # Wir verwenden die Wondows Domänen Authentifizierung. Keine User notwendig
+                        # Wir verwenden die Windows Domänen Authentifizierung. Keine User notwendig
                         db = QtSql.QSqlDatabase.addDatabase("QPSQL","DbTest");  # Der Name macht ie Verbindung individuell - sonst ist eine Default Verbindung
                         db.setHostName(host)
                         db.setPort(int(port))
