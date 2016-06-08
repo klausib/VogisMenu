@@ -108,9 +108,6 @@ class WasserDialog(QtGui.QDialog, Ui_frmWasser):
                 elif   ("OeffentlicheTankstellen" in button.objectName()):
                     self.fullpath  = self.pfad +  "Betriebe/Vlbg/OeffentlicheTankstellen/oeffentlichetankstellen.qgs"
                     self.wasser.importieren(self.fullpath)
-                elif   ("EzQuellen" in button.objectName()):
-                    self.fullpath  = self.pfad +  "Quellen/Vlbg/Quelleinzugsgebiete/quelleinzugsgebiete.qgs"
-                    self.wasser.importieren(self.fullpath)
 ##                elif   ("EzFliessgewaesser" in button.objectName()):
 ##                    self.fullpath  = self.pfad +  "Einzugsgebiete/Vlbg/HZB_Einzugsgebiete/einzugsgebiete_hzb.qgs"
 ##                    self.wasser.importieren(self.fullpath)
@@ -189,6 +186,18 @@ class WasserDialog(QtGui.QDialog, Ui_frmWasser):
                 elif   ("ckSeen" in button.objectName()):
                     self.fullpath  = self.pfad +  "Seen/Vlbg/Seen/Seen.qgs"
                     self.wasser.importieren(self.fullpath,None,None,False)
+                elif   ("EzQuellen" in button.objectName()):
+                    self.fullpath  = self.pfad +  "Quellen/Vlbg/Quelleinzugsgebiete/quelleinzugsgebiete.qgs"
+                    self.wasser.importieren(self.fullpath)
+                elif   ("EzOberflaechenwasserMesstellen" in button.objectName()):
+                    self.fullpath  = self.pfad +  "Einzugsgebiete/Vlbg_Umgebung/Einzugsgebiete_Pegelstellen/EZG_Pegelstellen.qgs"
+                    self.wasser.importieren(self.fullpath)
+                elif   ("EzFliessgewaesser" in button.objectName()):
+                    self.fullpath  = self.pfad +  "Einzugsgebiete/Vlbg_Umgebung/Einzugsgebiete_FGW/Einzugsgebiete_Vlbg_Umgebung.qgs"
+                    self.wasser.importieren(self.fullpath)
+                elif   ("EzWasserscheideRheinDonau" in button.objectName()):
+                    self.fullpath  = self.pfad +  "Einzugsgebiete/Vlbg/Rhein_Donau/ezg_rhein_donau_vlbg.qgs"
+                    self.wasser.importieren(self.fullpath)
 
 
 

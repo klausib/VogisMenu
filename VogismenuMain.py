@@ -466,6 +466,7 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
         Path = self.vogisPfad + "Points_of_Interest/Adressen/Vlbg/"
         Name = 'adressen'
+        #Name = 'adressen_tmp'
 
         #damit das Fenster nicht zweimal geöffnet wird!
         if self.AdresssucheDialog == None or self.AdresssucheDialog.objectName() == 'Bin_nicht_offen':
@@ -747,7 +748,7 @@ class Options (QtGui.QDialog, Ui_frmOptions):
             self.vogisPfad = 'V:/Geodaten/'
             self.vogisEncoding = 'menue'
             self.vogisKBS = 'menue'
-            slef.vogisDb = 'dbname=vogis host=vnvfelfs1.net.vlr.gv.at port=5432'
+            self.vogisDb = 'dbname=vogis host=vnvfelfs1.net.vlr.gv.at port=5432'
             Flagge = False
 
         if Flagge:  #vogisin.xml konnte gelesen werden

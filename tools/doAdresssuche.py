@@ -622,7 +622,7 @@ class AdrDialog(QtGui.QDialog, Ui_frmAdresssuche):
         uri.setDatabase(self.pfad + "adressen.sqlite")
         schema = ""
         table = "adressen"
-        geom_column = "Geometry"
+        geom_column = "the_geom"
         #sämtliche Radiobuttons des Dialogfeldes sind gruppiert in ckButtons
         #und können so in einer Schleife auf ihren Zustand (gechecket) geprüft werden
         for button in self.buttonGroup.buttons():

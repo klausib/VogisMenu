@@ -34,7 +34,7 @@
       <x>0</x>
       <y>0</y>
       <width>359</width>
-      <height>153</height>
+      <height>126</height>
      </rect>
     </property>
     <attribute name="label">
@@ -88,8 +88,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>96</width>
-      <height>26</height>
+      <width>359</width>
+      <height>126</height>
      </rect>
     </property>
     <attribute name="label">
@@ -163,8 +163,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>96</width>
-      <height>26</height>
+      <width>359</width>
+      <height>126</height>
      </rect>
     </property>
     <attribute name="label">
@@ -238,8 +238,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>96</width>
-      <height>26</height>
+      <width>359</width>
+      <height>126</height>
      </rect>
     </property>
     <attribute name="label">
@@ -304,7 +304,7 @@
       <x>0</x>
       <y>0</y>
       <width>359</width>
-      <height>153</height>
+      <height>126</height>
      </rect>
     </property>
     <attribute name="label">
@@ -320,16 +320,6 @@
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_5">
-      <item>
-       <widget class="QCheckBox" name="ckEzQuellen">
-        <property name="text">
-         <string>Quelleinzugsgebiete</string>
-        </property>
-        <attribute name="buttonGroup">
-         <string>ckButtons</string>
-        </attribute>
-       </widget>
-      </item>
       <item>
        <widget class="QCheckBox" name="ckNiederschlagmessstellen">
         <property name="text">
@@ -373,13 +363,72 @@
      </layout>
     </widget>
    </widget>
+   <widget class="QWidget" name="page_4">
+    <attribute name="label">
+     <string>Einzugsgebiete</string>
+    </attribute>
+    <widget class="QWidget" name="verticalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>10</y>
+       <width>184</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_8">
+      <item>
+       <widget class="QCheckBox" name="ckEzFliessgewaesser">
+        <property name="text">
+         <string>Fließgewässer</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckEzOberflaechenwasserMesstellen">
+        <property name="text">
+         <string>Oberflächenwasser - Messstellen</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckEzQuellen">
+        <property name="text">
+         <string>Quellen</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckEzWasserscheideRheinDonau">
+        <property name="text">
+         <string>Rhein Donau Wasserscheide</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <zorder>verticalLayoutWidget</zorder>
+    <zorder>ckEzOberflaechenwasserMesstellen</zorder>
+   </widget>
    <widget class="QWidget" name="page">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
       <width>359</width>
-      <height>153</height>
+      <height>126</height>
      </rect>
     </property>
     <attribute name="label">
@@ -450,7 +499,7 @@
       <x>0</x>
       <y>0</y>
       <width>359</width>
-      <height>153</height>
+      <height>126</height>
      </rect>
     </property>
     <attribute name="label">
@@ -524,8 +573,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>96</width>
-      <height>26</height>
+      <width>359</width>
+      <height>126</height>
      </rect>
     </property>
     <attribute name="label">

@@ -10,7 +10,7 @@ def version():
 def qgisMinimumVersion():
     return "2.0"
 def authorName():
-    return "N. B."
+    return "Nikolaus Batlogg LVG"
 def classFactory(iface):
     from VogismenuMain import VogismenuMain
     return VogismenuMain(iface)
