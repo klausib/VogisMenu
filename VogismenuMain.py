@@ -26,8 +26,10 @@ from globale_variablen import *     #Die Adresse der Listen importieren: Modulü
 
 
 from doBlattschnitte import *
-from doAdresssuche import *
-from doGstsuche import *
+from doAdresssuche_pg import *
+from doAdresssuche_sqlite import *
+from doGstsuche_pg import *
+from doGstsuche_sqlite import *
 from ProjektImport import *
 from doGeonamsuche import *
 from doAbfall import *
@@ -87,6 +89,7 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
         self.hoehenmodell = None
         self.vermessung = None
         self.vogisaction = None
+        self.PGdb = None
 
         #nun was skuriles: weil es immer wieder probleme gibt, wenn mehrere instanze
         #auf eine sqlserver datenbank zugreifen (?) darf keine zweite instanz
@@ -147,8 +150,56 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
             vogisKBS_global.append (self.vogisKBS)
             vogisDb_global.append (self.vogisDb)
 
+            # Postgres DB initialisieren
+            self.initPGDB()
+
         else:
             self.unload()
+
+
+    def initPGDB(self):
+
+        #############################################################################
+        # Das Umschalten der Vektordaten auf die Geodatenbank - unter Bedingungen
+        #############################################################################
+        if vogisDb_global[0] != '':
+
+
+            ##########################################
+            # testen, ob die DB geöffnet werden kann
+            # und wenn ja, Datenbankobjekt Instanzieren
+            ###########################################
+            dbpath = string.lower(vogisDb_global[0] + ' sslmode=disable  (the_geom) sql=')
+            param_list = string.split(dbpath)
+
+            host = ''
+            dbname=''
+            port=''
+            #QtGui.QMessageBox.about(None, "Achtung", str(param_list))
+            for param in param_list:
+
+                if string.find(param,'dbname') >= 0:
+                    dbname = string.replace(param,'dbname=','')
+                elif string.find(param,'host=') >= 0:
+                    host = string.replace(param,'host=','')
+                elif string.find(param,'port=') >= 0:
+                    port = string.replace(param,'port=','')
+
+            # Username falls benötigt
+            #username = getpass.getuser().lower()
+
+            # Wir verwenden die Windows Domänen Authentifizierung. Keine User notwendig
+            self.PGdb = QtSql.QSqlDatabase.addDatabase("QPSQL","vogis");  # Der Name macht ie Verbindung individuell - sonst ist eine Default Verbindung
+            self.PGdb.setHostName(host)
+            self.PGdb.setPort(int(port))
+            self.PGdb.setDatabaseName(dbname)
+
+            ok = self.PGdb.open()    #Gibt True zurück wenn die Datenbank offen ist
+
+            if not ok:
+                QtGui.QMessageBox.about(None, "Fehler", 'Keine Verbindung zur Geodatenbank')
+                return  #Zurück
+
 
 
 
@@ -421,11 +472,11 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
                 if abfrage.first(): #user gefunden
                     abfrage.exec_("update qgis_user set starts = starts + 1 where user = '" + username + "'")
-                    abfrage.exec_("update qgis_user set version = '1.2.6' where user = '" + username + "'")
+                    abfrage.exec_("update qgis_user set version = '1.2.7' where user = '" + username + "'")
                     abfrage.exec_("update qgis_user set qgis_version = '" + QGis.QGIS_VERSION + "' where user = '" + username + "'")
                     self.db.close()
                 else: #user nicht gefunden, d.h. noch nicht vorhanden
-                    abfrage.exec_("insert into qgis_user ("'user'", "'starts'", "'version'", "'qgis_version'") values ('" + username + "', 1 , '1.2.6', '" + QGis.QGIS_VERSION + "')")
+                    abfrage.exec_("insert into qgis_user ("'user'", "'starts'", "'version'", "'qgis_version'") values ('" + username + "', 1 , '1.2.7', '" + QGis.QGIS_VERSION + "')")
 
                     self.db.close()
 
@@ -445,10 +496,15 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
 
     def doGeonamsuche(self):
+
         Path = self.vogisPfad + "Points_of_Interest/Ortsbezeichnung/Vlbg/oek_geonam/"
         #Path = "D:/"
         Name = "geonam"
-        self.GeonamsucheDialog = Geonam(self.iface,Path,Name,self.Geonamgrafik)
+
+        if vogisDb_global[0] == '':
+            self.GeonamsucheDialog = Geonam(self.iface,Path,Name,self.Geonamgrafik)
+        else:
+            self.GeonamsucheDialog = Geonam(self.iface,Path,Name,self.Geonamgrafik,self.PGdb, Name)
 
         self.GeonamsucheDialog.exec_()   #Ergibt einen modalen Dialog: nur er ist für Input aktiv
 
@@ -464,13 +520,26 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
     def doAdresssuche(self):
 
+
+        # Das Postgis DB Objekt an die Einstellungen Anpassen
+        if vogisDb_global[0] == '':
+            self.PGdb = None
+
+
         Path = self.vogisPfad + "Points_of_Interest/Adressen/Vlbg/"
-        Name = 'adressen'
+        Table = 'adressen'
+        Schema = 'vorarlberg'
         #Name = 'adressen_tmp'
 
         #damit das Fenster nicht zweimal geöffnet wird!
         if self.AdresssucheDialog == None or self.AdresssucheDialog.objectName() == 'Bin_nicht_offen':
-            self.AdresssucheDialog = AdrDialog(self.iface.mainWindow(),self.iface,self.speicheradressen_adressuche,Path,Name)
+
+            # Unterschiedliche Module für Postgis bzw. SQLITE
+            if vogisDb_global[0] != '':
+                self.AdresssucheDialog = AdrDialogPG(self.iface.mainWindow(),self.iface,self.speicheradressen_adressuche,Path, self.PGdb, Schema, Table)
+            else:
+                self.AdresssucheDialog = AdrDialogSQLITE(self.iface.mainWindow(),self.iface,self.speicheradressen_adressuche,Path,Table)
+
             self.AdresssucheDialog.show()
             self.AdresssucheDialog.Abflug.connect(self.InstanzMarkieren)   #Ein individuelles Signal mit Namen Abflug
         else:
@@ -482,9 +551,16 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
         ProjektPath = self.vogisPfad + "Grenzen/DKM/Vorarlberg/DKM.qgs"
         #damit das Fenster nicht zweimal geöffnet wird!
         if self.GstsucheGUI == None or self.GstsucheGUI.objectName() == 'Bin_nicht_offen':
-            self.GstsucheGUI = GstDialog(self.iface.mainWindow(),self.iface,self.dkmstand,ProjektPath,self.vogisPfad)
-            self.GstsucheGUI.show()
-            self.GstsucheGUI.Abflug.connect(self.InstanzMarkieren)   #Ein individuelles Signal mit Namen Abflug
+
+            # Unterschiedliche Module für Postgis bzw. SQLITE
+            if vogisDb_global[0] != '':
+                self.GstsucheGUI = GstDialogPG(self.iface.mainWindow(),self.iface,self.dkmstand,self.vogisPfad,self.PGdb)
+                self.GstsucheGUI.show()
+                self.GstsucheGUI.Abflug.connect(self.InstanzMarkieren)   #Ein individuelles Signal mit Namen Abflug
+            else:
+                self.GstsucheGUI = GstDialogSqlite(self.iface.mainWindow(),self.iface,self.dkmstand,ProjektPath,self.vogisPfad)
+                self.GstsucheGUI.show()
+                self.GstsucheGUI.Abflug.connect(self.InstanzMarkieren)   #Ein individuelles Signal mit Namen Abflug
         else:
             self.GstsucheGUI.raise_()
             self.GstsucheGUI.activateWindow()
@@ -710,6 +786,9 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
         vogisEncoding_global.append(self.vogisEncoding)
         vogisKBS_global.append (self.vogisKBS)
         vogisDb_global.append (self.vogisDb)
+
+        # Die Postgres datenbank gegebenenfalls neu instanzieren
+        self.initPGDB()
 
 #Klassendefinition für den Vogis Menüpukt
 #Einstellungen

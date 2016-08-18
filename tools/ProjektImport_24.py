@@ -225,7 +225,7 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                         if ergaenzungsname != None:
                             tablename = string.lower('\"' + ergaenzungsname + '\".\"' + tablename + '\"')
                         else:
-                            tablename = string.lower('\"Vorarlberg".\"' + tablename + '\"')
+                            tablename = string.lower('\"vorarlberg".\"' + tablename + '\"')
 
                         # Sonderzeichen berücksichtigen!
                         tablename = tablename.replace(('ä').decode('utf8'),'ae')
@@ -246,38 +246,38 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                         self.maps.item(i).namedItem("provider").attributes().namedItem('encoding').setNodeValue('UTF-8')
 
 
-                        ##########################################
-                        # testen, ob die DB geöffnet werden kann
-                        ###########################################
-                        param_list = string.split(dbpath)
-
-                        host = ''
-                        dbname=''
-                        port=''
-                        #QtGui.QMessageBox.about(None, "Achtung", str(param_list))
-                        for param in param_list:
-
-                            if string.find(param,'dbname') >= 0:
-                                dbname = string.replace(param,'dbname=','')
-                            elif string.find(param,'host=') >= 0:
-                                host = string.replace(param,'host=','')
-                            elif string.find(param,'port=') >= 0:
-                                port = string.replace(param,'port=','')
-
-                        # Username falls benötigt
-                        #username = getpass.getuser().lower()
-
-                        # Wir verwenden die Windows Domänen Authentifizierung. Keine User notwendig
-                        db = QtSql.QSqlDatabase.addDatabase("QPSQL","DbTest");  # Der Name macht ie Verbindung individuell - sonst ist eine Default Verbindung
-                        db.setHostName(host)
-                        db.setPort(int(port))
-                        db.setDatabaseName(dbname)
-
-                        ok = db.open()    #Gibt True zurück wenn die Datenbank offen ist
-
-                        if not ok:
-                            QtGui.QMessageBox.about(None, "Fehler", 'Keine Verbindung zur Geodatenbank')
-                            return  #Zurück
+##                        ##########################################
+##                        # testen, ob die DB geöffnet werden kann
+##                        ###########################################
+##                        param_list = string.split(dbpath)
+##
+##                        host = ''
+##                        dbname=''
+##                        port=''
+##                        #QtGui.QMessageBox.about(None, "Achtung", str(param_list))
+##                        for param in param_list:
+##
+##                            if string.find(param,'dbname') >= 0:
+##                                dbname = string.replace(param,'dbname=','')
+##                            elif string.find(param,'host=') >= 0:
+##                                host = string.replace(param,'host=','')
+##                            elif string.find(param,'port=') >= 0:
+##                                port = string.replace(param,'port=','')
+##
+##                        # Username falls benötigt
+##                        #username = getpass.getuser().lower()
+##
+##                        # Wir verwenden die Windows Domänen Authentifizierung. Keine User notwendig
+##                        db = QtSql.QSqlDatabase.addDatabase("QPSQL","DbTest");  # Der Name macht ie Verbindung individuell - sonst ist eine Default Verbindung
+##                        db.setHostName(host)
+##                        db.setPort(int(port))
+##                        db.setDatabaseName(dbname)
+##
+##                        ok = db.open()    #Gibt True zurück wenn die Datenbank offen ist
+##
+##                        if not ok:
+##                            QtGui.QMessageBox.about(None, "Fehler", 'Keine Verbindung zur Geodatenbank')
+##                            return  #Zurück
 
 
                         #############################################
@@ -367,10 +367,10 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                     if (ergaenzungsname != None) and (self.lyr != None) and self.anzeigename_aendern: # noch ein boolean wegen der wasserwirtschaft!!
                            if not (self.lyr.name().find(ergaenzungsname) > -1):    # ACHTUNG: Sonst wird bei wiederholtem klicken der Name nochmal rangehängt
                                     if self.lyr.name().find("(a)") > -1:
-                                        aktname =   self.lyr.name().rstrip("(a)") + "-" + ergaenzungsname + " (a)"
+                                        aktname =  string.strip((self.lyr.name().rstrip("(a)"))) + "-" + ergaenzungsname + " (a)"
                                         self.lyr.setLayerName(aktname)
                                     else:
-                                        aktname =   self.lyr.name() + "-" + ergaenzungsname
+                                        aktname =   string.strip(self.lyr.name())+ "-" + ergaenzungsname
                                         self.lyr.setLayerName(aktname)
 
 

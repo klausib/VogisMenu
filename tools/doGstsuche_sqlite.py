@@ -24,7 +24,7 @@ else:
 #Klassendefinition für die Grundstückssuche, das Laden der DKM sowie der Urmappe
 #und der Gebäudeumrisse
 #class GstDialog (QtGui.QDialog,Ui_frmGstsuche,QtCore.QObject):
-class GstDialog (QtGui.QDialog,Ui_frmGstsuche):
+class GstDialogSqlite (QtGui.QDialog,Ui_frmGstsuche):
 
     #Ein individuelles Signal als Klassenvariable definieren
     Abflug = QtCore.pyqtSignal(object)
@@ -511,6 +511,33 @@ class GstDialog (QtGui.QDialog,Ui_frmGstsuche):
         #-------------------------------------------------------
 
 
+        #------------------------------------------------------
+        # so geht die Suche schneller -Subset
+        #------------------------------------------------------
+##        fid = []
+##        # Eingabefeld auslesen und gleich splitten
+##        gstliste = string.split(self.txtGstnr.text(),",")
+##
+##        abfr_str = ''
+##        nummer = ''
+##        for gst in gstliste:
+##            if abfr_str == '':
+##                abfr_str = abfr_str + 'gnr = \'' + gst + '\' '
+##                nummer = nummer + gst + " "
+##            else:
+##                abfr_str = abfr_str + 'or gnr = \'' + gst + '\' '
+##                nummer = nummer + gst + " "
+##
+##        self.dbaseTabelle.setSubsetString('(' + abfr_str +') and kg = (\'' + self.kgnummer + '\')')
+##
+##        self.dbaseTabelle.selectAll()
+##        fid = self.dbaseTabelle.selectedFeaturesIds()
+
+        #------------------------------------------------------
+        # Ende Subset Suche
+        #------------------------------------------------------
+
+
 
         #Wurde was gefunden? ja/nein
         if self.dbaseTabelle.selectedFeatureCount() >= 1: #Eins gefunden, Txtfeld und Zoompunkt festlegen
@@ -523,7 +550,11 @@ class GstDialog (QtGui.QDialog,Ui_frmGstsuche):
 ##                # einfach laden
             self.ladeGemeinde()
 
-
+            # Das ausgewähle Feature (oder mehrer ausgewähle features) selektieren
+            for lyr_tmp in self.iface.legendInterface().layers():
+                if lyr_tmp.name() == ("Grundstücke-").decode("utf-8") + self.Gemeinde + ' (a)' :
+                    if not fid is None:
+                        lyr_tmp.setSelectedFeatures(fid)
 
         else:   #nichts gefunden: Textfeld und Zoompunkt zurücksetzen
             self.gefunden.setText(("Grundstück ").decode("utf-8") + self.txtGstnr.text() + " in  KG " + self.Kgemeinde + " nicht gefunden")

@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>frmAdresssuche</class>
+ <widget class="QDialog" name="frmAdresssuche">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>671</width>
+    <height>416</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Adresssuche</string>
+  </property>
+  <widget class="QPushButton" name="schliessen">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>330</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
+   </property>
+   <property name="text">
+    <string>Schließen</string>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>300</y>
+     <width>361</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Adresslayer laden</string>
+   </property>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>157</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QCheckBox" name="checkBox_3">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Adressen Gemeinde</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+       <attribute name="buttonGroup">
+        <string>buttonGroup</string>
+       </attribute>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBox_2">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Adressen Landesfläche</string>
+       </property>
+       <attribute name="buttonGroup">
+        <string>buttonGroup</string>
+       </attribute>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QPushButton" name="ButtonAdressenOk">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>30</y>
+      <width>121</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Thema laden</string>
+    </property>
+    <property name="autoDefault">
+     <bool>false</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>621</width>
+     <height>281</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Adressen suchen und anzeigen</string>
+   </property>
+   <widget class="QListView" name="lstNummer">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>40</y>
+      <width>150</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::ExtendedSelection</enum>
+    </property>
+   </widget>
+   <widget class="QListView" name="lstGemeinde">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>80</y>
+      <width>150</width>
+      <height>151</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="laden">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>240</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>in View darstellen</string>
+    </property>
+    <property name="autoDefault">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>240</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>in View löschen</string>
+    </property>
+    <property name="autoDefault">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QListView" name="lstStrasse">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>80</y>
+      <width>201</width>
+      <height>151</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>401</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Strassensuche Landesweit</string>
+    </property>
+    <widget class="QLineEdit" name="leStrasse">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>381</width>
+       <height>21</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>laden</sender>
+   <signal>clicked()</signal>
+   <receiver>frmAdresssuche</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>210</x>
+     <y>250</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>251</x>
+     <y>258</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>schliessen</sender>
+   <signal>clicked()</signal>
+   <receiver>frmAdresssuche</receiver>
+   <slot>closeEvent()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>550</x>
+     <y>330</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>251</x>
+     <y>258</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lstNummer</sender>
+   <signal>clicked(QModelIndex)</signal>
+   <receiver>frmAdresssuche</receiver>
+   <slot>lstNummerKlicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>475</x>
+     <y>180</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>496</x>
+     <y>306</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>frmAdresssuche</receiver>
+   <slot>adrClear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>338</x>
+     <y>250</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>482</x>
+     <y>258</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ButtonAdressenOk</sender>
+   <signal>clicked()</signal>
+   <receiver>frmAdresssuche</receiver>
+   <slot>themenLaden()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>306</x>
+     <y>342</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>427</x>
+     <y>386</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leStrasse</sender>
+   <signal>returnPressed()</signal>
+   <receiver>frmAdresssuche</receiver>
+   <slot>strassensuche()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>360</x>
+     <y>44</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>660</x>
+     <y>6</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>lstGemeindeKlicked()</slot>
+  <slot>lstStrasseKlicked()</slot>
+  <slot>lstNummerKlicked()</slot>
+  <slot>adrClear()</slot>
+  <slot>strassensuche()</slot>
+  <slot>themenLaden()</slot>
+  <slot>closeEvent()</slot>
+ </slots>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
+</ui>

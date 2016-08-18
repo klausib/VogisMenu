@@ -7,6 +7,8 @@ from PyQt4 import QtGui,QtCore, QtSql
 from qgis.core import *
 from qgis.gui import *
 from gui_geonam import *
+#from globale_variablen import *     #Die Adresse der Listen importieren: Modulübergreifende globale Variablen sind so möglich
+
 #API up to 2.2
 if QGis.QGIS_VERSION_INT < 20300:
     from ProjektImport import *
@@ -16,7 +18,7 @@ import sys
 import string
 
 class Geonam(QtGui.QDialog, Ui_frmGeonam):
-    def __init__(self,iface,pfad = None, name = None, geonamgrafik = None):
+    def __init__(self,iface,pfad = None, name = None, geonamgrafik = None, db = None, pg_table = ''):
         QtGui.QDialog.__init__(self)
         Ui_frmGeonam.__init__(self)
 
@@ -24,28 +26,35 @@ class Geonam(QtGui.QDialog, Ui_frmGeonam):
         self.setupUi(self) #User Interface für Hauptfenster GST Suche initialisieren
         self.pfad = pfad
         self.name = name
+        self.tablename = ''
+        self.db = db
         self.geonamgrafik = geonamgrafik    #enthält die GrafiksItemGroup mit allen Grafiken
                                             #vom User eingefügten Geonam Adresse.
                                             #Wird beim Schließen des Objektes an VogisMain zurückgegeben bzw.
                                             #beim erzeugen des Objektes dem Constructor übergeben (sonst ists halt None)
+        self.pg_flag = False
 
 
-
-
-        #Referenz auf die Datenquelle
-        #Direkt über SQLITE
-        self.db = QtSql.QSqlDatabase.addDatabase("QSQLITE");
-        self.db.setDatabaseName(self.pfad + self.name + ".sqlite");
-        self.db.setConnectOptions('QSQLITE_OPEN_READONLY')
-
-        #fehlverbindung abfangen
-        if  not (self.db.open()):
-            QtGui.QMessageBox.about(None, "Achtung", ("Öffnen ÖK Geonam gescheitert").decode("utf-8"))
-            return
-
+        if self.db == None: # Filesystem -> SQLITE
+            QtGui.QMessageBox.about(None, "Achtung", 'SQLITE')
+            #Referenz auf die Datenquelle
+            #Direkt über SQLITE
+            self.db = QtSql.QSqlDatabase.addDatabase("QSQLITE");
+            self.db.setDatabaseName(self.pfad + self.name + ".sqlite");
+            self.db.setConnectOptions('QSQLITE_OPEN_READONLY')
+            self.tablename = 'geonam'
+            #fehlverbindung abfangen
+            if  not (self.db.open()):
+                QtGui.QMessageBox.about(None, "Achtung", ("Öffnen ÖK Geonam gescheitert").decode("utf-8"))
+                return
+        else:
+            self.tablename = 'vorarlberg.' + pg_table
+            self.pg_flag = True
         #Abfragen instanzieren
         self.abfrage = QtSql.QSqlQuery(self.db)
-        self.abfrage.exec_("SELECT  BEGRIFF  FROM geonam order by BEGRIFF")
+        #self.abfrage.exec_("SELECT  BEGRIFF  FROM geonam order by BEGRIFF")
+        self.abfrage.exec_("SELECT  begriff  FROM " + self.tablename + " order by begriff")
+        #QtGui.QMessageBox.about(None, "Achtung", str(self.tablename) + ' ' + str(self.db.open()))
 
         #Modelle instanzieren (Anzeige im Listenfeld)
         self.modelli = QtSql.QSqlQueryModel()
@@ -96,16 +105,24 @@ class Geonam(QtGui.QDialog, Ui_frmGeonam):
         self.Auswahl = Index.data()#.toString()
 
         #neue abfrage generieren
-        self.abfrage.exec_("SELECT *  FROM geonam where Begriff = '" + self.Auswahl + "'")#.trimmed() + "'")
+
+        self.abfrage.exec_("SELECT *  FROM  " + self.tablename + "  where begriff = '" + self.Auswahl + "'")#.trimmed() + "'")
         self.modell_geonam = QtSql.QSqlQueryModel()
         self.modell_geonam.setQuery(self.abfrage)
+
 
         #die gewünschten Informationen aus der Geonam Attributtabelle
         #rausholen: Die Koordinaten des Geonam und den eigentlichen
         #Namend er angezeigt wird
-        self.Rechtswert = float(self.modell_geonam.record(0).value("X_coord"))
-        self.Hochwert = float(self.modell_geonam.record(0).value("Y_coord"))
-        self.Text = self.modell_geonam.record(0).value("Name")
+        if self.pg_flag:
+            self.Rechtswert = self.modell_geonam.record(0).value("x_coord")
+            self.Hochwert = self.modell_geonam.record(0).value("y_coord")
+            self.Text = self.modell_geonam.record(0).value("name")
+            #QtGui.QMessageBox.about(None, "Achtung",str(self.pg_flag))
+        else:
+            self.Rechtswert = float(self.modell_geonam.record(0).value("x_coord"))
+            self.Hochwert = float(self.modell_geonam.record(0).value("y_coord"))
+            self.Text = self.modell_geonam.record(0).value("name")
 
         #Den Anzeigeknopf aktivieren
         self.btnAnzeigen.setDisabled(False)
@@ -197,7 +214,7 @@ class Geonam(QtGui.QDialog, Ui_frmGeonam):
     def imlistenfeldsuchen(self):
 
         #Abfrage mit Textinhalt im Lineditfeld machen
-        self.abfrage.exec_("SELECT  BEGRIFF  FROM geonam where BEGRIFF LIKE '%" + self.linSuche.text() + "%' order by BEGRIFF")
+        self.abfrage.exec_("SELECT  BEGRIFF  FROM  " + self.tablename + "  where lower(BEGRIFF) LIKE '%" + string.lower(self.linSuche.text()) + "%' order by BEGRIFF")
 
         #und das dazugehörige Modell erzeugen
         #das dann dem ListView hinterlegt wird

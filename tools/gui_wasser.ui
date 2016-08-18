@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>362</width>
-    <height>426</height>
+    <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>0</x>
      <y>0</y>
      <width>361</width>
-     <height>371</height>
+     <height>411</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -34,7 +34,7 @@
       <x>0</x>
       <y>0</y>
       <width>359</width>
-      <height>126</height>
+      <height>166</height>
      </rect>
     </property>
     <attribute name="label">
@@ -89,7 +89,7 @@
       <x>0</x>
       <y>0</y>
       <width>359</width>
-      <height>126</height>
+      <height>166</height>
      </rect>
     </property>
     <attribute name="label">
@@ -164,7 +164,7 @@
       <x>0</x>
       <y>0</y>
       <width>359</width>
-      <height>126</height>
+      <height>166</height>
      </rect>
     </property>
     <attribute name="label">
@@ -239,7 +239,7 @@
       <x>0</x>
       <y>0</y>
       <width>359</width>
-      <height>126</height>
+      <height>166</height>
      </rect>
     </property>
     <attribute name="label">
@@ -303,8 +303,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>359</width>
-      <height>126</height>
+      <width>96</width>
+      <height>26</height>
      </rect>
     </property>
     <attribute name="label">
@@ -364,6 +364,14 @@
     </widget>
    </widget>
    <widget class="QWidget" name="page_4">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>96</width>
+      <height>26</height>
+     </rect>
+    </property>
     <attribute name="label">
      <string>Einzugsgebiete</string>
     </attribute>
@@ -419,8 +427,6 @@
       </item>
      </layout>
     </widget>
-    <zorder>verticalLayoutWidget</zorder>
-    <zorder>ckEzOberflaechenwasserMesstellen</zorder>
    </widget>
    <widget class="QWidget" name="page">
     <property name="geometry">
@@ -499,7 +505,7 @@
       <x>0</x>
       <y>0</y>
       <width>359</width>
-      <height>126</height>
+      <height>166</height>
      </rect>
     </property>
     <attribute name="label">
@@ -574,7 +580,7 @@
       <x>0</x>
       <y>0</y>
       <width>359</width>
-      <height>126</height>
+      <height>166</height>
      </rect>
     </property>
     <attribute name="label">
@@ -696,7 +702,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>390</y>
+     <y>440</y>
      <width>101</width>
      <height>23</height>
     </rect>
@@ -709,7 +715,7 @@
    <property name="geometry">
     <rect>
      <x>230</x>
-     <y>390</y>
+     <y>440</y>
      <width>101</width>
      <height>23</height>
     </rect>

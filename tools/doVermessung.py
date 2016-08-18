@@ -1008,7 +1008,7 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
         zentriert = QtGui.QTextBlockFormat()
         zentriert.setAlignment(QtCore.Qt.AlignHCenter)
         cellCursor.setBlockFormat(zentriert)
-        cellCursor.insertImage(bild1.scaledToHeight(pixelhoehe*0.95,QtCore.Qt.SmoothTransformation))    #damits auf eine Seite paßt
+        cellCursor.insertImage(bild1.scaledToHeight(pixelhoehe*0.94,QtCore.Qt.SmoothTransformation))    #damits auf eine Seite paßt
 
 
         ###################################################################
@@ -1093,7 +1093,7 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
         #zweites Topografie Bild einfügen
         cellCursor = tabelle2.cellAt(4,0).firstCursorPosition()
         cellCursor.setBlockFormat(zentriert)
-        cellCursor.insertImage(bild2.scaledToHeight(pixelhoehe*0.95,QtCore.Qt.SmoothTransformation))
+        cellCursor.insertImage(bild2.scaledToHeight(pixelhoehe*0.94,QtCore.Qt.SmoothTransformation))
 
 
         #Alles ins Textview reinschreiben

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gui_geologie.ui'
 #
-# Created: Wed Feb 04 11:04:13 2015
+# Created: Mon Aug 01 08:26:16 2016
 #      by: PyQt4 UI code generator 4.8.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -1151,7 +1151,7 @@ class Ui_frmGeologie(object):
         self.checkBox_10.setText(QtGui.QApplication.translate("frmGeologie", "Arlberggebiet (GBA, 1932)", None, QtGui.QApplication.UnicodeUTF8))
         self.checkBox_12.setText(QtGui.QApplication.translate("frmGeologie", "Bezau (GBA, Manuskript)", None, QtGui.QApplication.UnicodeUTF8))
         self.checkBox_13.setText(QtGui.QApplication.translate("frmGeologie", "Bregenz (GBA, 1982)", None, QtGui.QApplication.UnicodeUTF8))
-        self.checkBox_14.setText(QtGui.QApplication.translate("frmGeologie", "Dornbirn Nord (GBA, 1984)", None, QtGui.QApplication.UnicodeUTF8))
+        self.checkBox_14.setText(QtGui.QApplication.translate("frmGeologie", "Dornbirn Nord (GBA, 1994)", None, QtGui.QApplication.UnicodeUTF8))
         self.checkBox_15.setText(QtGui.QApplication.translate("frmGeologie", "Dornbirn Süd (GBA, 1982)", None, QtGui.QApplication.UnicodeUTF8))
         self.checkBox_16.setText(QtGui.QApplication.translate("frmGeologie", "Flexenpass (Doert und Helmcke, 1975)", None, QtGui.QApplication.UnicodeUTF8))
         self.checkBox_17.setText(QtGui.QApplication.translate("frmGeologie", "Heiterwand (Tirol) (GBA, 1932)", None, QtGui.QApplication.UnicodeUTF8))

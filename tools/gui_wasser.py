@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gui_wasser.ui'
 #
-# Created: Wed Jun 08 15:03:14 2016
+# Created: Tue Jul 12 12:31:39 2016
 #      by: PyQt4 UI code generator 4.8.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,14 +17,14 @@ except AttributeError:
 class Ui_frmWasser(object):
     def setupUi(self, frmWasser):
         frmWasser.setObjectName(_fromUtf8("frmWasser"))
-        frmWasser.resize(362, 426)
+        frmWasser.resize(362, 480)
         self.toolBox = QtGui.QToolBox(frmWasser)
-        self.toolBox.setGeometry(QtCore.QRect(0, 0, 361, 371))
+        self.toolBox.setGeometry(QtCore.QRect(0, 0, 361, 411))
         self.toolBox.setFrameShape(QtGui.QFrame.Panel)
         self.toolBox.setFrameShadow(QtGui.QFrame.Sunken)
         self.toolBox.setObjectName(_fromUtf8("toolBox"))
         self.toolBoxPage1 = QtGui.QWidget()
-        self.toolBoxPage1.setGeometry(QtCore.QRect(0, 0, 359, 126))
+        self.toolBoxPage1.setGeometry(QtCore.QRect(0, 0, 359, 166))
         self.toolBoxPage1.setObjectName(_fromUtf8("toolBoxPage1"))
         self.layoutWidget = QtGui.QWidget(self.toolBoxPage1)
         self.layoutWidget.setGeometry(QtCore.QRect(30, 30, 151, 68))
@@ -48,7 +48,7 @@ class Ui_frmWasser(object):
         self.verticalLayout.addWidget(self.ckSchutzSchongebiete)
         self.toolBox.addItem(self.toolBoxPage1, _fromUtf8(""))
         self.toolBoxPage2 = QtGui.QWidget()
-        self.toolBoxPage2.setGeometry(QtCore.QRect(0, 0, 359, 126))
+        self.toolBoxPage2.setGeometry(QtCore.QRect(0, 0, 359, 166))
         self.toolBoxPage2.setObjectName(_fromUtf8("toolBoxPage2"))
         self.layoutWidget1 = QtGui.QWidget(self.toolBoxPage2)
         self.layoutWidget1.setGeometry(QtCore.QRect(21, 11, 259, 116))
@@ -78,7 +78,7 @@ class Ui_frmWasser(object):
         self.verticalLayout_2.addWidget(self.ckWeitereAnlagen)
         self.toolBox.addItem(self.toolBoxPage2, _fromUtf8(""))
         self.toolBoxPage3 = QtGui.QWidget()
-        self.toolBoxPage3.setGeometry(QtCore.QRect(0, 0, 359, 126))
+        self.toolBoxPage3.setGeometry(QtCore.QRect(0, 0, 359, 166))
         self.toolBoxPage3.setObjectName(_fromUtf8("toolBoxPage3"))
         self.layoutWidget2 = QtGui.QWidget(self.toolBoxPage3)
         self.layoutWidget2.setGeometry(QtCore.QRect(20, 10, 246, 116))
@@ -108,7 +108,7 @@ class Ui_frmWasser(object):
         self.verticalLayout_3.addWidget(self.ckUeberflutungsflaechen)
         self.toolBox.addItem(self.toolBoxPage3, _fromUtf8(""))
         self.toolBoxPage4 = QtGui.QWidget()
-        self.toolBoxPage4.setGeometry(QtCore.QRect(0, 0, 359, 126))
+        self.toolBoxPage4.setGeometry(QtCore.QRect(0, 0, 359, 166))
         self.toolBoxPage4.setObjectName(_fromUtf8("toolBoxPage4"))
         self.layoutWidget3 = QtGui.QWidget(self.toolBoxPage4)
         self.layoutWidget3.setGeometry(QtCore.QRect(20, 20, 146, 92))
@@ -134,7 +134,7 @@ class Ui_frmWasser(object):
         self.verticalLayout_4.addWidget(self.ckOeffentlicheTankstellen)
         self.toolBox.addItem(self.toolBoxPage4, _fromUtf8(""))
         self.toolBoxPage5 = QtGui.QWidget()
-        self.toolBoxPage5.setGeometry(QtCore.QRect(0, 0, 359, 126))
+        self.toolBoxPage5.setGeometry(QtCore.QRect(0, 0, 96, 26))
         self.toolBoxPage5.setObjectName(_fromUtf8("toolBoxPage5"))
         self.layoutWidget4 = QtGui.QWidget(self.toolBoxPage5)
         self.layoutWidget4.setGeometry(QtCore.QRect(30, 0, 184, 140))
@@ -160,6 +160,7 @@ class Ui_frmWasser(object):
         self.verticalLayout_5.addWidget(self.ckGrundwasserfelder)
         self.toolBox.addItem(self.toolBoxPage5, _fromUtf8(""))
         self.page_4 = QtGui.QWidget()
+        self.page_4.setGeometry(QtCore.QRect(0, 0, 96, 26))
         self.page_4.setObjectName(_fromUtf8("page_4"))
         self.verticalLayoutWidget = QtGui.QWidget(self.page_4)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(30, 10, 184, 101))
@@ -213,7 +214,7 @@ class Ui_frmWasser(object):
         self.verticalLayout_6.addWidget(self.ckGewaessernetz2000Umgebung)
         self.toolBox.addItem(self.page, _fromUtf8(""))
         self.page_3 = QtGui.QWidget()
-        self.page_3.setGeometry(QtCore.QRect(0, 0, 359, 126))
+        self.page_3.setGeometry(QtCore.QRect(0, 0, 359, 166))
         self.page_3.setObjectName(_fromUtf8("page_3"))
         self.layoutWidget6 = QtGui.QWidget(self.page_3)
         self.layoutWidget6.setGeometry(QtCore.QRect(50, 10, 170, 116))
@@ -243,7 +244,7 @@ class Ui_frmWasser(object):
         self.formLayout.setWidget(4, QtGui.QFormLayout.LabelRole, self.ckUfervegetation)
         self.toolBox.addItem(self.page_3, _fromUtf8(""))
         self.page_2 = QtGui.QWidget()
-        self.page_2.setGeometry(QtCore.QRect(0, 0, 359, 126))
+        self.page_2.setGeometry(QtCore.QRect(0, 0, 359, 166))
         self.page_2.setObjectName(_fromUtf8("page_2"))
         self.btnSeen = QtGui.QPushButton(self.page_2)
         self.btnSeen.setGeometry(QtCore.QRect(280, 105, 25, 25))
@@ -291,10 +292,10 @@ class Ui_frmWasser(object):
         self.verticalLayout_7.addWidget(self.ckSeen)
         self.toolBox.addItem(self.page_2, _fromUtf8(""))
         self.pushButton = QtGui.QPushButton(frmWasser)
-        self.pushButton.setGeometry(QtCore.QRect(30, 390, 101, 23))
+        self.pushButton.setGeometry(QtCore.QRect(30, 440, 101, 23))
         self.pushButton.setObjectName(_fromUtf8("pushButton"))
         self.pushButton_2 = QtGui.QPushButton(frmWasser)
-        self.pushButton_2.setGeometry(QtCore.QRect(230, 390, 101, 23))
+        self.pushButton_2.setGeometry(QtCore.QRect(230, 440, 101, 23))
         self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
 
         self.retranslateUi(frmWasser)

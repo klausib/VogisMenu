@@ -8,7 +8,7 @@ from PyQt4 import QtGui, QtCore, QtSql
 from qgis.core import *
 from qgis.gui import *
 from gui_blattschnitte import *
-from gui_adresssuche import *
+from gui_adresssuche_sqlite import *
 from doVermessung import *
 from ladefortschritt import *
 #API up to 2.2
@@ -19,7 +19,7 @@ else:
 import sys
 
 
-class AdrDialog(QtGui.QDialog, Ui_frmAdresssuche):
+class AdrDialogSQLITE(QtGui.QDialog, Ui_frmAdresssuche):
 
     #Ein individuelles Signal als Klassenvariable definieren
     Abflug = QtCore.pyqtSignal(object)
@@ -621,7 +621,7 @@ class AdrDialog(QtGui.QDialog, Ui_frmAdresssuche):
         uri = QgsDataSourceURI()
         uri.setDatabase(self.pfad + "adressen.sqlite")
         schema = ""
-        table = "adressen"
+        table = "Adressen"
         geom_column = "the_geom"
         #sämtliche Radiobuttons des Dialogfeldes sind gruppiert in ckButtons
         #und können so in einer Schleife auf ihren Zustand (gechecket) geprüft werden
