@@ -11,7 +11,7 @@ from gui_gstsuche import *
 from osgeo import ogr
 
 
-from ladefortschritt import *
+from gui_gstauswahl import *
 
 
 #API up to 2.2
@@ -550,6 +550,9 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
         #------------------------------------------------------
         # so geht die Suche schneller -Subset
         #------------------------------------------------------
+
+        self.info = LadefortschrittDialog()
+
         fid = []
         # Eingabefeld auslesen und gleich splitten
         gstliste = string.split(self.txtGstnr.text(),",")
@@ -564,7 +567,9 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
                 abfr_str = abfr_str + 'or gnr = \'' + gst + '\' '
                 nummer = nummer + gst + " "
 
+        self.info.show()    # Infofenster, sollts länger dauern
         gst_lyr.setSubsetString('(' + abfr_str +') and kg = (\'' + self.kgnummer + '\')')
+        self.info.close()   # Weg mit dem Infofenster
 
         gst_lyr.selectAll()
         fid = gst_lyr.selectedFeaturesIds()
@@ -682,3 +687,12 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
         self.mc.setRenderFlag(True)
 
 
+class LadefortschrittDialog(QtGui.QDialog,Ui_frmGstauswahl):
+    def __init__(self):
+        QtGui.QDialog.__init__(self)
+        Ui_frmGstauswahl.__init__(self)
+
+
+
+        # Set up the user interface from Designer.
+        self.setupUi(self)

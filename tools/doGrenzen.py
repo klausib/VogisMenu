@@ -39,6 +39,7 @@ class GrenzenDialog(QtGui.QDialog, Ui_frmGrenzen):
 
 
         self.iface.mapCanvas().setRenderFlag(False)
+        name = [] #ACHTUNG. name muß vom Typ Liste sein!!
 
         #sämtliche Radiobuttons des Dialogfeldes sind gruppiert in ckButtons
         #und können so in einer Schleife auf ihren Zustand (gechecket) geprüft werden
@@ -58,9 +59,22 @@ class GrenzenDialog(QtGui.QDialog, Ui_frmGrenzen):
 
                     self.Grenzen.importieren(self.pfad + "/Vlbg/Zaehlsprengel/zaehlsprengel.qgs",)
 
-                elif ("Laendergrenzen" in button.objectName()):
+                elif ("ONachbarlaender" in button.objectName()):
 
-                    self.Grenzen.importieren(self.pfad + "/Vlbg_Umgebung/Laendergrenzen/laendergrenzen.qgs",)
+                    self.Grenzen.importieren(self.pfad + "/Oesterreich_Umgebung/Staatsgrenzen/laender.qgs",[('Laendergrenzen:').decode('utf8'),('Laendergebiete:').decode('utf8')])
+
+                elif ("OBundeslaender" in button.objectName()):
+
+                    self.Grenzen.importieren(self.pfad + "/Oesterreich_Umgebung/Staatsgrenzen/laender.qgs",[('Länder').decode('utf8')])
+
+                elif ("OBezirke" in button.objectName()):
+
+                    self.Grenzen.importieren(self.pfad + "/Oesterreich_Umgebung/Staatsgrenzen/laender.qgs",[('Bezirke (Österreich)').decode('utf8')])
+
+                elif ("OGemeinden" in button.objectName()):
+
+                    self.Grenzen.importieren(self.pfad + "/Oesterreich_Umgebung/Staatsgrenzen/laender.qgs",[('Gemeinden (Österreich)').decode('utf8')])
+
 
                 elif ("Gemeinden" in button.objectName()):
 
