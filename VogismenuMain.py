@@ -101,6 +101,9 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
         #vorhanden, macht das Starten des VoGIS Menü keinen Sinn
 
 
+        self.gemeindeliste = self.do_gemeindeliste()
+        #QtGui.QMessageBox.critical(None, "Fehler", str(self.gemeindeliste))
+
         #die vogisini datei oeffnen
         #erstmal nur um zu lesen
         Flagge = False
@@ -472,11 +475,11 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
                 if abfrage.first(): #user gefunden
                     abfrage.exec_("update qgis_user set starts = starts + 1 where user = '" + username + "'")
-                    abfrage.exec_("update qgis_user set version = '1.2.7' where user = '" + username + "'")
+                    abfrage.exec_("update qgis_user set version = '1.2.8' where user = '" + username + "'")
                     abfrage.exec_("update qgis_user set qgis_version = '" + QGis.QGIS_VERSION + "' where user = '" + username + "'")
                     self.db.close()
                 else: #user nicht gefunden, d.h. noch nicht vorhanden
-                    abfrage.exec_("insert into qgis_user ("'user'", "'starts'", "'version'", "'qgis_version'") values ('" + username + "', 1 , '1.2.7', '" + QGis.QGIS_VERSION + "')")
+                    abfrage.exec_("insert into qgis_user ("'user'", "'starts'", "'version'", "'qgis_version'") values ('" + username + "', 1 , '1.2.8', '" + QGis.QGIS_VERSION + "')")
 
                     self.db.close()
 
@@ -554,11 +557,11 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
             # Unterschiedliche Module für Postgis bzw. SQLITE
             if vogisDb_global[0] != '':
-                self.GstsucheGUI = GstDialogPG(self.iface.mainWindow(),self.iface,self.dkmstand,self.vogisPfad,self.PGdb)
+                self.GstsucheGUI = GstDialogPG(self.iface.mainWindow(),self.iface,self.dkmstand,self.vogisPfad,self.PGdb, self.gemeindeliste)
                 self.GstsucheGUI.show()
                 self.GstsucheGUI.Abflug.connect(self.InstanzMarkieren)   #Ein individuelles Signal mit Namen Abflug
             else:
-                self.GstsucheGUI = GstDialogSqlite(self.iface.mainWindow(),self.iface,self.dkmstand,ProjektPath,self.vogisPfad)
+                self.GstsucheGUI = GstDialogSqlite(self.iface.mainWindow(),self.iface,self.dkmstand,ProjektPath,self.vogisPfad, self.gemeindeliste)
                 self.GstsucheGUI.show()
                 self.GstsucheGUI.Abflug.connect(self.InstanzMarkieren)   #Ein individuelles Signal mit Namen Abflug
         else:
@@ -603,7 +606,7 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
         ProjektPath = self.vogisPfad + "Raumplanung/Flaechenwidmung/"
 
         if self.FWP == None or self.FWP.objectName() == 'Bin_nicht_offen':
-            self.FWP = FWPDialog(self.iface.mainWindow(),self.iface,self.dkmstand,ProjektPath,self.vogisPfad)
+            self.FWP = FWPDialog(self.iface.mainWindow(),self.iface,self.dkmstand,ProjektPath,self.vogisPfad,self.PGdb, self.gemeindeliste.keys())
             self.FWP.show()
             self.FWP.Abflug.connect(self.InstanzMarkieren)   #Ein individuelles Signal mit Namen Abflug
         else:
@@ -617,7 +620,7 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
 
         if self.GFZ == None or self.GFZ.objectName() == 'Bin_nicht_offen':
-            self.GFZ = GFZDialog(self.iface.mainWindow(),self.iface,self.dkmstand,ProjektPath,self.vogisPfad)
+            self.GFZ = GFZDialog(self.iface.mainWindow(),self.iface,self.dkmstand,ProjektPath,self.vogisPfad,self.PGdb, self.gemeindeliste.keys())
             self.GFZ.show()       # ergibt einen Dialog der die Interaction mit Qgis zulässt aber nicht
                         # hinter dem parent window verschwindet
             self.GFZ.Abflug.connect(self.InstanzMarkieren)   #Ein individuelles Signal mit Namen Abflug
@@ -629,7 +632,7 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
         ProjektPath = self.vogisPfad + "Naturschutz/"
 
         if self.naturschutz == None or self.naturschutz.objectName() == 'Bin_nicht_offen':
-            self.naturschutz = NaturschutzDialog(self.iface.mainWindow(),self.iface,ProjektPath,self.vogisPfad)
+            self.naturschutz = NaturschutzDialog(self.iface.mainWindow(),self.iface,ProjektPath,self.vogisPfad, self.gemeindeliste)
             self.naturschutz.show()
 
             self.naturschutz.Abflug.connect(self.InstanzMarkieren)   #Ein individuelles Signal mit Namen Abflug
@@ -657,7 +660,7 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
 
         if self.hoehenmodell == None or self.hoehenmodell.objectName() == 'Bin_nicht_offen':
-            self.hoehenmodell = HoehenmodellDialog(self.iface.mainWindow(),self.iface,self.speicheradressen_hoehenmodell,ProjektPath,self.vogisPfad)
+            self.hoehenmodell = HoehenmodellDialog(self.iface.mainWindow(),self.iface,self.speicheradressen_hoehenmodell,ProjektPath,self.vogisPfad,self.PGdb)
             self.hoehenmodell.show()
 
             self.hoehenmodell.Abflug.connect(self.InstanzMarkieren)   #Ein individuelles Signal mit Namen Abflug
@@ -789,6 +792,140 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
         # Die Postgres datenbank gegebenenfalls neu instanzieren
         self.initPGDB()
+
+
+    def do_gemeindeliste(self):
+
+##        liste = ["Hohenweiler", "Möggers".decode('utf8'), "Hörbranz".decode('utf8'), "Eichenberg", "Sulzberg", "Langen", "Lochau",  "Bregenz",\
+##        "Hard", "Riefensberg", "Fußach".decode('utf8'),  "Höchst".decode('utf8'), "Doren", "Gaißau".decode('utf8'), "Krumbach", "Buch", "Kennelbach", "Alberschwende", "Hittisau",\
+##        "Lauterach", "Wolfurt", "Bildstein", "Langenegg", "Lustenau", "Lingenau", "Schwarzach", "Egg", "Dornbirn", "Sibratsgfäll".decode('utf8'),\
+##        "Schwarzenberg", "Andelsbuch", "Bezau", "Hohenems", "Mittelberg", "Reuthe", "Bizau", "Mellau", "Altach",  "Mäder".decode('utf8'), "Schnepfau", "Götzis".decode('utf8'), "Koblach",\
+##        "Schoppernau", "Au", "Fraxern", "Klaus", "Viktorsberg", "Meiningen",  "Weiler", "Damüls".decode('utf8'), "Röthis".decode('utf8'), "Rankweil", "Laterns", "Zwischenwasser", "Sulz",\
+##        "Feldkirch",  "Fontanella", "Warth", "Schröcken".decode('utf8'), "Sonntag", "Blons", "Übersaxen".decode('utf8'), "St. Gerold", "Göfis".decode('utf8'), "Lech", "Satteins", "Dünserberg".decode('utf8'),\
+##         "Thüringerberg".decode('utf8'), "Schnifis",  "Düns".decode('utf8'), "Röns".decode('utf8'), "Raggal", "Schlins", "Nenzing", "Thüringen".decode('utf8'), "Ludesch", "Frastanz", "Bludesch",\
+##        "Dalaas", "Nüziders".decode('utf8'), "Bludenz", "Innerbraz", "Bürs".decode('utf8'), "Bürserberg".decode('utf8'), "Klösterle".decode('utf8'), "Stallehr", "Lorüns".decode('utf8'), "Bartholomäberg".decode('utf8'), "St. Anton", "Brand", "Vandans", "Silbertal",\
+##        "Schruns", "Tschagguns", "St. Gallenkirch", "Gaschurn", "Vorarlberg"]
+
+        liste = {"Hohenweiler":["91112 - Hohenweiler"],\
+        "Möggers".decode('utf8'):["91118 - Möggers".decode('utf8')],\
+        "Hörbranz".decode('utf8'):["91113 - Hörbranz".decode('utf8')],\
+        "Eichenberg":["91106 - Eichenberg"],\
+        "Sulzberg":["91122 - Sulzberg"],\
+        "Langen":["91115 - Langen"],\
+        "Lochau":["91117 - Lochau"],\
+        "Bregenz":["91103 - Bregenz","91107 - Fluh","91119 - Rieden"],\
+        "Hard":["91110 - Hard"],\
+        "Riefensberg":["91120 - Riefensberg"],\
+        "Fußach".decode('utf8'):["91108 - Fußach".decode('utf8')],\
+        "Höchst".decode('utf8'):["91111 - Höchst".decode('utf8')],\
+        "Doren":["91105 - Doren"],\
+        "Gaißau".decode('utf8'):["91109 - Gaißau".decode('utf8')],\
+        "Krumbach":["91009 - Krumbach"],\
+        "Buch":["91104 - Buch"],\
+        "Kennelbach":["91114 - Kennelbach"],\
+        "Alberschwende":["91101 - Alberschwende"],\
+        "Hittisau":["91005 - Bolgenach","91008 - Hittisau"],\
+        "Lauterach":["91116 - Lauterach"],\
+        "Wolfurt":["91123 - Wolfurt"],\
+        "Langenegg":["91013 - Oberlangengg","91020 - Unterlangenegg"],\
+        "Bildstein":["91102 - Bildstein"],\
+        "Lustenau":["92005 - Lustenau"],\
+        "Lingenau":["91010 - Lingenau"],\
+        "Schwarzach":["91121 - Schwarzach"],\
+        "Egg":["91007 - Egg"],\
+        "Dornbirn":["92001 - Dornbirn","92002 - Ebnit 1","92003 - Ebnit 2"],\
+        "Sibratsgfäll".decode('utf8'):["91019 - Sibratsgfäll".decode('utf8')],\
+        "Schwarzenberg":["91018 - Schwarzenberg"],\
+        "Andelsbuch":["91001 - Andelsbuch"],\
+        "Bezau":["91003 - Bezau"],\
+        "Hohenems":["92004 - Hohenems"],\
+        "Mittelberg":["91012 - Mittelberg"],\
+        "Reuthe":["91014 - Reuthe"],\
+        "Bizau":["91004 - Bizau"],\
+        "Mellau":["91011 - Mellau"],\
+        "Altach":["92101 - Altach"],\
+        "Mäder".decode('utf8'):["92114 - Mäder".decode('utf8')],\
+        "Schnepfau":["91015 - Schnepfau"],\
+        "Götzis".decode('utf8'):["92110 - Götzis".decode('utf8')],\
+        "Koblach":["92112 - Koblach"],\
+        "Schoppernau":["91016 - Schoppernau"],\
+        "Au":["91002 - Au"],\
+        "Fraxern":["92108 - Fraxern"],\
+        "Klaus":["92111 - Klaus"],\
+        "Viktorsberg":["92127 - Viktorsberg"],\
+        "Meiningen":["92115 - Meiningen"],\
+        "Weiler":["92128 - Weiler"],\
+        "Damüls".decode('utf8'):["91006 - Damüls".decode('utf8')],\
+        "Röthis".decode('utf8'):["92119 - Röthis".decode('utf8')],\
+        "Rankweil":["92117 - Rankweil"],\
+        "Laterns":["92113 - Laterns"],\
+        "Zwischenwasser":["92129 - Zwischenwasser"],\
+        "Sulz":["92123 - Sulz"],\
+        "Feldkirch":["92102 - Altenstadt","92105 - Feldkirch","92116 - Nofels","92124 - Tisis","92125 - Tosters"],\
+        "Fontanella":["90008 - Fontanella"],\
+        "Warth":["91021 - Warth"],\
+        "Schröcken".decode('utf8'):["91017 - Schröcken".decode('utf8')],\
+        "Sonntag":["90016 - Sonntag"],\
+        "Blons":["90001 - Blons"],\
+        "Übersaxen".decode('utf8'):["92126 - Übersaxen".decode('utf8')],\
+        "St. Gerold":["90017 - St. Gerold"],\
+        "Göfis".decode('utf8'):["92109 - Göfis".decode('utf8')],\
+        "Lech":["90011 - Lech"],\
+        "Satteins":["92120 - Satteins"],\
+        "Dünserberg".decode('utf8'):["92104 - Dünserberg".decode('utf8')],\
+        "Thüringerberg".decode('utf8'):["90019 - Thüringerberg".decode('utf8')],\
+        "Schnifis":["92122 - Schnifis"],\
+        "Düns".decode('utf8'):["92103 - Düns".decode('utf8')],\
+        "Röns".decode('utf8'):["92118 - Röns".decode('utf8')],\
+        "Raggal":["90015 - Raggal"],\
+        "Schlins":["92121 - Schlins"],\
+        "Nenzing":["90013 - Nenzing"],\
+        "Thüringen".decode('utf8'):["90018 - Thüringen".decode('utf8')],\
+        "Ludesch":["90012 - Ludesch"],\
+        "Frastanz":["92106 - Frastanz 1","92107 - Frastanz 2 3"],\
+        "Bludesch":["90003 - Bludesch"],\
+        "Dalaas":["90007 - Dalaas"],\
+        "Nüziders".decode('utf8'):["90014 - Nüziders".decode('utf8')],\
+        "Bludenz":["90002 - Bludenz"],\
+        "Innerbraz":["90009 - Innerbraz"],\
+        "Bürs".decode('utf8'):["90005 - Bürs".decode('utf8')],\
+        "Bürserberg".decode('utf8'):["90006 - Bürserberg".decode('utf8')],\
+        "Klösterle".decode('utf8'):["90010 - Klösterle".decode('utf8')],\
+        "Stallehr":["90110 - Stallehr"],\
+        "Lorüns".decode('utf8'):["90103 - Lorüns".decode('utf8')],\
+        "Bartholomäberg".decode('utf8'):["90101 - Bartholomäberg".decode('utf8')],\
+        "St. Anton":["90106 - St. Anton"],\
+        "Brand":["90004 - Brand"],\
+        "Vandans":["90109 - Vandans"],\
+        "Silbertal":["90105 - Silbertal"],\
+        "Schruns":["90104 - Schruns"],\
+        "Tschagguns":["90108 - Tschagguns"],\
+        "St. Gallenkirch":["90107 - St. Gallenkirch"],\
+        "Gaschurn":["90102 - Gaschurn"],\
+        "Vorarlberg":["91112 - Hohenweiler","91118 - Möggers".decode('utf8'),"91113 - Hörbranz".decode('utf8'),"91106 - Eichenberg","91122 - Sulzberg","91115 - Langen",\
+        "91117 - Lochau","91103 - Bregenz","91119 - Rieden","91110 - Hard","91120 - Riefensberg","91108 - Fußach".decode('utf8'),"91107 - Fluh","91111 - Höchst".decode('utf8'),\
+        "91105 - Doren","91109 - Gaißau".decode('utf8'),"91009 - Krumbach","91104 - Buch","91114 - Kennelbach","91101 - Alberschwende","91005 - Bolgenach","91116 - Lauterach",\
+        "91123 - Wolfurt","91008 - Hittisau","91020 - Unterlangenegg","91102 - Bildstein","91013 - Oberlangengg","92005 - Lustenau","91010 - Lingenau","91121 - Schwarzach",\
+        "91007 - Egg","92001 - Dornbirn","91019 - Sibratsgfäll".decode('utf8'),"91018 - Schwarzenberg","91001 - Andelsbuch","91003 - Bezau","92004 - Hohenems","91012 - Mittelberg",\
+        "91014 - Reuthe","91004 - Bizau","91011 - Mellau","92101 - Altach","92002 - Ebnit 1","92114 - Mäder".decode('utf8'),"91015 - Schnepfau","92110 - Götzis".decode('utf8'),\
+        "92112 - Koblach","91016 - Schoppernau","91002 - Au","92108 - Fraxern","92111 - Klaus","92127 - Viktorsberg","92115 - Meiningen","92003 - Ebnit 2","92128 - Weiler",\
+        "91006 - Damüls".decode('utf8'),"92119 - Röthis".decode('utf8'),"92117 - Rankweil","92113 - Laterns","92129 - Zwischenwasser","92123 - Sulz","92116 - Nofels",\
+        "92102 - Altenstadt","90008 - Fontanella","91021 - Warth","91017 - Schröcken".decode('utf8'),"90016 - Sonntag","90001 - Blons","92126 - Übersaxen".decode('utf8'),\
+        "90017 - St. Gerold","92109 - Göfis".decode('utf8'),"92125 - Tosters","90011 - Lech","92120 - Satteins","92104 - Dünserberg".decode('utf8'),"92105 - Feldkirch",\
+        "90019 - Thüringerberg".decode('utf8'),"92122 - Schnifis","92124 - Tisis","92103 - Düns".decode('utf8'),"92106 - Frastanz 1","92118 - Röns".decode('utf8'),\
+        "90015 - Raggal","92121 - Schlins","90013 - Nenzing","90018 - Thüringen".decode('utf8'),"90012 - Ludesch","92107 - Frastanz 2 3","90003 - Bludesch","90007 - Dalaas",\
+        "90014 - Nüziders".decode('utf8'),"90002 - Bludenz","90009 - Innerbraz","90005 - Bürs".decode('utf8'),"90006 - Bürserberg".decode('utf8'),"90010 - Klösterle".decode('utf8'),\
+        "90110 - Stallehr","90103 - Lorüns".decode('utf8'),"90101 - Bartholomäberg".decode('utf8'),"90106 - St. Anton","90004 - Brand","90109 - Vandans","90105 - Silbertal",\
+        "90104 - Schruns","90108 - Tschagguns","90107 - St. Gallenkirch","90102 - Gaschurn",]
+        }
+
+##        liste ={"Hohenweiler":["91112 - Hohenweiler"],\
+##        "Möggers":["91118 - Möggers"]\
+##        }
+        #QtGui.QMessageBox.critical(None, "Fehler", str(liste.keys()))
+        return liste
+        #return sorted(liste)
+
 
 #Klassendefinition für den Vogis Menüpukt
 #Einstellungen

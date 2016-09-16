@@ -27,7 +27,7 @@ class GFZDialog (QtGui.QDialog,Ui_frmGFZ):
     Abflug = QtCore.pyqtSignal(object)
 
     #Initialisierung der GUI
-    def __init__(self, parent,iface,dkmstand,pfad = None,vogisPfad = None):
+    def __init__(self, parent,iface,dkmstand,pfad = None,vogisPfad = None, PGdb = None, gemeindeliste = None):
         QtGui.QDialog.__init__(self,parent)
         Ui_frmGFZ.__init__(self)
         self.iface = iface
@@ -36,28 +36,60 @@ class GFZDialog (QtGui.QDialog,Ui_frmGFZ):
         self.vogisPfad = vogisPfad
         self.setupUi(self) #User Interface für Hauptfenster GFZ Suche initialisieren
         self.gfz = ProjektImport(self.iface)
+        self.gemeindeliste = gemeindeliste
 
-        #Die Kat_Gem Tabelle öffnen
-        #Referenz auf die Datenquelle
-        #über SQLITE
-        self.db = QtSql.QSqlDatabase.addDatabase("QSQLITE");
-        self.db.setDatabaseName(self.vogisPfad +"Grenzen/DKM/_Allgemein/kat_gem.sqlite");
+##        #Die Kat_Gem Tabelle öffnen
+##        #Referenz auf die Datenquelle
+##        #über SQLITE
+##        self.db = QtSql.QSqlDatabase.addDatabase("QSQLITE");
+##        self.db.setDatabaseName(self.vogisPfad +"Grenzen/DKM/_Allgemein/kat_gem.sqlite");
+##
+##        #falls es länger dauert, eine kurze Info
+##        info = LadefortschrittDialog()
+##        info.show()
+##        info.repaint()  #sonst bleibt das Fenster leer!
+##
+##        if  not (self.db.open()):
+##            QtGui.QMessageBox.about(None, "Achtung", ("Öffnen Kat_Gem gescheitert").decode('utf8'))
+##            return #wenns sich nicht öffnen läßt abbrechen
+##
+##        self.abfrage = QtSql.QSqlQuery(self.db)
+##        self.abfrage.exec_("SELECT DISTINCT PGEM_NAME  FROM kat_gem_vlbg")
 
-        #falls es länger dauert, eine kurze Info
-        info = LadefortschrittDialog()
-        info.show()
-        info.repaint()  #sonst bleibt das Fenster leer!
+##
+##        #über SQLITE
+##        if PGdb == None:
+##            self.db = QtSql.QSqlDatabase.addDatabase("QSQLITE");
+##            self.db.setDatabaseName(self.vogisPfad + "Grenzen/DKM/_Allgemein/kat_gem.sqlite");
+##             #falls es länger dauert, eine kurze Info
+##            info = LadefortschrittDialog()
+##            info.show()
+##            info.repaint()  #sonst bleibt das Fenster leer!
+##
+##            if  not (self.db.open()):
+##                QtGui.QMessageBox.about(None, "Achtung", ("Öffnen Kat_Gem gescheitert").decode('utf8'))
+##                return #wenns sich nicht öffnen läßt abbrechen
+##            self.abfrage = QtSql.QSqlQuery(self.db)
+##            self.abfrage.exec_("SELECT DISTINCT PGEM_NAME  FROM kat_gem_vlbg")
+##        else:   # über Postgres
+##            self.db = PGdb
+##            self.abfrage = QtSql.QSqlQuery(self.db)
+##            self.abfrage.exec_("SELECT DISTINCT PGEM_NAME  FROM vorarlberg.kat_gem order by PGEM_NAME")
 
-        if  not (self.db.open()):
-            QtGui.QMessageBox.about(None, "Achtung", ("Öffnen Kat_Gem gescheitert").decode('utf8'))
-            return #wenns sich nicht öffnen läßt abbrechen
+           #Modell und Widget füllen
+        self.modelli = QtGui.QStandardItemModel()
 
-        self.abfrage = QtSql.QSqlQuery(self.db)
-        self.abfrage.exec_("SELECT DISTINCT PGEM_NAME  FROM kat_gem_vlbg")
+        for item in self.gemeindeliste:
+            eins = QtGui.QStandardItem(item)
+            eins.setEditable(False)
+            self.modelli.appendRow(eins)
+        #self.modelli.appendRow(eins)
+        self.modelli.sort(0)
 
-        #Modell und Widget füllen
-        self.modelli = QtSql.QSqlQueryModel()
-        self.modelli.setQuery(self.abfrage)
+
+##        #Modell und Widget füllen
+##        self.modelli = QtSql.QSqlQueryModel()
+##        self.modelli.setQuery(self.abfrage)
         self.lstGemeinden.setModel(self.modelli)
 
 
@@ -233,15 +265,23 @@ class GFZDialog (QtGui.QDialog,Ui_frmGFZ):
             #Listenfeld ausgewählt: Die gewählte politische Gemeinde
             #wird automatisch in die mitte des Listenfeldes gescrollt
             self.Gemeinde = SelItem
+            self.lstGemeinden.clearSelection()
             self.lstGemeinden.keyboardSearch(self.Gemeinde)
             index = self.lstGemeinden.selectedIndexes()
-            self.lstGemeinden.scrollTo(index[0],3) #3 bedeutet in die Mitte des Listenfelds scrollen
+            if len(index) > 0:
+                self.lstGemeinden.scrollTo(index[0],3) #3 bedeutet in die Mitte des Listenfelds scrollen
+            else:
+                QtGui.QMessageBox.about(None, "Achtung", ("Layer Gemeinden nicht gefunden oder dessen Codierung prüfen!").decode('utf8'))
 
         elif isinstance(SelItem, str):
             self.Gemeinde = SelItem
+            self.lstGemeinden.clearSelection()
             self.lstGemeinden.keyboardSearch(SelItem)
             index = self.lstGemeinden.selectedIndexes()
-            self.lstGemeinden.scrollTo(index[0],3) #3 bedeutet in die Mitte des Listenfelds scrollen
+            if len(index) > 0:
+                self.lstGemeinden.scrollTo(index[0],3) #3 bedeutet in die Mitte des Listenfelds scrollen
+            else:
+                QtGui.QMessageBox.about(None, "Achtung", ("Layer Gemeinden nicht gefunden oder dessen Codierung prüfen!").decode('utf8'))
         else:
             #noch was optisches. Egal ob über Cursor oder Direkt im
             #Listenfeld ausgewählt: Die gewählte politische Gemeinde

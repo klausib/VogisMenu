@@ -154,7 +154,7 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
                     elif ("Bregenz (GBA, 1982)" in button.text()):
                         self.load_raster(self.pfad + "/Geologische_Karte/Vlbg/geo_Bregenz.ecw","geo_Bregenz",button.text())
 
-                    elif ("Dornbirn Nord (GBA, 1984)" in button.text()):
+                    elif ("Dornbirn Nord (GBA, 1994)" in button.text()):
                         self.load_raster(self.pfad + "/Geologische_Karte/Vlbg/geo_Dornbirn_nord.ecw","geo_Dornbirn_nord",button.text())
 
                     elif ("Dornbirn Süd (GBA, 1982)".decode('utf8') in button.text()):

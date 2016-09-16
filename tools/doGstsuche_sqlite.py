@@ -32,7 +32,7 @@ class GstDialogSqlite (QtGui.QDialog,Ui_frmGstsuche):
 
 
     #Initialisierung der Grudstückssuche
-    def __init__(self, parent,iface,dkmstand,pfad = None,vogisPfad = None):
+    def __init__(self, parent,iface,dkmstand,pfad = None,vogisPfad = None,gemeindeliste=None):
         QtGui.QDialog.__init__(self,parent)
         #QtCore.QObject.__init__(self)
         Ui_frmGstsuche.__init__(self)
@@ -42,36 +42,49 @@ class GstDialogSqlite (QtGui.QDialog,Ui_frmGstsuche):
         self.mc = self.iface.mapCanvas()
         self.pfad = pfad
         self.vogisPfad = vogisPfad
+        self.gemeindeliste = gemeindeliste
 
 
 
         #Die Kat_Gem Tabelle öffnen
         #Referenz auf die Datenquelle
 
-        #über SQLITE
-        self.db = QtSql.QSqlDatabase.addDatabase("QSQLITE");
-        self.db.setDatabaseName(self.vogisPfad + "Grenzen/DKM/_Allgemein/kat_gem.sqlite");
-        self.db.setConnectOptions('QSQLITE_OPEN_READONLY')
+##        #über SQLITE
+##        self.db = QtSql.QSqlDatabase.addDatabase("QSQLITE");
+##        self.db.setDatabaseName(self.vogisPfad + "Grenzen/DKM/_Allgemein/kat_gem.sqlite");
+##        self.db.setConnectOptions('QSQLITE_OPEN_READONLY')
 
         #falls es länger dauert, eine kurze Info
         self.info = LadefortschrittDialog()
-        self.info.show()
-        self.info.repaint()  #sonst bleibt das Fenster leer!
+##        self.info.show()
+##        self.info.repaint()  #sonst bleibt das Fenster leer!
+##
+##        if  not (self.db.open()):
+##            QtGui.QMessageBox.about(None, "Achtung",("Öffnen Kat_Gem gescheitert").decode("utf-8"))
+##            return #wenns sich nicht öffnen läßt abbrechen
+##
+##        self.abfrage = QtSql.QSqlQuery(self.db)
+##        self.abfrage2 = QtSql.QSqlQuery(self.db)
+##        self.abfrage.exec_("SELECT DISTINCT PGEM_NAME  FROM kat_gem_vlbg")
+##        #self.abfrage.last()
+##        #QtGui.QMessageBox.about(None, "Achtung", str(self.abfrage.size()))
+##
+##        #Modell und Widget füllen
+##        self.modelli = QtSql.QSqlQueryModel()
+##        self.modell_kg = QtSql.QSqlQueryModel()
+        self.modell_kg = QtGui.QStandardItemModel()
+##        self.modelli.setQuery(self.abfrage)
+##        self.lstPolgem.setModel(self.modelli)
+          #Modell und Widget füllen
+        self.modelli = QtGui.QStandardItemModel()
 
-        if  not (self.db.open()):
-            QtGui.QMessageBox.about(None, "Achtung",("Öffnen Kat_Gem gescheitert").decode("utf-8"))
-            return #wenns sich nicht öffnen läßt abbrechen
+        for item in self.gemeindeliste.keys():
+            eins = QtGui.QStandardItem(item)
+            eins.setEditable(False)
+            self.modelli.appendRow(eins)
+        #self.modelli.appendRow(eins)
+        self.modelli.sort(0)
 
-        self.abfrage = QtSql.QSqlQuery(self.db)
-        self.abfrage2 = QtSql.QSqlQuery(self.db)
-        self.abfrage.exec_("SELECT DISTINCT PGEM_NAME  FROM kat_gem_vlbg")
-        #self.abfrage.last()
-        #QtGui.QMessageBox.about(None, "Achtung", str(self.abfrage.size()))
-
-        #Modell und Widget füllen
-        self.modelli = QtSql.QSqlQueryModel()
-        self.modell_kg = QtSql.QSqlQueryModel()
-        self.modelli.setQuery(self.abfrage)
         self.lstPolgem.setModel(self.modelli)
 
 
@@ -339,28 +352,37 @@ class GstDialogSqlite (QtGui.QDialog,Ui_frmGstsuche):
 
 
         #Das Listenfeld für KG-Gemeinde mit der Abfrageaktualisieren
-        self.modell_kg.setQuery(self.abfrage2)
+        #self.modell_kg.setQuery(self.abfrage2)
         self.lstKatgem.setModel(self.modell_kg)
 
     #sortiert die Liste das zweite Listenfeld für die KG - Gemeindenummer
     #entweder nach KG oder nach Name
     def sort(self):
 
-        if not self.abfrage2 is None and not self.modell_kg is None and not self.Gemeinde is None:
+##        if not self.abfrage2 is None and not self.modell_kg is None and not self.Gemeinde is None:
+##
+##
+##            if self.Gemeinde == "Vorarlberg":
+##                if self.rbKG.isChecked():
+##                    self.abfrage2.exec_("SELECT DISTINCT kgnrkgname FROM kat_gem_vlbg where not (PGEM_NAME = '" + string.strip(self.Gemeinde) + "') ORDER BY KGEM_GESNR")
+##                elif self.rbName.isChecked():
+##                    self.abfrage2.exec_("SELECT DISTINCT kgnrkgname FROM kat_gem_vlbg where not (PGEM_NAME = '" + string.strip(self.Gemeinde) + "') ORDER BY KGEM_NAME")
+##            else:
+##                if self.rbKG.isChecked():
+##                    self.abfrage2.exec_("SELECT DISTINCT kgnrkgname FROM kat_gem_vlbg WHERE (PGEM_NAME = '" + string.strip(self.Gemeinde) + "') ORDER BY KGEM_GESNR")
+##                elif self.rbName.isChecked():
+##                    self.abfrage2.exec_("SELECT DISTINCT kgnrkgname FROM kat_gem_vlbg WHERE (PGEM_NAME = '" + string.strip(self.Gemeinde) + "') ORDER BY KGEM_NAME")
+##
+##            self.modell_kg.setQuery(self.abfrage2)
 
+        if  not self.modell_kg is None and not self.Gemeinde is None:
+            self.modell_kg.clear()
+            for item in self.gemeindeliste[string.strip(self.Gemeinde)]:
+                eins = QtGui.QStandardItem(item)
+                eins.setEditable(False)
+                self.modell_kg.appendRow(eins)
 
-            if self.Gemeinde == "Vorarlberg":
-                if self.rbKG.isChecked():
-                    self.abfrage2.exec_("SELECT DISTINCT kgnrkgname FROM kat_gem_vlbg where not (PGEM_NAME = '" + string.strip(self.Gemeinde) + "') ORDER BY KGEM_GESNR")
-                elif self.rbName.isChecked():
-                    self.abfrage2.exec_("SELECT DISTINCT kgnrkgname FROM kat_gem_vlbg where not (PGEM_NAME = '" + string.strip(self.Gemeinde) + "') ORDER BY KGEM_NAME")
-            else:
-                if self.rbKG.isChecked():
-                    self.abfrage2.exec_("SELECT DISTINCT kgnrkgname FROM kat_gem_vlbg WHERE (PGEM_NAME = '" + string.strip(self.Gemeinde) + "') ORDER BY KGEM_GESNR")
-                elif self.rbName.isChecked():
-                    self.abfrage2.exec_("SELECT DISTINCT kgnrkgname FROM kat_gem_vlbg WHERE (PGEM_NAME = '" + string.strip(self.Gemeinde) + "') ORDER BY KGEM_NAME")
-
-            self.modell_kg.setQuery(self.abfrage2)
+            self.modell_kg.sort(0)
 
     #Finde den Mittelpunkt
     #der aktuellen Kartendarstellung in Map Units

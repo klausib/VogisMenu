@@ -6,7 +6,7 @@ from PyQt4 import QtGui,QtCore,QtXml
 from qgis.core import *
 from qgis.gui import *
 from gui_hoehenmodell import *
-#from ProjektImport import *
+from osgeo import ogr
 import logging
 
 
@@ -16,7 +16,7 @@ class HoehenmodellDialog(QtGui.QDialog, Ui_frmHoehenmodell):
     #Ein individuelles Signal als Klassenvariable definieren
     Abflug = QtCore.pyqtSignal(object)
 
-    def __init__(self,parent,iface,speicheradressen_hoehenmodell,pfad = None,vogisPfad = None):
+    def __init__(self,parent,iface,speicheradressen_hoehenmodell,pfad = None,vogisPfad = None, PGdb = None):
 
          #Ein individuelles Signal als Klassenvariable definieren
         Abflug = QtCore.pyqtSignal(object)
@@ -33,6 +33,7 @@ class HoehenmodellDialog(QtGui.QDialog, Ui_frmHoehenmodell):
         self.tool_vorher = None
         self.mc = self.iface.mapCanvas()
         self.speicheradressen_hoehenmodell = speicheradressen_hoehenmodell
+        self.db = PGdb
 
         #Das Basishöhenmodell dient zum Abfragen
         #derGeländehöhen mit dem Kreuzchen
@@ -81,7 +82,23 @@ class HoehenmodellDialog(QtGui.QDialog, Ui_frmHoehenmodell):
                                               "       +.+      "]))
 
         #den 1000er Blattschnitt laden
-        self.blattschnitt = QgsVectorLayer(self.vogisPfad + "Blattschnitte/Vlbg/Blattschnitt_10000/Blattschnitt_10000.shp","kasperl","ogr")
+        if self.db  == None:
+            self.blattschnitt = QgsVectorLayer(self.vogisPfad + "Blattschnitte/Vlbg/Blattschnitt_10000/Blattschnitt_10000.shp","kasperl","ogr")
+        else:
+            # Geodatenbank
+            uri = QgsDataSourceURI()
+            uri.setConnection(self.db.hostName(),str(self.db.port()),self.db.databaseName(),'','')  # Keine Kennwort nötig, Single Sign On
+
+            # Geometriespalte bestimmen -- geht nur mit OGR
+            outputdb = ogr.Open('pg: host =' + self.db.hostName() + ' dbname =' + self.db.databaseName() + ' schemas=vorarlberg')
+            geom_column = outputdb.GetLayerByName('gst').GetGeometryColumn()
+
+            uri.setDataSource('vorarlberg', 'blattschnitt_10000', geom_column)
+
+            self.blattschnitt = QgsVectorLayer(uri.uri(), "gst","postgres")
+
+
+
 
         if not self.blattschnitt.isValid():     #wenn er nicht geladen werden kann
             QtGui.QMessageBox.about(None, "Fehler", "Blattschnitt konnte nicht geladen werden")

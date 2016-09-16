@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gui_naturschutz.ui'
 #
-# Created: Thu Oct 22 14:27:20 2015
+# Created: Thu Sep 15 12:18:07 2016
 #      by: PyQt4 UI code generator 4.8.4
 #
 # WARNING! All changes made in this file will be lost!

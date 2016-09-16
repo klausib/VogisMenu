@@ -26,7 +26,7 @@ class NaturschutzDialog(QtGui.QDialog, Ui_frmNaturschutz):
     #Ein individuelles Signal als Klassenvariable definieren
     Abflug = QtCore.pyqtSignal(object)
 
-    def __init__(self,parent,iface,pfad = None,vogispfad = None):
+    def __init__(self,parent,iface,pfad = None,vogispfad = None,gemeindeliste=None):
         QtGui.QDialog.__init__(self,parent)
         Ui_frmNaturschutz.__init__(self)
 
@@ -37,6 +37,7 @@ class NaturschutzDialog(QtGui.QDialog, Ui_frmNaturschutz):
         self.setupUi(self)
         self.pfad = pfad
         self.vogisPfad = vogispfad
+        self.gemeindeliste = gemeindeliste
         self.ckButtons.setExclusive(False)  #wenn im Designer gesetzt, wirds beim Coderzeugen nicht übernommen
                                             #deshalb hier
 
@@ -71,33 +72,34 @@ class NaturschutzDialog(QtGui.QDialog, Ui_frmNaturschutz):
 
 
 
-        #Die Kat_Gem Tabelle öffnen
-        #Referenz auf die Datenquelle
-        #über SQLITE
-        self.db = QtSql.QSqlDatabase.addDatabase("QSQLITE");
-        self.db.setDatabaseName(self.vogisPfad + "Grenzen/DKM/_Allgemein/kat_gem.sqlite");
-
-        #falls es länger dauert, eine kurze Info
-        #info = LadefortschrittDialog()
-        #info.show()
-        #info.repaint()  #sonst bleibt das Fenster leer!
-
-        if  not (self.db.open()):
-            QtGui.QMessageBox.about(None, "Achtung", ("Öffnen Kat_Gem gescheitert").decode('utf8'))
-            return #wenns sich nicht öffnen läßt abbrechen
-
-        self.abfrage = QtSql.QSqlQuery(self.db)
-        self.abfrage.exec_("SELECT DISTINCT PGEM_NAME  FROM kat_gem_vlbg")
-
-        Liste = []    #eine QStringList instanzieren
-        while self.abfrage.next():
-            #QtGui.QMessageBox.about(None, "Achtung", self.abfrage.value(0).toString())
-            Liste.append(self.abfrage.value(0))
-
-        #Listenfeld des Dialogs frmWegtafeln mit den Tafelnummern füllen
-        #und sortieren
-        Liste.sort()
-        self.cmbGemeinden.addItems(Liste)
+##        #Die Kat_Gem Tabelle öffnen
+##        #Referenz auf die Datenquelle
+##        #über SQLITE
+##        self.db = QtSql.QSqlDatabase.addDatabase("QSQLITE");
+##        self.db.setDatabaseName(self.vogisPfad + "Grenzen/DKM/_Allgemein/kat_gem.sqlite");
+##
+##        #falls es länger dauert, eine kurze Info
+##        #info = LadefortschrittDialog()
+##        #info.show()
+##        #info.repaint()  #sonst bleibt das Fenster leer!
+##
+##        if  not (self.db.open()):
+##            QtGui.QMessageBox.about(None, "Achtung", ("Öffnen Kat_Gem gescheitert").decode('utf8'))
+##            return #wenns sich nicht öffnen läßt abbrechen
+##
+##        self.abfrage = QtSql.QSqlQuery(self.db)
+##        self.abfrage.exec_("SELECT DISTINCT PGEM_NAME  FROM kat_gem_vlbg")
+##
+##        Liste = []    #eine QStringList instanzieren
+##        while self.abfrage.next():
+##            #QtGui.QMessageBox.about(None, "Achtung", self.abfrage.value(0).toString())
+##            Liste.append(self.abfrage.value(0))
+##
+##        #Listenfeld des Dialogs frmWegtafeln mit den Tafelnummern füllen
+##        #und sortieren
+##        Liste.sort()
+        #self.gemeindeliste.sort()
+        self.cmbGemeinden.addItems(self.gemeindeliste)
 
 
 
@@ -337,11 +339,15 @@ class NaturschutzDialog(QtGui.QDialog, Ui_frmNaturschutz):
             #wird automatisch in die mitte des Listenfeldes gescrollt
             self.Gemeinde = SelItem
             index = self.cmbGemeinden.findText(SelItem)
-            self.cmbGemeinden.setCurrentIndex(index)
-        else:
-            #noch was optisches. Egal ob über Cursor oder Direkt im
-            #Listenfeld ausgewählt: Die gewählte politische Gemeinde
-            #wird automatisch in die mitte des Listenfeldes gescrollt
-            self.Gemeinde = SelItem.data(0)
-            self.lstGemeinden.scrollTo(SelItem,3) #3 bedeutet in die Mitte des Listenfelds scrollen
+            if index >= 0:
+                self.cmbGemeinden.setCurrentIndex(index)
+            else:
+                self.cmbGemeinden.setCurrentIndex(0)
+                QtGui.QMessageBox.about(None, "Achtung", ("Layer Gemeinden nicht gefunden oder dessen Codierung prüfen!").decode('utf8'))
+##        else:
+##            #noch was optisches. Egal ob über Cursor oder Direkt im
+##            #Listenfeld ausgewählt: Die gewählte politische Gemeinde
+##            #wird automatisch in die mitte des Listenfeldes gescrollt
+##            self.Gemeinde = SelItem.data(0)
+##            self.cmbGemeinden.scrollTo(SelItem,3) #3 bedeutet in die Mitte des Listenfelds scrollen
 
