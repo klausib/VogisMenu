@@ -632,7 +632,7 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
         ProjektPath = self.vogisPfad + "Naturschutz/"
 
         if self.naturschutz == None or self.naturschutz.objectName() == 'Bin_nicht_offen':
-            self.naturschutz = NaturschutzDialog(self.iface.mainWindow(),self.iface,ProjektPath,self.vogisPfad, self.gemeindeliste)
+            self.naturschutz = NaturschutzDialog(self.iface.mainWindow(),self.iface,ProjektPath,self.vogisPfad, self.gemeindeliste.keys())
             self.naturschutz.show()
 
             self.naturschutz.Abflug.connect(self.InstanzMarkieren)   #Ein individuelles Signal mit Namen Abflug

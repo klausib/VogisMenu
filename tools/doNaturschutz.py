@@ -37,7 +37,7 @@ class NaturschutzDialog(QtGui.QDialog, Ui_frmNaturschutz):
         self.setupUi(self)
         self.pfad = pfad
         self.vogisPfad = vogispfad
-        self.gemeindeliste = gemeindeliste
+        self.gemeindeliste = sorted(gemeindeliste)
         self.ckButtons.setExclusive(False)  #wenn im Designer gesetzt, wirds beim Coderzeugen nicht übernommen
                                             #deshalb hier
 
@@ -207,30 +207,36 @@ class NaturschutzDialog(QtGui.QDialog, Ui_frmNaturschutz):
     #
     def gemeindebericht(self):
         #Am Filesystem gibts keine Sonderzeichen!
-        gemeinde_wie_filesystem = self.Gemeinde
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ä').decode('utf8'),'ae')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ä').decode('utf8'),'Ae')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ö').decode('utf8'),'oe')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ö').decode('utf8'),'Oe')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ü').decode('utf8'),'ue')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ü').decode('utf8'),'Ue')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ß').decode('utf8'),'ss')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace('. ','_')
-        os.startfile(self.pfad +  "Inventar/Vlbg/Biotopinventar_2009/Gemeindeberichte/" + gemeinde_wie_filesystem +".pdf")
+        try:
+            gemeinde_wie_filesystem = self.Gemeinde
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ä').decode('utf8'),'ae')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ä').decode('utf8'),'Ae')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ö').decode('utf8'),'oe')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ö').decode('utf8'),'Oe')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ü').decode('utf8'),'ue')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ü').decode('utf8'),'Ue')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ß').decode('utf8'),'ss')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace('. ','_')
+            os.startfile(self.pfad +  "Inventar/Vlbg/Biotopinventar_2009/Gemeindeberichte/" + gemeinde_wie_filesystem +".pdf")
+        except:
+            QtGui.QMessageBox.critical(None, "Fehler", 'Bericht konnte nicht geladen werden')
 
     #
     def a3plaene(self):
         #Am Filesystem gibts keine Sonderzeichen!
-        gemeinde_wie_filesystem = self.Gemeinde
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ä').decode('utf8'),'ae')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ä').decode('utf8'),'Ae')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ö').decode('utf8'),'oe')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ö').decode('utf8'),'Oe')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ü').decode('utf8'),'ue')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ü').decode('utf8'),'Ue')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ß').decode('utf8'),'ss')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace('. ','_')
-        os.startfile(self.pfad +  "Inventar/Vlbg/Biotopinventar_2009/A3_Plaene/" + gemeinde_wie_filesystem +".pdf")
+        try:
+            gemeinde_wie_filesystem = self.Gemeinde
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ä').decode('utf8'),'ae')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ä').decode('utf8'),'Ae')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ö').decode('utf8'),'oe')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ö').decode('utf8'),'Oe')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ü').decode('utf8'),'ue')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ü').decode('utf8'),'Ue')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ß').decode('utf8'),'ss')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace('. ','_')
+            os.startfile(self.pfad +  "Inventar/Vlbg/Biotopinventar_2009/A3_Plaene/" + gemeinde_wie_filesystem +".pdf")
+        except:
+            QtGui.QMessageBox.critical(None, "Fehler", 'Plan konnte nicht geladen werden')
 
 
 
