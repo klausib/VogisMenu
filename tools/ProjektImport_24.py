@@ -159,7 +159,6 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
 
 
-
                     # prüfen, ob der jeweilige Layer eine oder mehrere Jointabelle(n) verwendet
                     self.joinlayerid = ''
                     for sj in range(self.maps.item(i).namedItem("vectorjoins").childNodes().length()):
@@ -217,7 +216,7 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                     #############################################################################
                     # Das Umschalten der Vektordaten auf die Geodatenbank - unter Bedingungen
                     #############################################################################
-                    if self.maps.item(i).attributes().namedItem('type').nodeValue() == 'vector' and vogisDb_global[0] != '':
+                    if self.maps.item(i).attributes().namedItem('type').nodeValue() == 'vector' and vogisDb_global[0] != '' and self.maps.item(i).namedItem("datasource").firstChild().nodeValue().find('host') < 0:
 
                         tablename = os.path.basename(self.maps.item(i).namedItem("datasource").firstChild().nodeValue())
                         tablename = os.path.splitext(tablename)[0]
@@ -237,13 +236,17 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                         tablename = tablename.replace(('ß').decode('utf8'),'ss')
                         tablename = tablename.replace('. ','_')
 
-
-                        dbpath = string.lower(vogisDb_global[0] + ' sslmode=disable table=' +  tablename +  ' (the_geom) sql=')
-
+                        if self.maps.item(i).namedItem("datasource").firstChild().nodeValue().find('ogc_fid') > 0:
+                            dbpath = string.lower(vogisDb_global[0] + ' sslmode=disable table=' +  tablename +  ' (the_geom) sql=')
+                            #QtGui.QMessageBox.about(None, "Achtung", str('gefunden'))
+                        else:
+                            dbpath = string.lower(vogisDb_global[0] + ' sslmode=disable key=ogc_fid table=' +  tablename +  ' (the_geom) sql=')
+                            #QtGui.QMessageBox.about(None, "Achtung", str('nicht gefunden'))
 
                         self.maps.item(i).namedItem("datasource").firstChild().setNodeValue(dbpath)
                         self.maps.item(i).namedItem("provider").firstChild().setNodeValue('postgres')
                         self.maps.item(i).namedItem("provider").attributes().namedItem('encoding').setNodeValue('UTF-8')
+
 
 
 ##                        ##########################################
@@ -654,9 +657,9 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                     #Unbedingt die optionale Änderung des
                     #Anzeigenamens (z.B. DKM) mitberücksichtigen!)
                     if (ergaenzungsname != None) and self.anzeigename_aendern:
-                        #QtGui.QMessageBox.about(None, "Achtung", lyr_tmp.name() + " = " + )
                         if  liste[nd] + "-" + ergaenzungsname == lyr_tmp.name():
-
+                            layerzaehler = layerzaehler +1
+                        elif  liste[nd].rstrip(" (a)") + "-" + ergaenzungsname + ' (a)' == lyr_tmp.name():
                             layerzaehler = layerzaehler +1
                     else:
                         if liste[nd] == lyr_tmp.name():

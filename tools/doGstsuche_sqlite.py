@@ -430,12 +430,14 @@ class GstDialogSqlite (QtGui.QDialog,Ui_frmGstsuche):
         for button in self.auswahlBoxen.buttons():
             #ist der Button gechecked, den Buttontext zur Liste hinzufügen
             if button.isChecked():
-                        liste.append(button.text())
                         if button.text() == ("Grundstück Nr").decode("utf-8"):
                             liste.append(button.text() + " Mask.")
                         if button.text() == ("Grundstücke").decode("utf-8"):
                             liste.append(button.text() + " Mask.")
                             liste.append(button.text() + " (a)")
+                        else:
+                            liste.append(button.text())
+
 
         self.mc.setRenderFlag(False)
         #nun wenn alles vorbereitet ist: Die IMPORTMETHODE starten für die DKM
