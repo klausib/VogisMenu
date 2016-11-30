@@ -154,21 +154,21 @@
    <widget class="QPushButton" name="btnGFZVIId">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>100</y>
+      <x>180</x>
+      <y>70</y>
       <width>111</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
-     <string>GFZ laden</string>
+     <string>Daten laden</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="GfzBwv">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>100</y>
+      <x>10</x>
+      <y>60</y>
       <width>131</width>
       <height>18</height>
      </rect>
@@ -193,8 +193,24 @@
      </rect>
     </property>
     <property name="text">
-     <string>Betreuungsbereich WLV - BWV</string>
+     <string>Kompetenzgrenzen WLV - BWV</string>
     </property>
+   </widget>
+   <widget class="QRadioButton" name="ckUeberflutungsflaechen">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>161</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Abflußuntersuchungen BWV</string>
+    </property>
+    <attribute name="buttonGroup">
+     <string>buttonGroup</string>
+    </attribute>
    </widget>
   </widget>
  </widget>

@@ -93,9 +93,6 @@ class WasserDialog(QtGui.QDialog, Ui_frmWasser):
                 elif   ("SonstigeAnlagen" in button.objectName()):
                     self.fullpath  = self.pfad +  "Wassernutzung/Vlbg/Anlagen/oberflaechengewaesser_anlagen.qgs"
                     self.wasser.importieren(self.fullpath)
-                elif   ("Ueberflutungsflaechen" in button.objectName()):
-                    self.fullpath  = self.pfad +  "Flussbau/Vlbg/HW_Ueberflutungsraeume/ueberflutungsflaechen_hora_neu.qgs"
-                    self.wasser.importieren(self.fullpath)
                 elif   ("KommunaleKlaeranlagen" in button.objectName()):
                     self.fullpath  = self.pfad +  "Abwasser/Vlbg/Klaeranlagen/kommunale_klaeranlagen.qgs"
                     self.wasser.importieren(self.fullpath,None,"kommunale",False)

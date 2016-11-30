@@ -220,16 +220,6 @@
         </attribute>
        </widget>
       </item>
-      <item>
-       <widget class="QCheckBox" name="ckUeberflutungsflaechen">
-        <property name="text">
-         <string>Überflutungsflächen in Bearbeitung</string>
-        </property>
-        <attribute name="buttonGroup">
-         <string>ckButtons</string>
-        </attribute>
-       </widget>
-      </item>
      </layout>
     </widget>
    </widget>
@@ -303,8 +293,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>96</width>
-      <height>26</height>
+      <width>359</width>
+      <height>166</height>
      </rect>
     </property>
     <attribute name="label">
@@ -368,8 +358,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>96</width>
-      <height>26</height>
+      <width>359</width>
+      <height>166</height>
      </rect>
     </property>
     <attribute name="label">
@@ -434,7 +424,7 @@
       <x>0</x>
       <y>0</y>
       <width>359</width>
-      <height>126</height>
+      <height>166</height>
      </rect>
     </property>
     <attribute name="label">

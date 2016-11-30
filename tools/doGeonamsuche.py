@@ -36,7 +36,7 @@ class Geonam(QtGui.QDialog, Ui_frmGeonam):
 
 
         if self.db == None: # Filesystem -> SQLITE
-            QtGui.QMessageBox.about(None, "Achtung", 'SQLITE')
+            #QtGui.QMessageBox.about(None, "Achtung", 'SQLITE')
             #Referenz auf die Datenquelle
             #Direkt über SQLITE
             self.db = QtSql.QSqlDatabase.addDatabase("QSQLITE");

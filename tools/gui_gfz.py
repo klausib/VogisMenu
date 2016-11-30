@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gui_gfz.ui'
 #
-# Created: Mon Feb 16 10:58:02 2015
+# Created: Wed Nov 30 10:41:31 2016
 #      by: PyQt4 UI code generator 4.8.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -57,10 +57,10 @@ class Ui_frmGFZ(object):
         self.groupBox_2.setGeometry(QtCore.QRect(20, 310, 311, 201))
         self.groupBox_2.setObjectName(_fromUtf8("groupBox_2"))
         self.btnGFZVIId = QtGui.QPushButton(self.groupBox_2)
-        self.btnGFZVIId.setGeometry(QtCore.QRect(170, 100, 111, 23))
+        self.btnGFZVIId.setGeometry(QtCore.QRect(180, 70, 111, 23))
         self.btnGFZVIId.setObjectName(_fromUtf8("btnGFZVIId"))
         self.GfzBwv = QtGui.QRadioButton(self.groupBox_2)
-        self.GfzBwv.setGeometry(QtCore.QRect(20, 100, 131, 18))
+        self.GfzBwv.setGeometry(QtCore.QRect(10, 60, 131, 18))
         self.GfzBwv.setChecked(True)
         self.GfzBwv.setObjectName(_fromUtf8("GfzBwv"))
         self.buttonGroup = QtGui.QButtonGroup(frmGFZ)
@@ -69,6 +69,10 @@ class Ui_frmGFZ(object):
         self.btnKompetenzgrenzen = QtGui.QPushButton(self.groupBox_2)
         self.btnKompetenzgrenzen.setGeometry(QtCore.QRect(70, 150, 161, 31))
         self.btnKompetenzgrenzen.setObjectName(_fromUtf8("btnKompetenzgrenzen"))
+        self.ckUeberflutungsflaechen = QtGui.QRadioButton(self.groupBox_2)
+        self.ckUeberflutungsflaechen.setGeometry(QtCore.QRect(10, 90, 161, 18))
+        self.ckUeberflutungsflaechen.setObjectName(_fromUtf8("ckUeberflutungsflaechen"))
+        self.buttonGroup.addButton(self.ckUeberflutungsflaechen)
 
         self.retranslateUi(frmGFZ)
         QtCore.QObject.connect(self.btnAbbrechen, QtCore.SIGNAL(_fromUtf8("clicked()")), frmGFZ.closeEvent)
@@ -88,7 +92,8 @@ class Ui_frmGFZ(object):
         self.btGmdChoice.setText(QtGui.QApplication.translate("frmGFZ", "+", None, QtGui.QApplication.UnicodeUTF8))
         self.btnVorarlberg.setText(QtGui.QApplication.translate("frmGFZ", "Landesfläche Vlbg.", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_2.setTitle(QtGui.QApplication.translate("frmGFZ", "Abt. VIId - Wasserwirtschaft", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnGFZVIId.setText(QtGui.QApplication.translate("frmGFZ", "GFZ laden", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnGFZVIId.setText(QtGui.QApplication.translate("frmGFZ", "Daten laden", None, QtGui.QApplication.UnicodeUTF8))
         self.GfzBwv.setText(QtGui.QApplication.translate("frmGFZ", "Gefahrenzonen BWV", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnKompetenzgrenzen.setText(QtGui.QApplication.translate("frmGFZ", "Betreuungsbereich WLV - BWV", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnKompetenzgrenzen.setText(QtGui.QApplication.translate("frmGFZ", "Kompetenzgrenzen WLV - BWV", None, QtGui.QApplication.UnicodeUTF8))
+        self.ckUeberflutungsflaechen.setText(QtGui.QApplication.translate("frmGFZ", "Abflußuntersuchungen BWV", None, QtGui.QApplication.UnicodeUTF8))
 

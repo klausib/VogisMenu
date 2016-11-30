@@ -37,6 +37,8 @@ class GFZDialog (QtGui.QDialog,Ui_frmGFZ):
         self.setupUi(self) #User Interface für Hauptfenster GFZ Suche initialisieren
         self.gfz = ProjektImport(self.iface)
         self.gemeindeliste = gemeindeliste
+        self.buttonGroup.setExclusive(True)  #wenn im Designer gesetzt, wirds beim Coderzeugen nicht übernommen
+                                            #deshalb hier
 
 ##        #Die Kat_Gem Tabelle öffnen
 ##        #Referenz auf die Datenquelle
@@ -342,8 +344,16 @@ class GFZDialog (QtGui.QDialog,Ui_frmGFZ):
     def ladeGFZWB(self):
 
         self.mc.setRenderFlag(False)
-        self.ladepfad= self.vogisPfad + "Wasser/Flussbau/Vlbg/GZP/gefahrenzonen_bwv.qgs"
-        self.gfz.importieren(self.ladepfad, None, "Gefahrenzonen BWV")
+
+        for button in self.buttonGroup.buttons():
+            if button.isChecked(): #wenn gecket wird geladen
+                if   ("Ueberflutungsflaechen" in button.objectName()):
+                    self.ladepfad  = self.vogisPfad + "Wasser/Flussbau/Vlbg/HW_Ueberflutungsraeume/ueberflutungsflaechen_hora_neu.qgs"
+                    self.gfz.importieren(self.ladepfad)#, None,'Abflußuntersuchungen BWV'.decode('utf8'))
+                elif   ("GfzBwv" in button.objectName()):
+                    self.ladepfad= self.vogisPfad + "Wasser/Flussbau/Vlbg/GZP/gefahrenzonen_bwv.qgs"
+                    self.gfz.importieren(self.ladepfad)#, None, "Gefahrenzonen BWV")
+
         self.mc.setRenderFlag(True)
 
     #Projekte der kompetenzgrenzen laden
