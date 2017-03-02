@@ -15,6 +15,7 @@ from globale_variablen import *     #Die Adresse der Listen importieren: Modulü
 
 import os.path
 import string,copy, re, getpass
+from osgeo import ogr
 
 
 
@@ -42,7 +43,7 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
 
 
-    def importieren(self, pfad = None, liste = None, ergaenzungsname = None, anzeigename_ergaenzen = False, nach_unten = False, force_gruppenname = None):
+    def importieren(self, pfad = None, liste = None, ergaenzungsname = None, anzeigename_ergaenzen = False, nach_unten = False, force_gruppenname = None, force_scale = None):
 
 
         self.iface.layerTreeView().setCurrentLayer(None)    # None entspricht einem Null Pointer -> Auswahl wird entfernt -> nicht ausgewählt
@@ -212,14 +213,37 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                     # unbedingt ALLES DESELEKTIEREN, sonst Probleme mit der Reihenfolge
                     self.iface.layerTreeView().setCurrentLayer(None)    # None entspricht einem Null Pointer -> Auswahl wird entfernt -> nicht ausgewählt
 
+                    nv_ds = ''
+                    nv_provider = ''
+                    nv_encoding = ''
+
 
                     #############################################################################
                     # Das Umschalten der Vektordaten auf die Geodatenbank - unter Bedingungen
+                    # es darf kein Layer aus einer Geodatenbank hier verwurschtelt werden
                     #############################################################################
-                    if self.maps.item(i).attributes().namedItem('type').nodeValue() == 'vector' and vogisDb_global[0] != '' and self.maps.item(i).namedItem("datasource").firstChild().nodeValue().find('host') < 0:
+                    if self.maps.item(i).attributes().namedItem('type').nodeValue() == 'vector' and vogisDb_global[0] != 'filesystem geodaten' and self.maps.item(i).namedItem("datasource").firstChild().nodeValue().find('host') < 0:
 
-                        tablename = os.path.basename(self.maps.item(i).namedItem("datasource").firstChild().nodeValue())
-                        tablename = os.path.splitext(tablename)[0]
+                        tablename = self.maps.item(i).namedItem("datasource").firstChild().nodeValue()
+
+
+                        sql = ''
+                        depp = ''
+                        rc=[]
+                        db_ogr = ''
+
+                        # prüfen ob der layer eine shape datenquelle ist
+                        # und ob ein subset definiert ist
+                        if tablename.find('.shp') > 0 and (tablename.lower().find('subset') > 0 or tablename.lower().find('SUBSET') > 0 or tablename.lower().find('Subset') > 0):
+
+
+                            rc = textfilter_subset(self.maps.item(i).namedItem("datasource").firstChild().nodeValue())
+                            tablename = rc[0]
+                            sql = rc[1]
+                            db_ogr = rc[0]
+                        else:
+                            tablename = os.path.basename(self.maps.item(i).namedItem("datasource").firstChild().nodeValue()).split('.shp')[0]
+                            db_ogr = tablename
 
                         if ergaenzungsname != None:
                             tablename = string.lower('\"' + ergaenzungsname + '\".\"' + tablename + '\"')
@@ -236,12 +260,44 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                         tablename = tablename.replace(('ß').decode('utf8'),'ss')
                         tablename = tablename.replace('. ','_')
 
+                        ################################################
+                        # Geometriespalte bestimmen -- geht nur mit OGR
+                        param_list = string.split(vogisDb_global[0])
+
+                        host = ''
+                        dbname=''
+                        port=''
+                        for param in param_list:
+
+                            if string.find(param,'dbname') >= 0:
+                                dbname = string.replace(param,'dbname=','')
+                            elif string.find(param,'host=') >= 0:
+                                host = string.replace(param,'host=','')
+                            elif string.find(param,'port=') >= 0:
+                                port = string.replace(param,'port=','')
+                        #QtGui.QMessageBox.about(None, "Layername", str(db_ogr))
+                        try:
+                            outputdb = ogr.Open('pg: host=' + host  + ' dbname=' + dbname + ' schemas=vorarlberg' + ' port=' + port)
+                            geom_column = outputdb.GetLayerByName(str(db_ogr)).GetGeometryColumn()
+                        except:
+                            geom_column = 'the_geom'
+
+                        ##################################################
+
+
+
                         if self.maps.item(i).namedItem("datasource").firstChild().nodeValue().find('ogc_fid') > 0:
-                            dbpath = string.lower(vogisDb_global[0] + ' sslmode=disable table=' +  tablename +  ' (the_geom) sql=')
+                            #dbpath = string.lower(vogisDb_global[0] + ' sslmode=disable table=' +  tablename +  ' (the_geom) sql') + sql
+                            dbpath = string.lower(vogisDb_global[0] + ' sslmode=disable table=' +  tablename +  ' (' + geom_column + ') sql') + sql
                             #QtGui.QMessageBox.about(None, "Achtung", str('gefunden'))
                         else:
-                            dbpath = string.lower(vogisDb_global[0] + ' sslmode=disable key=ogc_fid table=' +  tablename +  ' (the_geom) sql=')
+                            #dbpath = string.lower(vogisDb_global[0] + ' sslmode=disable key=ogc_fid table=' +  tablename +  ' (the_geom) sql') + sql
+                            dbpath = string.lower(vogisDb_global[0] + ' sslmode=disable key=ogc_fid table=' +  tablename +  ' (' + geom_column + ') sql') + sql
                             #QtGui.QMessageBox.about(None, "Achtung", str('nicht gefunden'))
+
+                        nv_ds = self.maps.item(i).namedItem("datasource").firstChild().nodeValue()
+                        nv_provider = self.maps.item(i).namedItem("provider").firstChild().nodeValue()
+                        nv_encoding = self.maps.item(i).namedItem("provider").attributes().namedItem('encoding').nodeValue()
 
                         self.maps.item(i).namedItem("datasource").firstChild().setNodeValue(dbpath)
                         self.maps.item(i).namedItem("provider").firstChild().setNodeValue('postgres')
@@ -305,9 +361,20 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
 
                     # Layer  einlesen!
-                    if not QgsProject.instance().read(self.maps.item(i)):                                                                                           #hier wird der Layer geladen und gemäß den Eintragungen
-                        QtGui.QMessageBox.about(None, "Achtung", "Layer " + self.legends.item(j).attributes().namedItem("name").nodeValue() + " nicht gefunden!")   #der DomNode auch gerendert und dargestellt
+                    if not QgsProject.instance().read(self.maps.item(i)) and vogisDb_global[0] == 'filesystem geodaten': #hier wird der Layer geladen und gemäß den Eintragungen
+                                                                                                                #der DomNode auch gerendert und dargestellt
+
+                        QtGui.QMessageBox.about(None, "Achtung", "Layer " + self.legends.item(j).attributes().namedItem("name").nodeValue() + " nicht gefunden!")
                         continue
+                    elif not QgsProject.instance().read(self.maps.item(i)) and vogisDb_global[0] != 'filesystem geodaten':   # Probieren auf Filesystem umzuschalten
+                        QtGui.QMessageBox.about(None, "Achtung", "Layer - " + self.legends.item(j).attributes().namedItem("name").nodeValue() + " - in der Datenbank nicht gefunden - es wird aufs Filesystem umgeschaltet")
+                        self.maps.item(i).namedItem("datasource").firstChild().setNodeValue(nv_ds)
+                        self.maps.item(i).namedItem("provider").firstChild().setNodeValue(nv_provider)
+                        self.maps.item(i).namedItem("provider").attributes().namedItem(nv_encoding)
+
+                        if not  QgsProject.instance().read(self.maps.item(i)): #Trotzdem nicht gefunden, wir geben auf
+                            QtGui.QMessageBox.about(None, "Achtung", "Layer " + self.legends.item(j).attributes().namedItem("name").nodeValue() + " nicht gefunden!")
+                            continue
 
 
 
@@ -318,7 +385,9 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                     for lyr_tmp in leginterface.layers():
                         if lyr_tmp.id() == noddi.firstChild().nodeValue():
                             self.lyr = lyr_tmp
-
+                            if force_scale != None:
+                                self.lyr.setMaximumScale(25000)
+                                self.lyr.setScaleBasedVisibility(True)
 
 
                     #Abhängig von der vogisini wird das KBS
@@ -788,6 +857,44 @@ def index_zuweisen(name,aktual_dom_node):
         counter = counter + 1
 
     return counter
+
+
+#############################################################
+# unterprogramm behandelt die subset einträge im projektfile
+# bei shape datenquellen und wandelt sie in anweisungen
+# für postgres datenwuellen um
+#############################################################
+def textfilter_subset(text):
+
+
+    # zuerst alles innerhalb von double quotes in kleinbuchstaben (spaltennamen)
+    # umwandeln
+    text_neu = ''
+    switch = False
+    for char in text:
+
+        if char == "\"":
+            if switch:
+                switch = False
+            else:
+                switch = True
+
+        if switch:
+            char = char.lower()
+
+        text_neu = text_neu + char
+
+    sql = ''
+    sql = text_neu.split('subset')[1]
+    if sql == '':
+        sql = text_neu.split('Subset')[1]
+    if sql == '':
+        sql = text_neu.split('SUBSET')[1]
+
+
+    tablename = text_neu.split('.shp')[0]
+    tablename = os.path.basename(tablename)
+    return [tablename,sql]
 
 ########################################
 # Klasse dient as struct Variablendef.

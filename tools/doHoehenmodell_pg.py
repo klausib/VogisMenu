@@ -5,21 +5,22 @@ from PyQt4 import QtGui,QtCore,QtXml
 
 from qgis.core import *
 from qgis.gui import *
-from gui_hoehenmodell import *
+from gui_hoehenmodell_pg import *
 from osgeo import ogr
-import logging
+import logging, os
+from direk_laden import direk_laden
 
 
 
-class HoehenmodellDialog(QtGui.QDialog, Ui_frmHoehenmodell):
+class HoehenmodellDialog_PG(QtGui.QDialog, Ui_frmHoehenmodell):
 
     #Ein individuelles Signal als Klassenvariable definieren
     Abflug = QtCore.pyqtSignal(object)
 
-    def __init__(self,parent,iface,speicheradressen_hoehenmodell,pfad = None,vogisPfad = None):
+    def __init__(self,parent,iface,speicheradressen_hoehenmodell,pfad = None,vogisPfad = None, PGdb = None):
 
          #Ein individuelles Signal als Klassenvariable definieren
-        Abflug = QtCore.pyqtSignal(object)
+        #Abflug = QtCore.pyqtSignal(object)
 
         QtGui.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
         Ui_frmHoehenmodell.__init__(self)
@@ -33,7 +34,7 @@ class HoehenmodellDialog(QtGui.QDialog, Ui_frmHoehenmodell):
         self.tool_vorher = None
         self.mc = self.iface.mapCanvas()
         self.speicheradressen_hoehenmodell = speicheradressen_hoehenmodell
-
+        self.db = PGdb
 
         #Das Basishöhenmodell dient zum Abfragen
         #derGeländehöhen mit dem Kreuzchen
@@ -81,40 +82,7 @@ class HoehenmodellDialog(QtGui.QDialog, Ui_frmHoehenmodell):
                                       "      ++.++     ",
                                               "       +.+      "]))
 
-        #den 1000er Blattschnitt laden
-        self.blattschnitt = QgsVectorLayer(self.vogisPfad + "Blattschnitte/Vlbg/Blattschnitt_10000/Blattschnitt_10000.shp","kasperl","ogr")
 
-
-
-
-        if not self.blattschnitt.isValid():     #wenn er nicht geladen werden kann
-            QtGui.QMessageBox.about(None, "Fehler", "Blattschnitt konnte nicht geladen werden")
-            self.cmbBlattschnitt.setEnabled(False)
-            self.btnBlattschnitt.setEnabled(False)
-        else:   #blattschnitt erfolgreich geladen
-
-
-            #QGIS 2.0 API
-            Liste = []
-            iter = self.blattschnitt.getFeatures()
-
-
-            for attr in iter:
-
-
-                #hier die Werte der betreffenden Spalten mit den gesuchten Werten vergleichen
-                Liste.append(attr.attribute("V10_NR_TXT"))
-
-
-            #Listenfeld mit den Blattschnittnummern füllen
-            #und sortieren
-            Liste.sort()
-            self.cmbBlattschnitt.addItems(Liste)
-
-            #den mittelpunkt des extent rausfinden
-            #und die passene Gemeinde im ListWidget einstellen
-            mittelpunkt = self.findemittelpunkt()
-            self.returnBlattschnitt(mittelpunkt)
 
 
         #Hauptfenster positionieren
@@ -262,8 +230,8 @@ class HoehenmodellDialog(QtGui.QDialog, Ui_frmHoehenmodell):
                 elif ("BLaserIsolinien_04" in button.objectName()):
 
                     #pfad_ind = self.pfad + "/Hoehenschichten/Kacheln/it2004_01m__" + self.cmbBlattschnitt.currentText().left(4)+ "/it2004_01m_" + self.cmbBlattschnitt.currentText() + ".shp"
-                    pfad_ind = self.pfad + "/Hoehenschichten/Kacheln/it2004_01m_" + self.cmbBlattschnitt.currentText() + ".shp"
-                    basename_vektor = "Isolinien 2002-04 1m (" + self.cmbBlattschnitt.currentText() + ")"
+                    pfad_ind = self.pfad + "/Hoehenschichten/Kacheln/it2004_01m.shp"
+                    basename_vektor = "Isolinien 2002-04 1m"
                     basename_qml = self.vogisPfad + "Gelaendemodelle/_Allgemein/isolinien_1m.qml"
                     self.raster = False #die flagvariable auf 2No Raster" setzen
 
@@ -271,8 +239,8 @@ class HoehenmodellDialog(QtGui.QDialog, Ui_frmHoehenmodell):
                 elif ("BLaserIsolinien_11" in button.objectName()):
 
                     #pfad_ind = self.pfad + "/Hoehenschichten/Kacheln/it2004_01m__" + self.cmbBlattschnitt.currentText().left(4)+ "/it2004_01m_" + self.cmbBlattschnitt.currentText() + ".shp"
-                    pfad_ind = self.pfad + "/Hoehenschichten/Kacheln/it2011_50cm_" + self.cmbBlattschnitt.currentText() + ".shp"
-                    basename_vektor = "Isolinien 2011 50cm (" + self.cmbBlattschnitt.currentText() + ")"
+                    pfad_ind = self.pfad + "/Hoehenschichten/Kacheln/it2011_50cm.shp"
+                    basename_vektor = "Isolinien 2011 50cm"
                     basename_qml = self.vogisPfad + "Gelaendemodelle/_Allgemein/isolinien_50cm.qml"
                     self.raster = False #die flagvariable auf 2No Raster" setzen
 
@@ -363,10 +331,16 @@ class HoehenmodellDialog(QtGui.QDialog, Ui_frmHoehenmodell):
                     if len(QgsMapLayerRegistry.instance().mapLayersByName(basename_vektor)) < 1:
 
                         #isolinien laden
-                        isolinien = QgsVectorLayer(pfad_ind, basename_vektor,"ogr")
+                        #isolinien = QgsVectorLayer(pfad_ind, basename_vektor,"ogr")
+
+                        shapename = os.path.basename(pfad_ind)
+                        pfad = os.path.dirname(pfad_ind)
+
+                        isolinien = direk_laden(self.db, basename_vektor, shapename, pfad,self.iface)
                         #und prüfen ob erfolgreich geladen
-                        if not isolinien.isValid(): #nicht erfolgreich geladen
+                        if isolinien == None: #nicht erfolgreich geladen
                             QtGui.QMessageBox.about(None, "Fehler", basename_vektor + " konnte nicht geladen werden")
+                            return
                         else:   #erfolgreich geladen
                             #dem Vektorlayer das QML File zuweisen
                             #flagge[1] ist false wenn das file nich gefunden wird
@@ -519,49 +493,49 @@ class HoehenmodellDialog(QtGui.QDialog, Ui_frmHoehenmodell):
 
 
 
-    #gibt die Blattschnitt zurück bzw. setzt das Drop Down
-    #auf die Blattschnitnummer die angeklickt wurde
-    def returnBlattschnitt(self,punkt):
+##    #gibt die Blattschnitt zurück bzw. setzt das Drop Down
+##    #auf die Blattschnitnummer die angeklickt wurde
+##    def returnBlattschnitt(self,punkt):
+##
+##        #self.mc.setRenderFlag(False)
+##
+##        #Auswahlrechteck erzeugen. Es dient der Auswahl
+##        #des features der betreffenden politischen Gemeinde
+##        #im Gememindelayer in QGIS
+##        shift=self.iface.mapCanvas().mapUnitsPerPixel()
+##        wahlRect = QgsRectangle(punkt.x(),punkt.y(),punkt.x()+ shift,punkt.y()+ shift)
+##
+##        #Entsprechendes Feature selektieren
+##        self.blattschnitt.select(wahlRect,False)
+##
+##
+##        #mit Hilfe des Index den Namen
+##        #der ausgewählte Balttschnittnummer ermitteln
+##        Liste = self.blattschnitt.selectedFeatures()
+##
+##
+##
+##        if  (len(Liste) > 0):
+##            wert = Liste[0].attribute("V10_NR_TXT")
+##            #QtGui.QMessageBox.about(None, "Fehler", str(self.index))
+##
+##            #die Kombobox aktualisieren
+##            index = self.cmbBlattschnitt.findText(wert)
+##            self.cmbBlattschnitt.setCurrentIndex(index)
+##
+##
+##        #Auswahl wieder löschen
+##        self.blattschnitt.removeSelection()
+##
+##        #self.mc.setRenderFlag(True)
 
-        #self.mc.setRenderFlag(False)
-
-        #Auswahlrechteck erzeugen. Es dient der Auswahl
-        #des features der betreffenden politischen Gemeinde
-        #im Gememindelayer in QGIS
-        shift=self.iface.mapCanvas().mapUnitsPerPixel()
-        wahlRect = QgsRectangle(punkt.x(),punkt.y(),punkt.x()+ shift,punkt.y()+ shift)
-
-        #Entsprechendes Feature selektieren
-        self.blattschnitt.select(wahlRect,False)
-
-
-        #mit Hilfe des Index den Namen
-        #der ausgewählte Balttschnittnummer ermitteln
-        Liste = self.blattschnitt.selectedFeatures()
-
-
-
-        if  (len(Liste) > 0):
-            wert = Liste[0].attribute("V10_NR_TXT")
-            #QtGui.QMessageBox.about(None, "Fehler", str(self.index))
-
-            #die Kombobox aktualisieren
-            index = self.cmbBlattschnitt.findText(wert)
-            self.cmbBlattschnitt.setCurrentIndex(index)
-
-
-        #Auswahl wieder löschen
-        self.blattschnitt.removeSelection()
-
-        #self.mc.setRenderFlag(True)
-
-    #Finde den Mittelpunkt
-    #der aktuellen Kartendarstellung in Map Units
-    #und gibt ihn zurück
-    def findemittelpunkt(self):
-
-        Punkt = self.mc.extent().center()
-        return Punkt
+##    #Finde den Mittelpunkt
+##    #der aktuellen Kartendarstellung in Map Units
+##    #und gibt ihn zurück
+##    def findemittelpunkt(self):
+##
+##        Punkt = self.mc.extent().center()
+##        return Punkt
 
 
     #die Aufgabe dieser Methode ist: in das View Fenster wird ein Kreuzchen

@@ -44,6 +44,11 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
         self.mc = self.iface.mapCanvas()
         self.vogisPfad = pfad
         self.db = PGdb
+
+        # Nochmals Öffnen
+        # haproxy scheint sonst die Verbindung wieder zu schliessen?
+        self.db.open()
+
         self.gemeindeliste = gemeindeliste
         self.info = LadefortschrittDialog()
 ##
@@ -418,15 +423,16 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
     #der Checkboxen ausgewählt wurden
     def ladeGemeinde(self):
         #Am Filesystem gibts keine Sonderzeichen!
-        gemeinde_wie_filesystem = self.Gemeinde
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ä').decode('utf8'),'ae')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ä').decode('utf8'),'Ae')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ö').decode('utf8'),'oe')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ö').decode('utf8'),'Oe')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ü').decode('utf8'),'ue')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ü').decode('utf8'),'Ue')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ß').decode('utf8'),'ss')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace('. ','_')
+##        gemeinde_wie_filesystem = self.Gemeinde
+##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ä').decode('utf8'),'ae')
+##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ä').decode('utf8'),'Ae')
+##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ö').decode('utf8'),'oe')
+##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ö').decode('utf8'),'Oe')
+##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ü').decode('utf8'),'ue')
+##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ü').decode('utf8'),'Ue')
+##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ß').decode('utf8'),'ss')
+##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace('. ','_')
+        gemeinde_wie_filesystem = 'Vorarlberg'
 
         #Prüfen ob ein Zoompunkt gesetzt ist. Das ist nur der Fall wenn ein Grundstück gesucht wird
         #und auf den betreffenden Extent zoomen
@@ -463,7 +469,8 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
 
         self.mc.setRenderFlag(False)
         #nun wenn alles vorbereitet ist: Die IMPORTMETHODE starten für die DKM
-        dkm.importieren(Pfad,liste,self.Gemeinde,True)
+        #dkm.importieren(Pfad,liste,self.Gemeinde,True)
+        dkm.importieren(Pfad,liste,gemeinde_wie_filesystem,True)
         #dkm.importieren(Pfad,liste,self.Gemeinde,True)
 
         self.mc.setRenderFlag(True)
@@ -497,32 +504,21 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
 
 
        #Am Filesystem gibts keine Sonderzeichen!
-        schema = self.Gemeinde
-        schema = schema.replace(('ä').decode('utf8'),'ae')
-        schema = schema.replace(('Ä').decode('utf8'),'Ae')
-        schema = schema.replace(('ö').decode('utf8'),'oe')
-        schema = schema.replace(('Ö').decode('utf8'),'Oe')
-        schema = schema.replace(('ü').decode('utf8'),'ue')
-        schema = schema.replace(('Ü').decode('utf8'),'Ue')
-        schema = schema.replace(('ß').decode('utf8'),'ss')
-        schema = string.lower(schema.replace('. ','_'))
+##        schema = self.Gemeinde
+##        schema = schema.replace(('ä').decode('utf8'),'ae')
+##        schema = schema.replace(('Ä').decode('utf8'),'Ae')
+##        schema = schema.replace(('ö').decode('utf8'),'oe')
+##        schema = schema.replace(('Ö').decode('utf8'),'Oe')
+##        schema = schema.replace(('ü').decode('utf8'),'ue')
+##        schema = schema.replace(('Ü').decode('utf8'),'Ue')
+##        schema = schema.replace(('ß').decode('utf8'),'ss')
+##        schema = string.lower(schema.replace('. ','_'))
+        schema = 'vorarlberg'
+
 
         #Den Pfad zur betreffenden GEmeinde setzen
         #Pfad = self.vogisPfad + "Grenzen/DKM/" + gemeinde_wie_filesystem + "/Grundstuecke/"
 
-##        #Prüfen, ob das GST.shp in dem das Grundstück
-##        #gesucht wird bereits geladen ist. Dazu müssen
-##        #alle geladenen Layer im Qgis durchgespoolt werden
-##        Signal = False
-##        for lyr_tmp in self.iface.mapCanvas().layers():
-##            if lyr_tmp.name() == self.Gemeinde + ("-Grundstücke").decode("utf-8"):
-##                self.dbaseTabelle = lyr_tmp
-##                Signal = True   #gst.shp der betreffenden Gemeinde ist schon im QGIS geladen
-##
-##
-##       #ist das gst.shp der betreffenden Gemeinde noch nicht im QGIS
-##       #wird es in den Hintergrund geladen
-##        if not Signal:
 
 
 
@@ -539,48 +535,7 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
         gst_lyr = QgsVectorLayer(uri.uri(), "gst","postgres")
 
 
-        #-------------------------------------------------------
-        #BEGINN der attributiven Suche im QGIS
-        #-------------------------------------------------------
-##
-##        #Nun die Suche nach der Gewünschten Grundstücksnummer
-##        #in der Gemeinde bzw. KG
-##
-##        progress = QtGui.QProgressDialog ()
-##        progress.setLabelText("Suche " + ("Läuft").decode("utf-8"))
-##        progress.setWindowModality(QtCore.Qt.WindowModal)
-##        count = 0
-##        fid = []
-##        nummer = ""
-##
-##        # Eingabefeld auslesen und gleich splitten
-##        gstliste = string.split(self.txtGstnr.text(),",")
-##
-##
-##        iter = gst_lyr.getFeatures()
-##        progress.setRange(0,gst_lyr.featureCount()*len(gstliste))
-##        for gst in gstliste:
-##
-##            iter.rewind()
-##            for attr in iter:
-##
-##                #hier die Werte der betreffenden Spalten mit den gesuchten Werten vergleichen
-##                if attr.attribute("GNR") == gst and attr.attribute("KG") == self.kgnummer:
-##                    fid.append(attr.id())
-##                    nummer = nummer + gst + " "
-##                    break
-##                count = count + 1
-##                progress.setValue(count)
-##                if (progress.wasCanceled()):
-##                    break
-##
-##        if not fid is None:
-##            gst_lyr.setSelectedFeatures(fid)
 
-
-        #-------------------------------------------------------
-        #ENDE der attributiven Suche im QGIS
-        #-------------------------------------------------------
 
 
         #------------------------------------------------------
@@ -613,7 +568,6 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
         # Ende Subset Suche
         #------------------------------------------------------
 
-
         #Wurde was gefunden? ja/nein
         if gst_lyr.selectedFeatureCount() >= 1: #Eins gefunden, Textfeld und Zoompunkt festlegen
             self.gefunden.setText(("Grundstück ").decode("utf-8") + nummer + " in  KG " + self.Kgemeinde + " gefunden")
@@ -629,7 +583,8 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
             # um zu selektieren den geladenen Layer suchen
             # for lyr_tmp in self.mc.layers():    # geht nicht, da nicht sofort aktualisiert wird
             for lyr_tmp in self.iface.legendInterface().layers():    # vergisst und auch bei einem refresh nicht richtig macht....
-                if lyr_tmp.name() == ("Grundstücke-").decode("utf-8") + self.Gemeinde + ' (a)':
+                #if lyr_tmp.name() == ("Grundstücke-").decode("utf-8") + self.Gemeinde + ' (a)':
+                if lyr_tmp.name() == ("Grundstücke-").decode("utf-8") +  'Vorarlberg (a)':
                     if not fid is None:
                         lyr_tmp.setSelectedFeatures(fid)    # und selektieren
 
@@ -708,7 +663,7 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
 
         self.mc.setRenderFlag(True)
 
-    #urmappe ins Qgis laden
+    #naturbestand ins Qgis laden
     def ladeobjekte(self):
         #Ein Objekt erzeugen mit dem auf
         #den Code Projektimport zurückgegriffen werden kann

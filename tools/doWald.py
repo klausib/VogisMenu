@@ -5,6 +5,10 @@ from PyQt4 import QtGui,QtCore
 
 from qgis.core import *
 from gui_wald import *
+from osgeo import ogr
+
+from direk_laden import direk_laden
+
 #API up to 2.2
 if QGis.QGIS_VERSION_INT < 20300:
     from ProjektImport import *
@@ -17,7 +21,7 @@ else:
 #Dies Klassendefinition öffnet das Frame für
 #die Auswahl der Datenebenen
 class WaldDialog(QtGui.QDialog, Ui_frmWald):
-    def __init__(self,parent,iface,pfad = None):
+    def __init__(self,parent,iface,pfad = None, PGdb = None):
         QtGui.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
         Ui_frmWald.__init__(self)
 
@@ -25,6 +29,7 @@ class WaldDialog(QtGui.QDialog, Ui_frmWald):
         # Set up the user interface from Designer.
         self.setupUi(self)
         self.pfad = pfad
+        self.db = PGdb
         self.ckButtons.setExclusive(False)           #wenn im Designer gesetzt, wirds beim Coderzeugen nicht übernommen
                                                     #deshalb hier
 
@@ -53,7 +58,27 @@ class WaldDialog(QtGui.QDialog, Ui_frmWald):
                     self.raster = True
 
                     #schlampig: Legendenshape hier dazuladen
-                    waldlegende = QgsVectorLayer(self.pfad + "/Waldflaechen/waldflaeche_luftbild_2001.shp", "waldflaeche_luftbild_2001.shp","ogr")
+##                    if self.db != None:
+##                        try:  # Geodatenbank
+##                            uri = QgsDataSourceURI()
+##                            uri.setConnection(self.db.hostName(),str(self.db.port()),self.db.databaseName(),'','')  # Keine Kennwort nötig, Single Sign On
+##
+##                            # Geometriespalte bestimmen -- geht nur mit OGR
+##                            outputdb = ogr.Open('pg: host =' + self.db.hostName() + ' dbname =' + self.db.databaseName() + ' schemas=vorarlberg')
+##                            geom_column = outputdb.GetLayerByName('waldflaeche_luftbild_2001').GetGeometryColumn()
+##
+##                            uri.setDataSource('vorarlberg', 'waldflaeche_luftbild_2001', geom_column)
+##
+##                            waldlegende = QgsVectorLayer(uri.uri(), "waldflaeche_luftbild_2001","postgres")
+##                        #und prüfen ob erfolgreich geladen
+##                        except: #nicht erfolgreich geladen
+##                            QtGui.QMessageBox.about(None, "Fehler", "Layer ""waldflaeche_luftbild_2001"" in der Datenbank nicht gefunden - es wird aufs Filesystem umgeschaltet")
+##                            waldlegende = QgsVectorLayer(self.pfad + "/Waldflaechen/waldflaeche_luftbild_2001.shp", "waldflaeche_luftbild_2001.shp","ogr")
+##                    elif self.db == None:
+##                        waldlegende = QgsVectorLayer(self.pfad + "/Waldflaechen/waldflaeche_luftbild_2001.shp", "waldflaeche_luftbild_2001.shp","ogr")
+
+                    waldlegende = direk_laden(self.db, "waldflaeche_luftbild_2001", "waldflaeche_luftbild_2001.shp", self.pfad + "/Waldflaechen/",self.iface)
+
 
                     #und prüfen ob erfolgreich geladen
                     if not waldlegende.isValid(): #nicht erfolgreich geladen
@@ -92,8 +117,27 @@ class WaldDialog(QtGui.QDialog, Ui_frmWald):
 
                 elif (("WaldflaecheOek").decode('utf8') in button.objectName()):
 
-                   #schlampig: Waldflaech ÖK hier dazuladen
-                    waldflaeche = QgsVectorLayer(self.pfad + "/Waldflaechen/waldflaeche_oek.shp", "waldflaeche_oek.shp","ogr")
+                   # schlampig: Waldflaech ÖK hier dazuladen
+##                    if self.db  != None:
+##                        try:
+##                            # Geodatenbank
+##                            uri = QgsDataSourceURI()
+##                            uri.setConnection(self.db.hostName(),str(self.db.port()),self.db.databaseName(),'','')  # Keine Kennwort nötig, Single Sign On
+##
+##                            # Geometriespalte bestimmen -- geht nur mit OGR
+##                            outputdb = ogr.Open('pg: host =' + self.db.hostName() + ' dbname =' + self.db.databaseName() + ' schemas=vorarlberg')
+##                            geom_column = outputdb.GetLayerByName('waldflaeche_oek').GetGeometryColumn()
+##
+##                            uri.setDataSource('vorarlberg', 'waldflaeche_oek', geom_column)
+##
+##                            waldflaeche = QgsVectorLayer(uri.uri(), "waldflaeche_oek","postgres")
+##                        except:
+##                            QtGui.QMessageBox.about(None, "Fehler", "Layer ""waldflaeche_oek"" in der Datenbank nicht gefunden - es wird aufs Filesystem umgeschaltet")
+##                            waldflaeche = QgsVectorLayer(self.pfad + "/Waldflaechen/waldflaeche_oek.shp", "waldflaeche_oek.shp","ogr")
+##                    else:
+##                        waldflaeche = QgsVectorLayer(self.pfad + "/Waldflaechen/waldflaeche_oek.shp", "waldflaeche_oek.shp","ogr")
+
+                    waldflaeche = direk_laden(self.db, "waldflaeche_oek", "waldflaeche_oek.shp", self.pfad + "/Waldflaechen/",self.iface)
 
                     #und prüfen ob erfolgreich geladen
                     if not waldflaeche.isValid(): #nicht erfolgreich geladen

@@ -13,6 +13,8 @@ from gui_topokarten import *
 from osgeo import gdal, ogr
 from osgeo.gdalconst import *
 
+from direk_laden import direk_laden
+
 #API up to 2.2
 if QGis.QGIS_VERSION_INT < 20300:
     from ProjektImport import *
@@ -20,7 +22,7 @@ else:
     from ProjektImport_24 import *
 
 class TopokartenDialog(QtGui.QDialog, Ui_frmTopokarten):
-    def __init__(self,iface,pfad = None,vogisPfad = None):
+    def __init__(self,iface,pfad = None,vogisPfad = None, PGdb = None):
         QtGui.QDialog.__init__(self)
         Ui_frmTopokarten.__init__(self)
 
@@ -28,31 +30,13 @@ class TopokartenDialog(QtGui.QDialog, Ui_frmTopokarten):
         # Set up the user interface from Designer.
         self.setupUi(self)
         self.pfad = pfad
+        self.db = PGdb
         self.vogisPfad = vogisPfad
         self.mc = self.iface.mapCanvas()
         self.checkButtonsGroup.setExclusive(True)   #wenn im Designer gesetzt, wirds beim Coderzeugen nicht übernommen
                                                     #deshalb hier
         #self.legendTree = self.iface.mainWindow().findChild(QtGui.QDockWidget,"Legend").findChild(QtGui.QTreeWidget)
         self.karten = ProjektImport(self.iface)
-    #************************************************************************************************
-    # load_raster()
-    #************************************************************************************************
-    def load_raster(self,path,basename,button_text):
-
-        #Prüfen ob der Layer schon einmal geladen wurde!
-        #Das machen wir halt nur über den Namen, aber das reicht!
-        if len(QgsMapLayerRegistry.instance().mapLayersByName(basename.decode('utf8'))) < 1:
-            layer = QgsRasterLayer((path).decode('utf8'),"base" + basename)         #wichtig für die Aktualisierung der legende
-                                                                                    #der anzeigename muß sich ändern sonst gehts nicht
-            Lyr = rastername() #ind. datentyp!
-            if not layer.isValid():
-                QtGui.QMessageBox.warning(None, "Fehler beim laden des Themas", "Thema:%s /nPfad: %s/nFehler:%s " %(button_text,path,str(layer.lastError())))
-            else:
-                Lyr.anzeigename = basename
-                Lyr.rasterobjekt = layer
-                self.layerliste.append(Lyr)
-
-
 
 
     def accept(self):
@@ -97,28 +81,32 @@ class TopokartenDialog(QtGui.QDialog, Ui_frmTopokarten):
                     self.load_raster(self.pfad + "/Oek/Vlbg/oek500.tif","ÖK 1:500.000  (BEV",button.text())
 
                 elif ("Urmappe" in button.text()):
-                    self.load_vector(self.vogisPfad + "Blattschnitte/Vlbg/Blattschnitt_Urmappe/Blattschnitt_Urmappe.shp","Urmappe Blattschnitt",self.pfad + "/_Allgemein/blattschnitt_urmappe.qml",button.text())
-                    self.load_vector(self.vogisPfad + "Blattschnitte/Vlbg/Blattschnitt_Urmappe/Blattschnitt_Urmappe_Nr.shp","Urmappe Blattschnitt Nr.",self.pfad + "/_Allgemein/blattschnitt_urmappe_nr.qml",button.text())
-                    self.load_raster(self.vogisPfad + "Grenzen/Urmappe/Vlbg/um_25cm.ecw","um_25cm",button.text())
+                    self.load_vector(self.vogisPfad + "Blattschnitte/Vlbg/Blattschnitt_Urmappe/Blattschnitt_Urmappe.shp","Urmappe Blattschnitt",self.pfad + "/_Allgemein/blattschnitt_urmappe.qml",button.text(), 'Urmappe')
+                    self.load_vector(self.vogisPfad + "Blattschnitte/Vlbg/Blattschnitt_Urmappe/Blattschnitt_Urmappe_Nr.shp","Urmappe Blattschnitt Nr.",self.pfad + "/_Allgemein/blattschnitt_urmappe_nr.qml",button.text(), 'Urmappe')
+                    self.load_raster(self.vogisPfad + "Grenzen/Urmappe/Vlbg/um_25cm.ecw","um_25cm",button.text(), 'Urmappe')
+
+
+
+
 
                 elif ("3. Landesaufnahme" in button.text()):
-                    self.load_vector(self.vogisPfad + "Blattschnitte/Vlbg/Blattschnitt_Hist/Blattschnitt_hist_dla.shp","Blattschnitt 3. Landesaufnahme",self.pfad + "/_Allgemein/blattschnitt_hist_dla.qml",button.text())
-                    self.load_vector(self.vogisPfad + "Blattschnitte/Vlbg/Blattschnitt_Hist/Blattschnitt_hist_dla_Nr.shp","Blattschnitt 3. Landesaufnahme Nr",self.pfad + "/_Allgemein/blattschnitt_hist_dla_nr.qml",button.text())
-                    self.load_raster(self.pfad + "/Historische_Karten/Vlbg/3LA_1871-1872.ecw","3. Landesaufnahme 1871-1872",button.text())
+                    self.load_vector(self.vogisPfad + "Blattschnitte/Vlbg/Blattschnitt_Hist/Blattschnitt_hist_dla.shp","Blattschnitt 3. Landesaufnahme",self.pfad + "/_Allgemein/blattschnitt_hist_dla.qml",button.text(),"3. Landesaufnahme")
+                    self.load_vector(self.vogisPfad + "Blattschnitte/Vlbg/Blattschnitt_Hist/Blattschnitt_hist_dla_Nr.shp","Blattschnitt 3. Landesaufnahme Nr",self.pfad + "/_Allgemein/blattschnitt_hist_dla_nr.qml",button.text(),"3. Landesaufnahme")
+                    self.load_raster(self.pfad + "/Historische_Karten/Vlbg/3LA_1871-1872.ecw","3. Landesaufnahme 1871-1872",button.text(),"3. Landesaufnahme")
 
                 elif ("Reambulierte 3. LA 1887:" in button.text()):
                     self.load_raster(self.pfad + "/Historische_Karten/Vlbg/3RA_1887.ecw","Reambulierte 3. LA 1887:",button.text())
 
                 elif ("Spezialkarte" in button.text()):
-                    self.load_vector(self.vogisPfad + "Blattschnitte/Vlbg/Blattschnitt_Hist/Blattschnitt_hist_spezialk.shp","Blattschnitt Spezialkarten",self.pfad + "/_Allgemein/spezialkarte_75000.qml",button.text())
-                    self.load_vector(self.vogisPfad + "Blattschnitte/Vlbg/Blattschnitt_Hist/Blattschnitt_hist_spezialk_Nr.shp","Blattschnitt Spezialkarten Nr",self.pfad + "/_Allgemein/spezialkarte_75000_nr.qml",button.text())
-                    self.load_raster(self.pfad + "/Historische_Karten/Vlbg/SPZ_1908-1915.ecw","Spezialkarte 1908-15:",button.text())
-                    self.load_raster(self.pfad + "/Historische_Karten/Vlbg/SPZ_1934-1937.ecw","Spezialkarte 1934-37:",button.text())
+                    self.load_vector(self.vogisPfad + "Blattschnitte/Vlbg/Blattschnitt_Hist/Blattschnitt_hist_spezialk.shp","Blattschnitt Spezialkarten",self.pfad + "/_Allgemein/spezialkarte_75000.qml",button.text(), "Spezialkarten")
+                    self.load_vector(self.vogisPfad + "Blattschnitte/Vlbg/Blattschnitt_Hist/Blattschnitt_hist_spezialk_Nr.shp","Blattschnitt Spezialkarten Nr",self.pfad + "/_Allgemein/spezialkarte_75000_nr.qml",button.text(), "Spezialkarten")
+                    self.load_raster(self.pfad + "/Historische_Karten/Vlbg/SPZ_1908-1915.ecw","Spezialkarte 1908-15:",button.text(), "Spezialkarten")
+                    self.load_raster(self.pfad + "/Historische_Karten/Vlbg/SPZ_1934-1937.ecw","Spezialkarte 1934-37:",button.text(), "Spezialkarten")
 
                 elif ("Provisorische" in button.text()):
-                    self.load_vector(self.vogisPfad + "Blattschnitte/Vlbg/Blattschnitt_Hist/Blattschnitt_hist_prov_oek.shp",("Provisorische ÖK").decode('utf8'),self.pfad + "/_Allgemein/provisorische_oeks.qml",button.text())
-                    self.load_vector(self.vogisPfad + "Blattschnitte/Vlbg/Blattschnitt_Hist/Blattschnitt_hist_prov_oek_Nr.shp",("Provisorische ÖK Nr.").decode('utf8'),self.pfad + "/_Allgemein/provisorische_oeks_nr.qml",button.text())
-                    self.load_raster(self.pfad + "/Historische_Karten/Vlbg/OEK50_Prov_1946-47.ecw","Provisorische ÖK 1946-47",button.text())
+                    self.load_vector(self.vogisPfad + "Blattschnitte/Vlbg/Blattschnitt_Hist/Blattschnitt_hist_prov_oek.shp",("Provisorische ÖK").decode('utf8'),self.pfad + "/_Allgemein/provisorische_oeks.qml",button.text(),("Provisorische ÖK").decode('utf8'))
+                    self.load_vector(self.vogisPfad + "Blattschnitte/Vlbg/Blattschnitt_Hist/Blattschnitt_hist_prov_oek_Nr.shp",("Provisorische ÖK Nr.").decode('utf8'),self.pfad + "/_Allgemein/provisorische_oeks_nr.qml",button.text(),("Provisorische ÖK").decode('utf8'))
+                    self.load_raster(self.pfad + "/Historische_Karten/Vlbg/OEK50_Prov_1946-47.ecw","Provisorische ÖK 1946-47",button.text(),("Provisorische ÖK").decode('utf8'))
 
                 elif (("ÖK50 1953-67:").decode('utf8') in button.text()):
                     self.load_raster(self.pfad + "/Historische_Karten/Vlbg/OEK50_1953-1967.ecw",("ÖK50 1953-67"),button.text())
@@ -142,10 +130,139 @@ class TopokartenDialog(QtGui.QDialog, Ui_frmTopokarten):
 
 
 
-        self.mc.setRenderFlag(False)
+    #************************************************************************************************
+    # load_raster()
+    #************************************************************************************************
+    def load_raster(self,path,basename,button_text, gruppenname = ''):
+
+        #Prüfen ob der Layer schon einmal geladen wurde!
+        #Das machen wir halt nur über den Namen, aber das reicht!
+        if len(QgsMapLayerRegistry.instance().mapLayersByName(basename.decode('utf8'))) < 1:
+            layer = QgsRasterLayer((path).decode('utf8'),"base" + basename)         #wichtig für die Aktualisierung der legende
+                                                                                    #der anzeigename muß sich ändern sonst gehts nicht
+            QgsMapLayerRegistry.instance().addMapLayer(layer)
+        else:
+            return
+        if not gruppenname == '':
+            self.gruppe(gruppenname,layer)
+
+        self.nach_unten(layer,basename,gruppenname)
 
 
-        #Die Raster werden in der Legende nach unten geschoben
+
+    #laden von Vektordaten und QML
+    #hier wird keine Liste verwendet, sondern der Aufruf erfolgt immer einzeln
+    def load_vector(self,path,basename,qmlpath,button_text, gruppenname = ''):
+
+            #Prüfen ob der Layer schon einmal geladen wurde!
+            #Das machen wir halt nur über den Namen, aber das reicht!
+            if len(QgsMapLayerRegistry.instance().mapLayersByName(basename)) < 1:
+                self.mc.setRenderFlag(False)
+
+                shapename = string.strip(str(os.path.basename(path)))
+                path = string.strip(str(os.path.dirname(path)))
+                layer = direk_laden(self.db, basename, shapename, path,self.iface)
+
+
+                if not layer.isValid():
+                    QtGui.QMessageBox.about(None, "Fehler beim laden des Themas", "%s /nFehler:%s " %(button_text(),str(geonam.lastError())))
+                else:
+                    if type(layer) is QgsVectorLayer: #nur Raster werden in der Legende nach unten geschoben
+
+
+                        flagge = layer.loadNamedStyle(qmlpath)
+                        if flagge[1]:
+                            #Legendenansicht aktualisieren
+                            self.iface.legendInterface().refreshLayerSymbology( layer )
+                        else:
+                            QtGui.QMessageBox.about(None, "Fehler", "QML konnte nicht zugewiesen werden!")
+                        QgsMapLayerRegistry.instance().addMapLayer(layer)
+
+
+                if not gruppenname == '':
+                    self.gruppe(gruppenname, layer)
+                self.mc.setRenderFlag(True)
+
+
+    # Gruppenlayer falls notwendig erzeugen und
+    # VEKTOR layer reinbewegen und dann die Gruppe
+    # ganz nach unten schieben. RASTER werden
+    # hier nicht abgearbeitet!
+    def gruppe(self,layername,layerobjekt):
+
+        leginterface = self.iface.legendInterface()
+
+
+        gruppe_vorhanden = False
+        if not (layername == ''):
+            gruppenliste = leginterface.groups()
+            #prüfen ob die Gruppe schon angelegt ist
+            for einzelgruppe in gruppenliste:
+                if einzelgruppe == layername: #Name ist übergeben worden
+                    gruppe_vorhanden = True
+
+        if QGis.QGIS_VERSION_INT < 20300:
+
+            self.legendTree = self.iface.mainWindow().findChild(QtGui.QDockWidget,"Legend").findChild(QtGui.QTreeWidget)
+
+
+            #ACHTUNG: Aus irgendeinem Grund gibts Probleme mit den Gruppenlayer: Wenn innerhalb der so angelegten Gruppen
+            # ein Layer ausgewählt wird, gibts beim Laden danach einen Fehler. Es MUSS deshalb der oberste Eintrag
+            # der Legende vor allem Laden als Aktueller Layer gesetztw erden!!!
+            self.legendTree.setCurrentItem(self.legendTree.findItems(layerobjekt.name(),QtCore.Qt.MatchRecursive,0)[0])
+
+            tmp_ly = self.legendTree.currentItem()  #Widget Item des gerade eingefügten Layers
+            index_neu = self.legendTree.indexOfTopLevelItem(tmp_ly) #index bestimmen
+            index = self.legendTree.takeTopLevelItem(index_neu)  #und rausnehmen!
+
+                #Ist die Gruppe nicht vorhanden , anlegen
+            if (not gruppe_vorhanden):
+                #QtGui.QMessageBox.about(None, "Fehler", 'Gruppi')
+                grp = leginterface.addGroup(layername,False,None)    #Name ist übergeben worden
+                #es ist notwendig die gruppe nach oben zu schieben
+                tmp = self.legendTree.currentItem()
+                grp_unten = self.legendTree.indexOfTopLevelItem(tmp)
+                grp_oben = self.legendTree.takeTopLevelItem(grp_unten)
+                self.legendTree.insertTopLevelItem(0,grp_oben)
+
+
+            liste = self.legendTree.findItems(layername,QtCore.Qt.MatchRecursive,0)[0]
+
+            #den Layer in die Legende unterhalb des Gruppenlayers einfügen
+            liste.insertChild(0,index)
+
+        else:
+
+
+            self.legendTree= QgsProject.instance().layerTreeRoot()
+
+            #Ist die Gruppe nicht vorhanden , anlegen
+            if (not gruppe_vorhanden):
+                grp = self.legendTree.insertGroup(-1,layername)
+
+            if type(layerobjekt) is QgsVectorLayer:
+                zwtsch = QgsProject.instance().layerTreeRoot().findLayer(layerobjekt.id()) #der geladene layer
+                index = zwtsch.clone()
+                grp = QgsProject.instance().layerTreeRoot().findGroup(layername) #der geladene layer
+                grp.insertChildNode(0,index)
+                zwtsch.parent().removeChildNode(zwtsch)
+                grp.setExpanded(False)
+            else:
+                zwtsch = QgsProject.instance().layerTreeRoot().findLayer(layerobjekt.id()) #der geladene layer
+                dummy_2 = zwtsch.clone()
+                grp = QgsProject.instance().layerTreeRoot().findGroup(layername) #der geladene layer
+                grp.insertChildNode(-1,dummy_2)
+                zwtsch.parent().removeChildNode(zwtsch)
+                dummy_2.setExpanded(False)
+                grp.setExpanded(False)
+
+        self.legendTree= QgsProject.instance().layerTreeRoot()
+
+    # Die Raster werden in der Legende nach unten geschoben
+    # egal ob in einer Gruppe oder ausserhalb
+    def nach_unten(self, layer, anzeigename, gruppenname = ''):
+
+
         #API up to 2.2
         if QGis.QGIS_VERSION_INT < 20300:
              #ACHTUNG: Aus irgendeinem Grund gibts Probleme mit den Gruppenlayer: Wenn innerhalb der so angelegten Gruppen
@@ -154,85 +271,41 @@ class TopokartenDialog(QtGui.QDialog, Ui_frmTopokarten):
             self.legendTree = self.iface.mainWindow().findChild(QtGui.QDockWidget,"Legend").findChild(QtGui.QTreeWidget)
             self.legendTree.setCurrentItem(self.legendTree.topLevelItem(0))
 
-            # Raster Layer(s) instanzieren: Dazu die Layerliste durchlaufen
-            for i in range(len(self.layerliste)):
-                self.einzelliste = self.layerliste[i] #gibt  #ind. datentyp zurück!
-                QgsMapLayerRegistry.instance().addMapLayer(self.einzelliste.rasterobjekt)
-                if type(self.einzelliste.rasterobjekt) is QgsRasterLayer: #nur Raster werden in der Legende nach unten geschoben
-                    #self.legendTree = self.iface.mainWindow().findChild(QtGui.QDockWidget,"Legend").findChild(QtGui.QTreeWidget)
-                    dodl = self.legendTree.takeTopLevelItem(0)
-                    self.legendTree.addTopLevelItem(dodl)
-                    anzeigename = (self.einzelliste.anzeigename).decode('utf8')
-                    self.einzelliste.rasterobjekt.setLayerName(anzeigename)     #ACHTUNG: Damit wird auch erzwungen, daß die Layerdarstellung
-                                                                                #(Reihenfolge) aktualisiert wird!!
-                                                                                #Aber nur wenn anzeigename nicht schon gleich belegt war!!!
+
+            QgsMapLayerRegistry.instance().addMapLayer(layer)
+            if type(layer) is QgsRasterLayer: #nur Raster werden in der Legende nach unten geschoben
+
+                dodl = self.legendTree.takeTopLevelItem(0)
+                self.legendTree.addTopLevelItem(dodl)
+                anzeigename = (self.einzelliste.anzeigename).decode('utf8')
+                self.einzelliste.rasterobjekt.setLayerName(anzeigename)     #ACHTUNG: Damit wird auch erzwungen, daß die Layerdarstellung
+                                                                            #(Reihenfolge) aktualisiert wird!!
+                                                                            #Aber nur wenn anzeigename nicht schon gleich belegt war!!!
         else:
-            # Raster Layer(s) instanzieren: Dazu die Layerliste durchlaufen
-            for i in range(len(self.layerliste)):
-                self.einzelliste = self.layerliste[i] #gibt  #ind. datentyp zurück!
-                QgsMapLayerRegistry.instance().addMapLayer(self.einzelliste.rasterobjekt)
-                if type(self.einzelliste.rasterobjekt) is QgsRasterLayer: #nur Raster werden in der Legende nach unten geschoben
-                    zwtsch = QgsProject.instance().layerTreeRoot().findLayer(self.einzelliste.rasterobjekt.id()) #der geladene layer
+
+            QgsMapLayerRegistry.instance().addMapLayer(layer)
+            if type(layer) is QgsRasterLayer: #nur Raster werden in der Legende nach unten geschoben
+
+                if gruppenname == '':
+                    zwtsch = QgsProject.instance().layerTreeRoot().findLayer(layer.id()) #der geladene layer
                     dummy_2 = zwtsch.clone()
                     QgsProject.instance().layerTreeRoot().insertChildNode(-1,dummy_2)
                     zwtsch.parent().removeChildNode(zwtsch)
                     dummy_2.setExpanded(False)
-                    anzeigename = (self.einzelliste.anzeigename).decode('utf8')
-                    self.einzelliste.rasterobjekt.setLayerName(anzeigename)
-
-
-        self.mc.setRenderFlag(True)
-
-
-    #laden von Vektordaten und QML
-    #hier wird keine Liste verwendet, sondern der Aufruf erfolgt immer einzeln
-    def load_vector(self,path,basename,qmlpath,button_text):
-
-            #Prüfen ob der Layer schon einmal geladen wurde!
-            #Das machen wir halt nur über den Namen, aber das reicht!
-            if len(QgsMapLayerRegistry.instance().mapLayersByName(basename)) < 1:
-                self.mc.setRenderFlag(False)
-                layer = QgsVectorLayer((path),basename, "ogr")
-
-
-                #API up to 2.2
-                if QGis.QGIS_VERSION_INT < 20300:
-                    if not layer.isValid():
-                        QtGui.QMessageBox.about(None, "Fehler beim laden des Themas", "%s /nFehler:%s " %(button_text(),str(geonam.lastError())))
-                    else:
-                        #dem Vektorlayer das QML File zuweisen
-                        #flagge[1] ist false wenn das file nich gefunden wird
-                        flagge = layer.loadNamedStyle(qmlpath)
-                        if flagge[1]:
-                            #Legendenansicht aktualisieren
-                            self.iface.legendInterface().refreshLayerSymbology( layer )
-                        else:
-                            QtGui.QMessageBox.about(None, "Fehler", "QML konnte nicht zugewiesen werden!")
-                        #Zur Map Layer registry hinzufügen damit der Layer
-                        #dargestellt wird
-                        QgsMapLayerRegistry.instance().addMapLayer(layer)
+                    anzeigename = (anzeigename).decode('utf8')
+                    layer.setLayerName(anzeigename)
                 else:
+                    zwtsch = QgsProject.instance().layerTreeRoot().findLayer(layer.id()) #der geladene layer
+                    dummy_2 = zwtsch.clone()
+                    grp = QgsProject.instance().layerTreeRoot().findGroup(gruppenname) #der geladene layer
+                    grp.insertChildNode(-1,dummy_2)
 
+                    zwtsch.parent().removeChildNode(zwtsch)
+                    dummy_2.setExpanded(False)
+                    anzeigename = (anzeigename).decode('utf8')
+                    layer.setLayerName(anzeigename)
+                    grp.setExpanded(False)
 
-                    if type(layer) is QgsVectorLayer: #nur Raster werden in der Legende nach unten geschoben
-                        flagge = layer.loadNamedStyle(qmlpath)
-                        if flagge[1]:
-                            #Legendenansicht aktualisieren
-                            self.iface.legendInterface().refreshLayerSymbology( layer )
-                        else:
-                            QtGui.QMessageBox.about(None, "Fehler", "QML konnte nicht zugewiesen werden!")
-                        QgsMapLayerRegistry.instance().addMapLayer(layer)
-                        zwtsch = QgsProject.instance().layerTreeRoot().findLayer(layer.id()) #der geladene layer
-                        dummy_2 = zwtsch.clone()
-                        QgsProject.instance().layerTreeRoot().insertChildNode(0,dummy_2)
-                        zwtsch.parent().removeChildNode(zwtsch)
-                        dummy_2.setExpanded(False)
-                        #anzeigename = (self.einzelliste.anzeigename).decode('utf8')
-                        #layer.setLayerName(anzeigename)
-
-
-
-                self.mc.setRenderFlag(True)
 
 
 #diese Klasse ist nichts anderes wie eine

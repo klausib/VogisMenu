@@ -237,10 +237,9 @@ class AdrDialogPG(QtGui.QDialog, Ui_frmAdresssuche):
 
 
                 while self.abfrage.next():
-                    if not self.abfrage.value(2) == None:
-                        drei = QtGui.QStandardItem(self.abfrage.value(2))
-                        drei.setEditable(False)
-                        zwei.appendRow(drei)
+                    drei = QtGui.QStandardItem(self.abfrage.value(2))
+                    drei.setEditable(False)
+                    zwei.appendRow(drei)
 
 
 
@@ -373,8 +372,8 @@ class AdrDialogPG(QtGui.QDialog, Ui_frmAdresssuche):
     def strassensuche(self, text = None):
 
         self.nummer = []
-
-        if text == None or text == '' or len(text) <= 3:
+        QtGui.QMessageBox.about(None, "Achtung", 'strassensuche')
+        if text == None or text == '' or len(text) < 3:
             text = '_alles_'    # nur die Gemeinden aus der DB holen
 
         self.nummer = re.findall(r'\d+',text)   # enthält der text eine zahl - wenn ja wird sie extrahiert
@@ -390,14 +389,7 @@ class AdrDialogPG(QtGui.QDialog, Ui_frmAdresssuche):
         text = string.strip(text)
 
 
-        # Das Suchsql
-        # ACHTUNG: für den stringinhalt strasse oder straße
-        # gibts eine Ausnhame, da sonst zu viele Treffer und
-        # langsame Suche
-
-        #QtGui.QMessageBox.about(None, "Achtung", str(text.find('strasse')) + ' ' + str(text.find('straße')) )
-
-        if text != "" and len(text) > 3 and (text.find('str') < 0 or text.find('stra'.decode('utf8')) < 0): #das edit feld enthät einen Text! Suche wird durchgeführt
+        if text != "" and len(text) > 3: #das edit feld enthät einen Text! Suche wird durchgeführt
             if  len(self.nummer) > 0:   # und auch eine nummer gibts - gemeinde strasse und nummer aus der db
                 self.abfrage.exec_("select distinct gemeinde,strasse,hausnr  from  " + self.tablename + "  where (LOWER(strasse) Like '%" + string.lower(text) + "%' and LOWER(hausnr) LIKE '%" + string.lower(self.nummer) + "%') order by gemeinde,strasse,hausnr")
 
@@ -408,72 +400,56 @@ class AdrDialogPG(QtGui.QDialog, Ui_frmAdresssuche):
                 else:   # gemeindenund strasse abfrage aus er db
                     self.abfrage.exec_("select distinct gemeinde,strasse,hausnr  from  " + self.tablename + "  where LOWER(strasse) Like '%" + string.lower(text) + "%' order by gemeinde,strasse")
 
-        elif text != "" and len(text) > 7 and (text.find('str') > -1 or text.find('stra'.decode('utf8')) > -1):
-            if  len(self.nummer) > 0:   # und auch eine nummer gibts - gemeinde strasse und nummer aus der db
-                self.abfrage.exec_("select distinct gemeinde,strasse,hausnr  from  " + self.tablename + "  where (LOWER(strasse) Like '%" + string.lower(text) + "%' and LOWER(hausnr) LIKE '%" + string.lower(self.nummer) + "%') order by gemeinde,strasse,hausnr")
-
-            else:   # keine nummer
-                #Sortierung wichtig!
-                if text == '_alles_':   # nur die gemeinden abfragen aus der db
-                    self.abfrage.exec_("select distinct gemeinde  from  " + self.tablename + " order by gemeinde")
-                else:   # gemeindenund strasse abfrage aus er db
-                    self.abfrage.exec_("select distinct gemeinde,strasse,hausnr  from  " + self.tablename + "  where LOWER(strasse) Like '%" + string.lower(text) + "%' order by gemeinde,strasse")
-
-        else:
-            text = '_alles_'
-            self.abfrage.exec_("select distinct gemeinde  from  " + self.tablename + " order by gemeinde")
-        #################################################
-        #################################################
 
 
+            # tree view und model jedesmal
+            # initialisieren
+            self.treeAdressen.reset()
+            self.ModelTree.clear()
 
-        # tree view und model jedesmal
-        # initialisieren
-        self.treeAdressen.reset()
-        self.ModelTree.clear()
-
-        gemeindestrasse = ''
-        gemeindestrassenummer = ''
+            gemeindestrasse = ''
+            gemeindestrassenummer = ''
 
 
-        # DER Kernpunkt: Das Model mit dem Ergebnis
-        # der Query (richtig) befüllen:
-        # die Ergebnis Rekords der abfrage durchgehen
-        # und unser Standard Itme Model damit befüllen
-        # das geht wie folgt:
-        # ACHTUNG: Das funktioniert nur, wenn das Ergbnis
-        # der Abfrage mit DISTINCT (alphabetische)geordnet ist!!!
-        while self.abfrage.next():
-            if not self.ModelTree.findItems(self.abfrage.value(0),QtCore.Qt.MatchRecursive,0):  # Die Gemeinde ist noch nicht als Item im Model -> Hinzufügen
-                eins = QtGui.QStandardItem(self.abfrage.value(0))
-                self.ModelTree.appendRow(eins)
+            # DER Kernpunkt: Das Model mit dem Ergebnis
+            # der Query (richtig) befüllen:
+            # die Ergebnis Rekords der abfrage durchgehen
+            # und unser Standard Itme Model damit befüllen
+            # das geht wie folgt:
+            # ACHTUNG: Das funktioniert nur, wenn das Ergbnis
+            # der Abfrage mit DISTINCT (alphabetische)geordnet ist!!!
+            while self.abfrage.next():
+                if not self.ModelTree.findItems(self.abfrage.value(0),QtCore.Qt.MatchRecursive,0):  # Die Gemeinde ist noch nicht als Item im Model -> Hinzufügen
+                    eins = QtGui.QStandardItem(self.abfrage.value(0))
+                    self.ModelTree.appendRow(eins)
 
-            if not self.abfrage.value(1) == None:
-                if not gemeindestrasse == self.abfrage.value(0) + self.abfrage.value(1):    # die Kombination Gemeinde und Strasse (Strasse als Child von Gemeinde)
-                    zwei = QtGui.QStandardItem(self.abfrage.value(1))                       # ist noch noch nicht im Model -> HINZUFÜGEN
-                    eins.appendRow(zwei)
-                    gemeindestrasse = self.abfrage.value(0) + self.abfrage.value(1)
+                if not self.abfrage.value(1) == None:
+                    if not gemeindestrasse == self.abfrage.value(0) + self.abfrage.value(1):    # die Kombination Gemeinde und Strasse (Strasse als Child von Gemeinde)
+                        zwei = QtGui.QStandardItem(self.abfrage.value(1))                       # ist noch noch nicht im Model -> HINZUFÜGEN
+                        eins.appendRow(zwei)
+                        gemeindestrasse = self.abfrage.value(0) + self.abfrage.value(1)
 
-            if not self.abfrage.value(2) == None:
-                if not gemeindestrassenummer == self.abfrage.value(0) + self.abfrage.value(1)+ self.abfrage.value(2):    # die Kombination Gemeinde und Strasse und Huasnummer(Hausnummer als Child von Strasse)
-                    drei = QtGui.QStandardItem(self.abfrage.value(2))                                                    # ist noch noch nicht im Model -> HINZUFÜGEN
-                    zwei.appendRow(drei)
-                    gemeindestrassenummer = self.abfrage.value(0) + self.abfrage.value(1)+ self.abfrage.value(2)
+                if not self.abfrage.value(2) == None:
+                    if not gemeindestrassenummer == self.abfrage.value(0) + self.abfrage.value(1)+ self.abfrage.value(2):    # die Kombination Gemeinde und Strasse und Huasnummer(Hausnummer als Child von Strasse)
+                        drei = QtGui.QStandardItem(self.abfrage.value(2))                                                    # ist noch noch nicht im Model -> HINZUFÜGEN
+                        zwei.appendRow(drei)
+                        gemeindestrassenummer = self.abfrage.value(0) + self.abfrage.value(1)+ self.abfrage.value(2)
 
 
 
-        # Unser Tree View bekommt das Model umd
-        # das ergebnis dem User anzuzeigen
-        self.treeAdressen.setModel(self.ModelTree)
+            # Unser Tree View bekommt das Model umd
+            # das ergebnis dem User anzuzeigen
+            self.treeAdressen.setModel(self.ModelTree)
 
+            QtGui.QMessageBox.about(None, "Achtung", str('im if ') + text)
 
-##        else:   #das Edit Feld ist leer, die Suche wird zurückgesetzt
-##
-##            #den neuen Mittelpunkt ermitteln und die Gemeinde
-##            #im Listenfeld dafür auswählen
-##            #QtGui.QMessageBox.about(None, "Achtung", str('mittelpunkt'))
-##            mittelpunkt = self.findemittelpunkt()
-##            self.returnGemeinde(mittelpunkt)
+        else:   #das Edit Feld ist leer, die Suche wird zurückgesetzt
+
+            #den neuen Mittelpunkt ermitteln und die Gemeinde
+            #im Listenfeld dafür auswählen
+            QtGui.QMessageBox.about(None, "Achtung", str('mittelpunkt'))
+            mittelpunkt = self.findemittelpunkt()
+            self.returnGemeinde(mittelpunkt)
 
 
 
@@ -557,6 +533,7 @@ class AdrDialogPG(QtGui.QDialog, Ui_frmAdresssuche):
         index = self.treeAdressen.selectedIndexes()
 
         try:
+            #QtGui.QMessageBox.about(None, "Achtung D",str(index))
             if not len(index) < 1:
 
                 self.treeAdressen.scrollTo(index[0],3) #3 bedeutet in die Mitte des Listenfelds scrollen
@@ -565,7 +542,7 @@ class AdrDialogPG(QtGui.QDialog, Ui_frmAdresssuche):
                 index = self.treeAdressen.rootIndex()
 
         except:
-            QtGui.QMessageBox.about(None, "Achtung", 'Fehler beim befüllen der Listenfelder'.decode('utf8'))
+            #QtGui.QMessageBox.about(None, "Achtung", 'Fehler beim befüllen der Listenfelder'.decode('utf8'))
             pass
 
 
@@ -663,5 +640,5 @@ class AdrDialogPG(QtGui.QDialog, Ui_frmAdresssuche):
     def closeEvent(self,event = None):
         #Nun unser Abflug Signal senden
         self.Abflug.emit(self)
-        #self.db= None
+        self.db= None
         self.close()

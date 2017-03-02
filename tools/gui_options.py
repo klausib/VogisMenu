@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gui_options.ui'
 #
-# Created: Tue Apr 26 14:13:21 2016
+# Created: Wed Feb 22 16:15:05 2017
 #      by: PyQt4 UI code generator 4.8.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -43,6 +43,7 @@ class Ui_frmOptions(object):
         font = QtGui.QFont()
         font.setPointSize(10)
         self.ckDb.setFont(font)
+        self.ckDb.setChecked(True)
         self.ckDb.setObjectName(_fromUtf8("ckDb"))
         self.verticalLayout.addWidget(self.ckDb)
         self.ButtonPath = QtGui.QPushButton(frmOptions)
@@ -63,7 +64,7 @@ class Ui_frmOptions(object):
         self.ButtonSave.setText(QtGui.QApplication.translate("frmOptions", "OK", None, QtGui.QApplication.UnicodeUTF8))
         self.ckCRS.setText(QtGui.QApplication.translate("frmOptions", "Koordinatenbezugssystem aus Projektdatei", None, QtGui.QApplication.UnicodeUTF8))
         self.ckEncoding.setText(QtGui.QApplication.translate("frmOptions", "Codierung Shapefiles aus Projektdatei", None, QtGui.QApplication.UnicodeUTF8))
-        self.ckDb.setText(QtGui.QApplication.translate("frmOptions", "Vektorlayer aus Geodatenbank (BETA!)", None, QtGui.QApplication.UnicodeUTF8))
+        self.ckDb.setText(QtGui.QApplication.translate("frmOptions", "Vektorlayer aus Geodatenbank", None, QtGui.QApplication.UnicodeUTF8))
         self.ButtonPath.setText(QtGui.QApplication.translate("frmOptions", "Pfad Ändern", None, QtGui.QApplication.UnicodeUTF8))
         self.lblPath.setText(QtGui.QApplication.translate("frmOptions", "Path", None, QtGui.QApplication.UnicodeUTF8))
 

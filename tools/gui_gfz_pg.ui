@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>354</width>
-    <height>595</height>
+    <width>338</width>
+    <height>310</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QPushButton" name="btnAbbrechen">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>530</y>
+     <x>100</x>
+     <y>260</y>
      <width>121</width>
      <height>31</height>
     </rect>
@@ -29,11 +29,16 @@
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>10</x>
      <y>10</y>
      <width>311</width>
-     <height>281</height>
+     <height>81</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <property name="title">
     <string>Wildbach- und Lawinenverbauung</string>
@@ -41,112 +46,35 @@
    <widget class="QPushButton" name="btnGFZ">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>232</y>
+      <x>90</x>
+      <y>30</y>
       <width>111</width>
       <height>31</height>
      </rect>
     </property>
-    <property name="text">
-     <string>GFZ laden</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btGmdChoice">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>190</y>
-      <width>31</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="palette">
-     <palette>
-      <active>
-       <colorrole role="ButtonText">
-        <brush brushstyle="SolidPattern">
-         <color alpha="255">
-          <red>255</red>
-          <green>0</green>
-          <blue>127</blue>
-         </color>
-        </brush>
-       </colorrole>
-      </active>
-      <inactive>
-       <colorrole role="ButtonText">
-        <brush brushstyle="SolidPattern">
-         <color alpha="255">
-          <red>255</red>
-          <green>0</green>
-          <blue>127</blue>
-         </color>
-        </brush>
-       </colorrole>
-      </inactive>
-      <disabled>
-       <colorrole role="ButtonText">
-        <brush brushstyle="SolidPattern">
-         <color alpha="255">
-          <red>106</red>
-          <green>104</green>
-          <blue>100</blue>
-         </color>
-        </brush>
-       </colorrole>
-      </disabled>
-     </palette>
-    </property>
     <property name="font">
      <font>
-      <pointsize>14</pointsize>
+      <pointsize>8</pointsize>
      </font>
     </property>
-    <property name="focusPolicy">
-     <enum>Qt::StrongFocus</enum>
-    </property>
     <property name="text">
-     <string>+</string>
-    </property>
-    <property name="checkable">
-     <bool>true</bool>
-    </property>
-    <property name="checked">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QListView" name="lstGemeinden">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>20</y>
-      <width>256</width>
-      <height>161</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnVorarlberg">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>190</y>
-      <width>111</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Landesfläche Vlbg.</string>
+     <string>GFZ Vorarlberg laden</string>
     </property>
    </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>310</y>
+     <x>10</x>
+     <y>110</y>
      <width>311</width>
-     <height>201</height>
+     <height>131</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <property name="title">
     <string>Abt. VIId - Wasserwirtschaft</string>
@@ -155,10 +83,15 @@
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>70</y>
+      <y>40</y>
       <width>111</width>
       <height>23</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Daten laden</string>
@@ -168,10 +101,15 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>60</y>
+      <y>30</y>
       <width>131</width>
       <height>18</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Gefahrenzonen BWV</string>
@@ -187,10 +125,15 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>150</y>
+      <y>90</y>
       <width>161</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Kompetenzgrenzen  BWV - WLV</string>
@@ -200,10 +143,15 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>90</y>
+      <y>60</y>
       <width>161</width>
       <height>18</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Abflussuntersuchungen BWV</string>
@@ -249,38 +197,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>btGmdChoice</sender>
-   <signal>clicked()</signal>
-   <receiver>frmGFZ</receiver>
-   <slot>gmd_choice_toggled()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>255</x>
-     <y>218</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>317</x>
-     <y>309</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>lstGemeinden</sender>
-   <signal>clicked(QModelIndex)</signal>
-   <receiver>frmGFZ</receiver>
-   <slot>auswahlaenderung()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>158</x>
-     <y>152</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>13</x>
-     <y>102</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>btnGFZVIId</sender>
    <signal>clicked()</signal>
    <receiver>frmGFZ</receiver>
@@ -309,22 +225,6 @@
     <hint type="destinationlabel">
      <x>44</x>
      <y>451</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btnVorarlberg</sender>
-   <signal>clicked()</signal>
-   <receiver>frmGFZ</receiver>
-   <slot>landesflaeche()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>120</x>
-     <y>208</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>342</x>
-     <y>241</y>
     </hint>
    </hints>
   </connection>

@@ -37,7 +37,9 @@ from doBoden import *
 from doLuftbilder import *
 from doFWP import *
 from doGFZ import *
+from doGFZ_pg import *
 from doHoehenmodell import *
+from doHoehenmodell_pg import *
 from doNaturschutz import *
 from doVerkehr import *
 from doVogisPrint import *
@@ -163,10 +165,46 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
     def initPGDB(self):
 
         #############################################################################
+        # Nur einmalig bei der DB Umstellung ANFANG
+        #############################################################################
+        if vogisDb_global[0] == 'filesystem' or vogisDb_global[0] == '':
+            try:
+                self.vogisDb = 'dbname=vogis host=cnvbrwgdi6.net.vlr.gv.at port=9000'
+                vogisDb_global[0] = self.vogisDb
+                raus = QtCore.QByteArray()
+                d = QtCore.QXmlStreamWriter(raus)   #Das XMAL Handling für diese Zwecke ist damit OK
+                d.setAutoFormatting(True)
+                d.writeStartDocument()
+                d.writeStartElement('vogis')
+                d.writeTextElement('mainpath', self.vogisPfad)
+                d.writeTextElement('encoding', self.vogisEncoding)
+                d.writeTextElement('kbs', self.vogisKBS)
+                d.writeTextElement('db', self.vogisDb)
+                d.writeEndElement()
+                d.writeEndDocument()
+                #file = open(os.path.dirname(__file__) + os.sep + "vogisini.xml","w+")
+                # Codepage bestimmen Sunderzeicehn im Pfad zum Benutzerhome)
+                code_page =locale.getpreferredencoding()
+                file = open(os.getenv('HOME').decode(code_page) + os.sep + "vogisini.xml","w+")    #os.path.dirname(__file__) gibt pfad des aktuellen moduls
+                file.write(str(raus))
+                file.close()
+            except:
+                QtGui.QMessageBox.about(None, "Achtung", 'initialisierungsproblem - Vogis Options werden geöffnet'.decode('UTF8'))
+                self.doVogisOptions()
+                return
+        #############################################################################
+        # Nur einmalig bei der DB Umstellung ENDE
+        #############################################################################
+
+
+
+
+
+
+        #############################################################################
         # Das Umschalten der Vektordaten auf die Geodatenbank - unter Bedingungen
         #############################################################################
-        if vogisDb_global[0] != '':
-
+        if vogisDb_global[0] != 'filesystem geodaten':
 
             ##########################################
             # testen, ob die DB geöffnet werden kann
@@ -190,19 +228,59 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
             # Username falls benötigt
             #username = getpass.getuser().lower()
-
             # Wir verwenden die Windows Domänen Authentifizierung. Keine User notwendig
-            self.PGdb = QtSql.QSqlDatabase.addDatabase("QPSQL","vogis");  # Der Name macht ie Verbindung individuell - sonst ist eine Default Verbindung
-            self.PGdb.setHostName(host)
-            self.PGdb.setPort(int(port))
-            self.PGdb.setDatabaseName(dbname)
+            self.PGdb = QtSql.QSqlDatabase.addDatabase("QPSQL","vogis");  # Der Name macht die Verbindung individuell - sonst ist eine Default Verbindung
+            if host != '':
+                self.PGdb.setHostName(host)
+            if port != '':
+                self.PGdb.setPort(int(port))
+            if dbname != '':
+                self.PGdb.setDatabaseName(dbname)
 
             ok = self.PGdb.open()    #Gibt True zurück wenn die Datenbank offen ist
 
-            if not ok:
-                QtGui.QMessageBox.about(None, "Fehler", 'Keine Verbindung zur Geodatenbank')
-                return  #Zurück
+            if ok:
+                try:
+                    #file = open(os.path.dirname(__file__) + os.sep + "vogisini.xml","r")    #os.path.dirname(__file__) gibt pfad des aktuellen moduls
+                    file = open(os.getenv('HOME') + os.sep + "vogisini.xml","r")    #os.path.dirname(__file__) gibt pfad des aktuellen moduls
+                    xml = file.read()
+                    d = QtXml.QDomDocument()
+                    d.setContent(xml)   #d enthält das gesamnte XML
+                    file.close()
+                    Flagge = True
+                except IOError:
+                    self.doVogisOptions()
 
+
+            if not ok:# and host == 'cnvbrwgdi6.net.vlr.gv.at':
+
+                #erneuter Versuch auf anderm Port, vielleicht ist der Load Balancer Offline
+                #QtGui.QMessageBox.about(None, "Achtung", 'Keine Verbindung über Load Balancer, versuche Standardport...'.decode('UTF8'))
+                self.PGdb = QtSql.QSqlDatabase.addDatabase("QPSQL","vogis");  # Der Name macht die Verbindung individuell - sonst ist eine Default Verbindung
+                if host != '':
+                    self.PGdb.setHostName(host)
+                if port != '':
+                    self.PGdb.setPort(int(5432))
+                if dbname != '':
+                    self.PGdb.setDatabaseName(dbname)
+
+                ok = self.PGdb.open()    #Gibt True zurück wenn die Datenbank offen ist
+            if not ok:# and host == 'cnvbrwgdi6.net.vlr.gv.at':
+                #QtGui.QMessageBox.about(None, "Achtung", 'Keine Verbindung auf Primären DB Server, versuche Standby...'.decode('UTF8'))
+                self.PGdb = QtSql.QSqlDatabase.addDatabase("QPSQL","vogis");  # Der Name macht die Verbindung individuell - sonst ist eine Default Verbindung
+                if host != '':
+                    self.PGdb.setHostName('cnvbrwgdi7.net.vlr.gv.at')
+                if port != '':
+                    self.PGdb.setPort(int(5432))
+                if dbname != '':
+                    self.PGdb.setDatabaseName(dbname)
+
+                ok = self.PGdb.open()    #Gibt True zurück wenn die Datenbank offen ist
+
+
+            if not ok:# and host == 'cnvbrwgdi7.net.vlr.gv.at':
+                QtGui.QMessageBox.about(None, "Fehler", 'Keine Verbindung zur Geodatenbank -  bitte in den Vogis Menü Einstellungen auf Filesystem umschalten!'.decode('UTF8'))
+                return  #Zurück
 
 
 
@@ -475,11 +553,11 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
                 if abfrage.first(): #user gefunden
                     abfrage.exec_("update qgis_user set starts = starts + 1 where user = '" + username + "'")
-                    abfrage.exec_("update qgis_user set version = '1.2.8' where user = '" + username + "'")
+                    abfrage.exec_("update qgis_user set version = '1.3' where user = '" + username + "'")
                     abfrage.exec_("update qgis_user set qgis_version = '" + QGis.QGIS_VERSION + "' where user = '" + username + "'")
                     self.db.close()
                 else: #user nicht gefunden, d.h. noch nicht vorhanden
-                    abfrage.exec_("insert into qgis_user ("'user'", "'starts'", "'version'", "'qgis_version'") values ('" + username + "', 1 , '1.2.8', '" + QGis.QGIS_VERSION + "')")
+                    abfrage.exec_("insert into qgis_user ("'user'", "'starts'", "'version'", "'qgis_version'") values ('" + username + "', 1 , '1.3', '" + QGis.QGIS_VERSION + "')")
 
                     self.db.close()
 
@@ -504,7 +582,7 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
         #Path = "D:/"
         Name = "geonam"
 
-        if vogisDb_global[0] == '':
+        if vogisDb_global[0] == 'filesystem geodaten':
             self.GeonamsucheDialog = Geonam(self.iface,Path,Name,self.Geonamgrafik)
         else:
             self.GeonamsucheDialog = Geonam(self.iface,Path,Name,self.Geonamgrafik,self.PGdb, Name)
@@ -525,9 +603,8 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
 
         # Das Postgis DB Objekt an die Einstellungen Anpassen
-        if vogisDb_global[0] == '':
+        if vogisDb_global[0] == 'filesystem geodaten':
             self.PGdb = None
-
 
         Path = self.vogisPfad + "Points_of_Interest/Adressen/Vlbg/"
         Table = 'adressen'
@@ -538,7 +615,7 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
         if self.AdresssucheDialog == None or self.AdresssucheDialog.objectName() == 'Bin_nicht_offen':
 
             # Unterschiedliche Module für Postgis bzw. SQLITE
-            if vogisDb_global[0] != '':
+            if vogisDb_global[0] != 'filesystem geodaten':
                 self.AdresssucheDialog = AdrDialogPG(self.iface.mainWindow(),self.iface,self.speicheradressen_adressuche,Path, self.PGdb, Schema, Table)
             else:
                 self.AdresssucheDialog = AdrDialogSQLITE(self.iface.mainWindow(),self.iface,self.speicheradressen_adressuche,Path,Table)
@@ -556,7 +633,7 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
         if self.GstsucheGUI == None or self.GstsucheGUI.objectName() == 'Bin_nicht_offen':
 
             # Unterschiedliche Module für Postgis bzw. SQLITE
-            if vogisDb_global[0] != '':
+            if vogisDb_global[0] != 'filesystem geodaten':
                 self.GstsucheGUI = GstDialogPG(self.iface.mainWindow(),self.iface,self.dkmstand,self.vogisPfad,self.PGdb, self.gemeindeliste)
                 self.GstsucheGUI.show()
                 self.GstsucheGUI.Abflug.connect(self.InstanzMarkieren)   #Ein individuelles Signal mit Namen Abflug
@@ -620,10 +697,18 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
 
         if self.GFZ == None or self.GFZ.objectName() == 'Bin_nicht_offen':
-            self.GFZ = GFZDialog(self.iface.mainWindow(),self.iface,self.dkmstand,ProjektPath,self.vogisPfad,self.PGdb, self.gemeindeliste.keys())
-            self.GFZ.show()       # ergibt einen Dialog der die Interaction mit Qgis zulässt aber nicht
-                        # hinter dem parent window verschwindet
-            self.GFZ.Abflug.connect(self.InstanzMarkieren)   #Ein individuelles Signal mit Namen Abflug
+
+            # Unterschiedliche Module für Postgis bzw. SQLITE
+            if vogisDb_global[0] != 'filesystem geodaten':
+                self.GFZ = GFZDialogPG(self.iface.mainWindow(),self.iface,self.dkmstand,ProjektPath,self.vogisPfad,self.PGdb, self.gemeindeliste.keys())
+                self.GFZ.show()     # ergibt einen Dialog der die Interaction mit Qgis zulässt aber nicht
+                                    # hinter dem parent window verschwindet
+                self.GFZ.Abflug.connect(self.InstanzMarkieren)   #Ein individuelles Signal mit Namen Abflug
+            else:
+                self.GFZ = GFZDialog(self.iface.mainWindow(),self.iface,self.dkmstand,ProjektPath,self.vogisPfad,None, self.gemeindeliste.keys())
+                self.GFZ.show()     # ergibt einen Dialog der die Interaction mit Qgis zulässt aber nicht
+                                    # hinter dem parent window verschwindet
+                self.GFZ.Abflug.connect(self.InstanzMarkieren)   #Ein individuelles Signal mit Namen Abflug
         else:
             self.GFZ.raise_()
             self.GFZ.activateWindow()
@@ -642,7 +727,7 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
     def doVerkehr(self):
         ProjektPath = self.vogisPfad + "Verkehr/"
-        self.verkehr = VerkehrDialog(self.iface.mainWindow(),self.iface,ProjektPath,self.vogisPfad)
+        self.verkehr = VerkehrDialog(self.iface.mainWindow(),self.iface,ProjektPath,self.vogisPfad,self.PGdb)
         self.verkehr.exec_()
 
     def doWasser(self):
@@ -660,7 +745,12 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
 
         if self.hoehenmodell == None or self.hoehenmodell.objectName() == 'Bin_nicht_offen':
-            self.hoehenmodell = HoehenmodellDialog(self.iface.mainWindow(),self.iface,self.speicheradressen_hoehenmodell,ProjektPath,self.vogisPfad,self.PGdb)
+
+            if vogisDb_global[0] != 'filesystem geodaten':
+                self.hoehenmodell = HoehenmodellDialog_PG(self.iface.mainWindow(),self.iface,self.speicheradressen_hoehenmodell,ProjektPath,self.vogisPfad,self.PGdb)
+            else:
+                self.hoehenmodell = HoehenmodellDialog(self.iface.mainWindow(),self.iface,self.speicheradressen_hoehenmodell,ProjektPath,self.vogisPfad)
+
             self.hoehenmodell.show()
 
             self.hoehenmodell.Abflug.connect(self.InstanzMarkieren)   #Ein individuelles Signal mit Namen Abflug
@@ -712,13 +802,13 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                                     #sonst müßte der parent dann für die Initialisierung von QDialog verwendet werden
     def doTopokarten(self):
         ProjektPath = self.vogisPfad + "Topographische_Karten"
-        self.Topokarten = TopokartenDialog(self.iface,ProjektPath,self.vogisPfad)
+        self.Topokarten = TopokartenDialog(self.iface,ProjektPath,self.vogisPfad,self.PGdb)
         self.Topokarten.exec_()          #ACHTUNG: wird kein self.iface.mainWindow() als parent übergeben brauchts exec
                                     #sonst müßte der parent dann für die Initialisierung von QDialog verwendet werden
 
     def doWald(self):
         ProjektPath = self.vogisPfad + "Forstwesen/Wald/Vlbg"
-        self.wald = WaldDialog(self.iface.mainWindow(),self.iface,ProjektPath)
+        self.wald = WaldDialog(self.iface.mainWindow(),self.iface,ProjektPath,self.PGdb)
         self.wald.exec_()     #ACHTUNG: wird kein self.iface.mainWindow() als parent übergeben brauchts exec
                         #sonst müßte der parent dann für die Initialisierung von QDialog verwendet werden
 
@@ -728,7 +818,7 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
         #damit das Fenster nicht zweimal geöffnet wird
 
         if self.vermessung == None or self.vermessung.objectName() == 'Bin_nicht_offen':
-            self.vermessung = VermessungDialog(self.iface.mainWindow(),self.iface,ProjektPath,self.vogisPfad)
+            self.vermessung = VermessungDialog(self.iface.mainWindow(),self.iface,ProjektPath,self.vogisPfad,self.PGdb)
             if self.vermessung.ok == True:
                 self.vermessung.show()
                 self.vermessung.Abflug.connect(self.InstanzMarkieren)   #Ein individuelles Signal mit Namen Abflug
@@ -756,6 +846,7 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
         Instanz.setObjectName('Bin_nicht_offen')
 
     def doVogisOptions(self):
+
         fenster = Options()
         fenster.exec_()
 
@@ -964,7 +1055,8 @@ class Options (QtGui.QDialog, Ui_frmOptions):
             self.vogisPfad = 'V:/Geodaten/'
             self.vogisEncoding = 'menue'
             self.vogisKBS = 'menue'
-            self.vogisDb = 'dbname=vogis host=vnvfelfs1.net.vlr.gv.at port=5432'
+            #self.vogisDb = 'dbname=vogis host=vnvfelfs1.net.vlr.gv.at port=5432'
+            self.vogisDb = 'dbname=vogis host=cnvbrwgdi6.net.vlr.gv.at port=9000'
             Flagge = False
 
         if Flagge:  #vogisin.xml konnte gelesen werden
@@ -983,8 +1075,8 @@ class Options (QtGui.QDialog, Ui_frmOptions):
 
             #prüfen ob alles belegt ist, ansonsten die vogisini komplett neu schreiben
             #mit Standardwerten!
-            if self.vogisPfad == '' or self.vogisEncoding == '' or self.vogisKBS == '' or self.vogisDb == '':
-                self.write_vogisini('V:/Geodaten/','menue','menue', '')
+            if self.vogisPfad == '' or self.vogisEncoding == '' or self.vogisKBS == '' or self.vogisDb == 'filesystem geodaten':
+                self.write_vogisini('V:/Geodaten/','menue','menue', 'filesystem geodaten')
 
             #die Checkboxen befüllen
             if self.vogisEncoding == 'menue':
@@ -997,7 +1089,7 @@ class Options (QtGui.QDialog, Ui_frmOptions):
             else:
                 self.ckCRS.setCheckState(2)
 
-            if self.vogisDb == '':
+            if self.vogisDb == 'filesystem geodaten':
                 self.ckDb.setCheckState(0)
             else:
                 self.ckDb.setCheckState(2)
@@ -1017,7 +1109,7 @@ class Options (QtGui.QDialog, Ui_frmOptions):
             else:
                 self.ckCRS.setCheckState(2)
 
-            if self.vogisDb == '':
+            if self.vogisDb == 'filesystem geodaten':
                 self.ckDb.setCheckState(0)
             else:
                 self.ckDb.setCheckState(2)
@@ -1061,9 +1153,10 @@ class Options (QtGui.QDialog, Ui_frmOptions):
             self.vogisEncoding = 'menue'
 
         if self.ckDb.checkState() == QtCore.Qt.Checked:
-            self.vogisDb = 'dbname=vogis host=vnvfelfs1.net.vlr.gv.at port=5432'
+            #self.vogisDb = 'dbname=vogis host=vnvfelfs1.net.vlr.gv.at port=5432'
+            self.vogisDb = 'dbname=vogis host=cnvbrwgdi6.net.vlr.gv.at port=9000'
         else:
-            self.vogisDb = ''
+            self.vogisDb = 'filesystem geodaten'
 
         if rect == QMessageBox.Ok:
             self.write_vogisini(self.vogisPfad,self.vogisEncoding,self.vogisKBS, self.vogisDb)

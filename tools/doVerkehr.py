@@ -6,6 +6,8 @@ from PyQt4 import QtGui,QtCore
 from qgis.core import *
 from gui_verkehr import *
 from gui_wegtafeln import *
+from osgeo import ogr
+from direk_laden import direk_laden
 #API up to 2.2
 if QGis.QGIS_VERSION_INT < 20300:
     from ProjektImport import *
@@ -21,7 +23,7 @@ else:
 #die Auswahl der Datenebenen Verkehr und enthält
 #auch weitere M
 class VerkehrDialog(QtGui.QDialog, Ui_frmVerkehr):
-    def __init__(self,parent,iface,pfad = None, vogisPfad = None):
+    def __init__(self,parent,iface,pfad = None, vogisPfad = None, PGdb = None):
         QtGui.QDialog.__init__(self,parent)
         Ui_frmVerkehr.__init__(self)
 
@@ -31,6 +33,7 @@ class VerkehrDialog(QtGui.QDialog, Ui_frmVerkehr):
         # Set up the user interface from Designer.
         self.setupUi(self)
         self.pfad = pfad
+        self.db=PGdb
         self.vogisPfad = vogisPfad
         self.ckButtons.setExclusive(False)  #wenn im Designer gesetzt, wirds beim Coderzeugen nicht übernommen
                                             #deshalb hier
@@ -74,7 +77,28 @@ class VerkehrDialog(QtGui.QDialog, Ui_frmVerkehr):
                     self.fullpath = self.vogisPfad + "Verkehr/Weg/Vlbg/Gueterweg"
 
                     #schlampig: Legendenshape hier dazuladen
-                    gueterweg = QgsVectorLayer(self.fullpath + "/gueterwege.shp","Gueterwege","ogr")
+##                    if self.db  != None:
+##                        try:
+##                            # Geodatenbank
+##                            uri = QgsDataSourceURI()
+##                            uri.setConnection(self.db.hostName(),str(self.db.port()),self.db.databaseName(),'','')  # Keine Kennwort nötig, Single Sign On
+##
+##                            # Geometriespalte bestimmen -- geht nur mit OGR
+##                            outputdb = ogr.Open('pg: host =' + self.db.hostName() + ' dbname =' + self.db.databaseName() + ' schemas=vorarlberg')
+##                            geom_column = outputdb.GetLayerByName('gueterwege').GetGeometryColumn()
+##
+##                            uri.setDataSource('vorarlberg', 'gueterwege', geom_column)
+##
+##                            gueterweg = QgsVectorLayer(uri.uri(), "gueterwege","postgres")
+##                        except:
+##                            QtGui.QMessageBox.about(None, "Fehler", "Layer ""gueterwege"" in der Datenbank nicht gefunden - es wird aufs Filesystem umgeschaltet")
+##                            gueterweg = QgsVectorLayer(self.fullpath + "/gueterwege.shp","Gueterwege","ogr")
+##                    else:
+##                        gueterweg = QgsVectorLayer(self.fullpath + "/gueterwege.shp","Gueterwege","ogr")
+##
+                    gueterweg = direk_laden(self.db, "gueterwege", "gueterwege.shp", self.fullpath + "/",self.iface)
+
+
                     #und prüfen ob erfolgreich geladen
                     if not gueterweg.isValid(): #nicht erfolgreich geladen
                         QtGui.QMessageBox.about(None, "Fehler", ("Güterwege konnte nicht geladen werden").decode('utf8'))

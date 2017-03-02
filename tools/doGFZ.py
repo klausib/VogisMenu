@@ -139,7 +139,7 @@ class GFZDialog (QtGui.QDialog,Ui_frmGFZ):
         #Hauptfenster positionieren
         #und zwar in die linke Ecke des QGIS Fensters
         linksoben = self.iface.mainWindow().frameGeometry().topLeft()
-        self.move(linksoben)
+        #self.move(linksoben)
 
         #Ein Maptool erzeugen das den Punkt zurückgibt (wenn man ins Kartnfenster klickt)
         self.PtRueckgabe = QgsMapToolEmitPoint(self.mc)
@@ -307,6 +307,9 @@ class GFZDialog (QtGui.QDialog,Ui_frmGFZ):
     #der Checkboxen ausgewählt wurden
     def ladeGemeinde(self):
         #Am Filesystem gibts keine Sonderzeichen!
+
+
+
         gemeinde_wie_filesystem = self.Gemeinde
         gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ä').decode('utf8'),'ae')
         gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ä').decode('utf8'),'Ae')
@@ -325,6 +328,8 @@ class GFZDialog (QtGui.QDialog,Ui_frmGFZ):
 
         #Den Pfad für die betreffende Gemeinde setzen
         Pfad = self.pfad + gemeinde_wie_filesystem + "/Gefahrenzonenkarte/gfzk.qgs"
+
+
         #Pfad = "D:\Bludenz/Gefahrenzonenkarte/gfzk.qgs"
         #Ein Objekt erzeugen mit dem auf
         #den Code Projektimport zurückgegriffen werden kann
@@ -336,6 +341,7 @@ class GFZDialog (QtGui.QDialog,Ui_frmGFZ):
         #nun wenn alles vorbereitet ist: Die IMPORTMETHODE starten für die DKM
         #QtGui.QMessageBox.about(None, "About Application",Pfad)
         self.gfz.importieren(Pfad,None,self.Gemeinde,True)
+
 
         self.mc.setRenderFlag(True)
 

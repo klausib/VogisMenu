@@ -8,6 +8,7 @@ from qgis.gui import *
 from qgis.analysis import *
 from gui_vermessung import *
 from gui_topo import *
+from direk_laden import direk_laden
 #API up to 2.2
 if QGis.QGIS_VERSION_INT < 20300:
     from ProjektImport import *
@@ -23,7 +24,7 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
     Abflug = QtCore.pyqtSignal(object)
 
 
-    def __init__(self,parent,iface,pfad = None,vogisPfad = None):
+    def __init__(self,parent,iface,pfad = None,vogisPfad = None, PGdb = None):
         QtGui.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
         Ui_frmVermessung.__init__(self)
 
@@ -33,6 +34,7 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
         self.setupUi(self)
         self.pfad = pfad
         self.vogisPfad = vogisPfad
+        self.pgdb = PGdb
         #self.vermessung_offen = vermessung_offen
 
         #Ränder des DIN A4 Blattes in mm
@@ -278,7 +280,28 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
                         self.qml_zuweisen(oniv,self.pfad + "/Vermessungspunkte/Vlbg/hoehengis/oniv.qml")
 
                 elif ("Polygonpunkte" in button.objectName()):  #ist nun ein Shape, nicht aus der DB!
-                    poly = QgsVectorLayer(self.vogisPfad + "Naturbestand/" + gemeinde_wie_filesystem + "/Polygonpunkte.shp","VKW-Polygonpunkte-" + self.Gemeinde ,"ogr")
+                    #schlampig: Legendenshape hier dazuladen
+##                    if self.pgdb != None:
+##                        try:  # Geodatenbank
+##                            uri = QgsDataSourceURI()
+##                            uri.setConnection(self.pgdb.hostName(),str(self.pgdb.port()),self.pgdb.databaseName(),'','')  # Keine Kennwort nötig, Single Sign On
+##
+##                            # Geometriespalte bestimmen -- geht nur mit OGR
+##                            outputdb = ogr.Open('pg: host =' + self.pgdb.hostName() + ' dbname =' + self.pgdb.databaseName() + ' schemas=vorarlberg')
+##                            geom_column = outputdb.GetLayerByName('vkw_polygonpunkte').GetGeometryColumn()
+##
+##                            uri.setDataSource('vorarlberg', 'vkw_polygonpunkte', geom_column)
+##
+##                            poly = QgsVectorLayer(uri.uri(), "vkw_polygonpunkte","postgres")
+##                        #und prüfen ob erfolgreich geladen
+##                        except: #nicht erfolgreich geladen
+##                            QtGui.QMessageBox.about(None, "Fehler", "Layer ""vkw_polygonpunkte"" in der Datenbank nicht gefunden - es wird aufs Filesystem umgeschaltet")
+##                            poly = QgsVectorLayer(self.vogisPfad + "Naturbestand/" + gemeinde_wie_filesystem + "/Polygonpunkte.shp","VKW-Polygonpunkte-" + self.Gemeinde ,"ogr")
+##                    elif self.pgdb == None:
+##                        poly = QgsVectorLayer(self.vogisPfad + "Naturbestand/" + gemeinde_wie_filesystem + "/Polygonpunkte.shp","VKW-Polygonpunkte-" + self.Gemeinde ,"ogr")
+
+                    poly = direk_laden(self.pgdb, "polygonpunkte","Polygonpunkte.shp", self.vogisPfad + "Naturbestand/" + gemeinde_wie_filesystem + "/",self.iface)
+
                     if not (poly is None):
                         #Prüfen ob die Polygonpubnkte geladen sind
                         yes = False
@@ -287,7 +310,10 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
                                 yes = True
                         if not yes:
                             self.qml_zuweisen(poly,self.pfad + "/Vermessungspunkte/Vlbg/hoehengis/vkw_polygonpunkte.qml")
-                            self.gruppe(string.strip(self.Gemeinde) + "-Vermessung",poly)
+                            if self.pgdb == None:
+                                self.gruppe(string.strip(self.Gemeinde) + "-Vermessung",poly)
+                            else:
+                                self.gruppe("Vorarlberg-Vermessung",poly)
                 elif ("Umrisspolygone" in button.objectName()):  #ist nun ein Projekt, nicht aus der DB!
                     self.vermessung.importieren(self.pfad + "/Vermessungen/vlbg/vermessungen/Vermessungen.qgs")
 
