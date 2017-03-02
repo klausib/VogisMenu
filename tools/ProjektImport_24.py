@@ -9,6 +9,7 @@
 from PyQt4 import QtCore, QtGui, QtXml, QtSql
 from qgis.core import *
 from ctypes import *
+from fortschrittbalken import *
 from globale_variablen import *     #Die Adresse der Listen importieren: Modulübergreifende globale Variablen sind so möglich
 #from qgis.core import *
 #from LayerDialog import *
@@ -102,6 +103,12 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
 
 
+        #falls es länger dauert, ein kurzes Infofenster
+        #für den Anwender
+        self.info = ProgressbarDialog()
+        self.info.show()
+        self.info.repaint()  #sonst bleibt das Fenster leer!
+        self.info.progressBar.setRange(0,self.maps.length())
         #Schleife geht alle Layer die in der Legende aufscheinen durch. Hier
         #ist nämlich die reihenfolge festgelegt, wie sie in Qgis dargestellt werden
         #Diese Schleife brauch ich nur für die richtige Reihenfolge
@@ -117,8 +124,11 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
             #Schleife ausgewählt und dann in dieser Schlefe im maplayertag
             #identifiziert
             #self.lyr=None
+
             for i in range(self.maps.length()):
 
+                self.info.progressBar.setValue(j)
+                self.info.raise_()  # nach oben
 
                 #prüfen ob der jeweilige layer nicht schon geladen ist. um das zu tun
                 #müssen wir im vogis projektimport die identifikation über
@@ -717,6 +727,8 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
         fehler = 0
         layerzaehler = 0
 
+        # Weg mit dem Fortschrittsbalken
+        self.info.close()
 
         if liste  <> None:  #wenn nur ein Teil der Layer eines Projekts geladen werden sollen. Die Liste enthält die
                             #Namen dieser Layer
