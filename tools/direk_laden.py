@@ -16,14 +16,29 @@ def direk_laden(PGdb, lyr_name, shapename, pfad, iface):
         shapename_ohne_suffix = str(string.strip(string.lower(shapename_ohne_suffix)))
         if db != None:
             try:  # Geodatenbank
+
+                ################################################
+                # Geometriespalte bestimmen -- geht nur mit OGR
+
                 uri = QgsDataSourceURI()
                 uri.setConnection(db.hostName(),str(db.port()),db.databaseName(),'','')  # Kein Kennwort nötig, Single Sign On
 
 
+                #QtGui.QMessageBox.about(None, "Layername", str(db_ogr))
+                try:
+                    outputdb = ogr.Open('pg: host =' + db.hostName() + ' dbname =' + db.databaseName() + ' schemas=' + schema + ' port=' + str(db.port()))
+                    geom_column = outputdb.GetLayerByName('gst').GetGeometryColumn()
+                except:
+                    geom_column = 'the_geom'
+
+                ##################################################
+
+
                 # Geometriespalte bestimmen -- geht nur mit OGR
                 outputdb = ogr.Open('pg: host=' + db.hostName() + ' dbname=' + db.databaseName() + ' schemas=vorarlberg' + ' port=' + str(db.port()))
-                #outputdb = ogr.Open('pg: host=' + db.hostName() +  ' dbname=' + db.databaseName() + ' schemas=vorarlberg')
                 geom_column = outputdb.GetLayerByName(shapename_ohne_suffix).GetGeometryColumn()
+
+
                 uri.setDataSource('vorarlberg', shapename_ohne_suffix, geom_column)
 
                 erg_lyr = QgsVectorLayer(uri.uri(), lyr_name,"postgres")

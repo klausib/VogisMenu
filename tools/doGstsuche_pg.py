@@ -248,7 +248,7 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
         #Sonst wird abgebrochen
         yes = False
         for vorhanden in self.mc.layers():
-            if vorhanden.name() == "Gemeinden":
+            if vorhanden.name() == "Gemeinden" and vorhanden.type() == 0: # o bedeutet Vektorlayer
                 yes = True
                 break
 
@@ -283,7 +283,7 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
 
         # API für QGIS 2.0
         if  (len(Liste) > 0):
-            self.auswahlaenderung(Liste[0].attribute('PGEM_NAME'))
+            self.auswahlaenderung(Liste[0].attribute('pgem_name'))
         else:   #WICHTIG!! ist der Extent so daß mit der Ermittlung des Mittelpunkts
                 #keine Gemeinde gefunden wird, stellen wir auf Sonntag!
             self.auswahlaenderung('Sonntag' )
@@ -516,23 +516,42 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
         schema = 'vorarlberg'
 
 
-        #Den Pfad zur betreffenden GEmeinde setzen
+        #Den Pfad zur betreffenden Gemeinde setzen
         #Pfad = self.vogisPfad + "Grenzen/DKM/" + gemeinde_wie_filesystem + "/Grundstuecke/"
 
 
 
 
-        # Geodatenbank
-        uri = QgsDataSourceURI()
-        uri.setConnection(self.db.hostName(),str(self.db.port()),self.db.databaseName(),'','')  # Keine Kennwort nötig, Single Sign On
+##        # Geodatenbank
+##        uri = QgsDataSourceURI()
+##        uri.setConnection(self.db.hostName(),str(self.db.port()),self.db.databaseName(),'','')  # Keine Kennwort nötig, Single Sign On
+##
+##        # Geometriespalte bestimmen -- geht nur mit OGR
+##        outputdb = ogr.Open('pg: host =' + self.db.hostName() + ' dbname =' + self.db.databaseName() + ' schemas=' + schema)
+##        geom_column = outputdb.GetLayerByName('gst').GetGeometryColumn()
 
+
+        ################################################
         # Geometriespalte bestimmen -- geht nur mit OGR
-        outputdb = ogr.Open('pg: host =' + self.db.hostName() + ' dbname =' + self.db.databaseName() + ' schemas=' + schema)
-        geom_column = outputdb.GetLayerByName('gst').GetGeometryColumn()
+
+        uri = QgsDataSourceURI()
+        uri.setConnection(self.db.hostName(),str(self.db.port()),self.db.databaseName(),'','')  # Kein Kennwort nötig, Single Sign On
+
+        #QtGui.QMessageBox.about(None, "Layername", str(db_ogr))
+        try:
+            outputdb = ogr.Open('pg: host =' + self.db.hostName() + ' dbname =' + self.db.databaseName() + ' schemas=' + schema + ' port=' + str(self.db.port()))
+            geom_column = outputdb.GetLayerByName('gst').GetGeometryColumn()
+        except:
+            geom_column = 'the_geom'
+
+        ##################################################
 
         uri.setDataSource(schema, 'gst', geom_column)
 
         gst_lyr = QgsVectorLayer(uri.uri(), "gst","postgres")
+
+
+
 
 
 

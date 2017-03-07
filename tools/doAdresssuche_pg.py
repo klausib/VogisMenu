@@ -578,17 +578,20 @@ class AdrDialogPG(QtGui.QDialog, Ui_frmAdresssuche):
         self.iface.mapCanvas().setRenderFlag(False)
 
 
-        #adressen = ProjektImport(self.iface )   #das Projekt Import Objekt instanzieren
-        uri = QgsDataSourceURI()
-        #uri.setDatabase(self.pfad + "adressen.sqlite")
-        uri.setConnection(self.db.hostName(),str(self.db.port()),self.db.databaseName(),'','')  # Keine Kennwort nötig, Single Sign On
-        #schema = "vorarlberg"
-        #table = "adressen"
-
-
+        ################################################
         # Geometriespalte bestimmen -- geht nur mit OGR
-        outputdb = ogr.Open('pg: host =' + self.db.hostName() + ' dbname =' + self.db.databaseName() + ' schemas=' + self.schema)
-        geom_column = outputdb.GetLayerByName(string.lower(self.table)).GetGeometryColumn()
+
+        uri = QgsDataSourceURI()
+        uri.setConnection(self.db.hostName(),str(self.db.port()),self.db.databaseName(),'','')  # Kein Kennwort nötig, Single Sign On
+
+        #QtGui.QMessageBox.about(None, "Layername", str(db_ogr))
+        try:
+            outputdb = ogr.Open('pg: host =' + self.db.hostName() + ' dbname =' + self.db.databaseName() + ' schemas=' + schema + ' port=' + str(self.db.port()))
+            geom_column = outputdb.GetLayerByName('gst').GetGeometryColumn()
+        except:
+            geom_column = 'the_geom'
+
+        ##################################################
 
 
         #sämtliche Radiobuttons des Dialogfeldes sind gruppiert in ckButtons
