@@ -105,7 +105,7 @@ class HoehenmodellDialog_PG(QtGui.QDialog, Ui_frmHoehenmodell):
             if  not (Tool_Gecklickt == self.PtRueckgabe):   #wenn ident, gleiche Speicheradresse!!
                 #QtGui.QMessageBox.about(None, "Achtung", str(Tool_Gecklickt) + " gegen" + str(self.PtRueckgabe))
                 self.btHoehenabfrage.setChecked(False)
-                self.btnBlattschnitt.setChecked(False)
+                #self.btnBlattschnitt.setChecked(False)
 
 
     #das laden der raster oder vektorlayer
@@ -408,40 +408,40 @@ class HoehenmodellDialog_PG(QtGui.QDialog, Ui_frmHoehenmodell):
             self.iface.mapCanvas().setCursor(self.cursor)
 
             #den anderen Schalter zurücksetzen
-            self.btnBlattschnitt.setChecked(False)
+            #self.btnBlattschnitt.setChecked(False)
 
             #WICHTIG: ein Signal/Slot Verbindung herstellen zwischen dem neuen Maptool
             #Dabei wird das punktobjekt übertragen!!
             QtCore.QObject.connect(self.PtRueckgabe, QtCore.SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.returnHoehe)
             #den anderen Knopf wieder lösen!
-            QtCore.QObject.disconnect(self.PtRueckgabe, QtCore.SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.returnBlattschnitt)
+            #QtCore.QObject.disconnect(self.PtRueckgabe, QtCore.SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.returnBlattschnitt)
 
-        #die Blattschnittabfrage ist gedrückt
-        elif self.btnBlattschnitt.isChecked() and ("Blattschnitt" in welcherknopf.objectName()):
-
-            #Das Aussehen des Mauscursors im QGIS Kartenbild
-            #wird auf unseren Cursor gesetzt
-            self.iface.mapCanvas().setCursor(self.cursor)
-
-
-            #und QGIS auf das neue Maptool einstellen!
-            self.iface.mapCanvas().setMapTool(self.PtRueckgabe)
-            self.iface.mapCanvas().setCursor(self.cursor)
-
-            #den anderen Schalter zurücksetzen
-            self.btHoehenabfrage.setChecked(False)
-
-            #WICHTIG: ein Signal/Slot Verbindung herstellen zwischen dem neuen Maptool
-            #Dabei wird das punktobjekt übertragen!!
-            QtCore.QObject.connect(self.PtRueckgabe, QtCore.SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.returnBlattschnitt)
-            #den anderen Knopf wieder lösen!
-            QtCore.QObject.disconnect(self.PtRueckgabe, QtCore.SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.returnHoehe)
+##        #die Blattschnittabfrage ist gedrückt
+##        elif self.btnBlattschnitt.isChecked() and ("Blattschnitt" in welcherknopf.objectName()):
+##
+##            #Das Aussehen des Mauscursors im QGIS Kartenbild
+##            #wird auf unseren Cursor gesetzt
+##            self.iface.mapCanvas().setCursor(self.cursor)
+##
+##
+##            #und QGIS auf das neue Maptool einstellen!
+##            self.iface.mapCanvas().setMapTool(self.PtRueckgabe)
+##            self.iface.mapCanvas().setCursor(self.cursor)
+##
+##            #den anderen Schalter zurücksetzen
+##            self.btHoehenabfrage.setChecked(False)
+##
+##            #WICHTIG: ein Signal/Slot Verbindung herstellen zwischen dem neuen Maptool
+##            #Dabei wird das punktobjekt übertragen!!
+##            QtCore.QObject.connect(self.PtRueckgabe, QtCore.SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.returnBlattschnitt)
+##            #den anderen Knopf wieder lösen!
+##            QtCore.QObject.disconnect(self.PtRueckgabe, QtCore.SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.returnHoehe)
 
         #Nichts ist gechecked, deshalb alles zurücksetzen
         else:
             self.iface.mapCanvas().setMapTool(self.tool_vorher)    #auf ursprüngliches Maptool und zugehörigen Cursor zurücksetzen
             self.tool_vorher = None
-            QtCore.QObject.disconnect(self.PtRueckgabe, QtCore.SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.returnBlattschnitt)
+            #QtCore.QObject.disconnect(self.PtRueckgabe, QtCore.SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.returnBlattschnitt)
             QtCore.QObject.disconnect(self.PtRueckgabe, QtCore.SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.returnHoehe)
 
     #Gibt die Höhe des DGM am angeklickten Ort zurück bzw. füllt damit die lineedit Felder

@@ -371,12 +371,13 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
 
                     # Layer  einlesen!
-                    if not QgsProject.instance().read(self.maps.item(i)) and vogisDb_global[0] == 'filesystem geodaten': #hier wird der Layer geladen und gemäß den Eintragungen
+                    proj_read = QgsProject.instance().read(self.maps.item(i))
+                    if not proj_read and vogisDb_global[0] == 'filesystem geodaten': #hier wird der Layer geladen und gemäß den Eintragungen
                                                                                                                 #der DomNode auch gerendert und dargestellt
 
                         QtGui.QMessageBox.about(None, "Achtung", "Layer " + self.legends.item(j).attributes().namedItem("name").nodeValue() + " nicht gefunden!")
                         continue
-                    elif not QgsProject.instance().read(self.maps.item(i)) and vogisDb_global[0] != 'filesystem geodaten':   # Probieren auf Filesystem umzuschalten
+                    elif not proj_read and vogisDb_global[0] != 'filesystem geodaten':   # Probieren auf Filesystem umzuschalten
                         QtGui.QMessageBox.about(None, "Achtung", "Layer - " + self.legends.item(j).attributes().namedItem("name").nodeValue() + " - in der Datenbank nicht gefunden - es wird aufs Filesystem umgeschaltet")
                         self.maps.item(i).namedItem("datasource").firstChild().setNodeValue(nv_ds)
                         self.maps.item(i).namedItem("provider").firstChild().setNodeValue(nv_provider)

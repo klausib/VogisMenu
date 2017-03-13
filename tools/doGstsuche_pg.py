@@ -423,16 +423,16 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
     #der Checkboxen ausgewählt wurden
     def ladeGemeinde(self):
         #Am Filesystem gibts keine Sonderzeichen!
-##        gemeinde_wie_filesystem = self.Gemeinde
-##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ä').decode('utf8'),'ae')
-##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ä').decode('utf8'),'Ae')
-##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ö').decode('utf8'),'oe')
-##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ö').decode('utf8'),'Oe')
-##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ü').decode('utf8'),'ue')
-##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ü').decode('utf8'),'Ue')
-##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ß').decode('utf8'),'ss')
-##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace('. ','_')
-        gemeinde_wie_filesystem = 'Vorarlberg'
+        gemeinde_wie_filesystem = self.Gemeinde
+        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ä').decode('utf8'),'ae')
+        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ä').decode('utf8'),'Ae')
+        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ö').decode('utf8'),'oe')
+        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ö').decode('utf8'),'Oe')
+        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ü').decode('utf8'),'ue')
+        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ü').decode('utf8'),'Ue')
+        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ß').decode('utf8'),'ss')
+        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace('. ','_')
+##        gemeinde_wie_filesystem = 'Vorarlberg'
 
         #Prüfen ob ein Zoompunkt gesetzt ist. Das ist nur der Fall wenn ein Grundstück gesucht wird
         #und auf den betreffenden Extent zoomen
@@ -504,16 +504,16 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
 
 
        #Am Filesystem gibts keine Sonderzeichen!
-##        schema = self.Gemeinde
-##        schema = schema.replace(('ä').decode('utf8'),'ae')
-##        schema = schema.replace(('Ä').decode('utf8'),'Ae')
-##        schema = schema.replace(('ö').decode('utf8'),'oe')
-##        schema = schema.replace(('Ö').decode('utf8'),'Oe')
-##        schema = schema.replace(('ü').decode('utf8'),'ue')
-##        schema = schema.replace(('Ü').decode('utf8'),'Ue')
-##        schema = schema.replace(('ß').decode('utf8'),'ss')
-##        schema = string.lower(schema.replace('. ','_'))
-        schema = 'vorarlberg'
+        schema = self.Gemeinde
+        schema = schema.replace(('ä').decode('utf8'),'ae')
+        schema = schema.replace(('Ä').decode('utf8'),'Ae')
+        schema = schema.replace(('ö').decode('utf8'),'oe')
+        schema = schema.replace(('Ö').decode('utf8'),'Oe')
+        schema = schema.replace(('ü').decode('utf8'),'ue')
+        schema = schema.replace(('Ü').decode('utf8'),'Ue')
+        schema = schema.replace(('ß').decode('utf8'),'ss')
+        schema = string.lower(schema.replace('. ','_'))
+##        schema = 'vorarlberg'
 
 
         #Den Pfad zur betreffenden Gemeinde setzen
@@ -536,8 +536,8 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
 
         uri = QgsDataSourceURI()
         uri.setConnection(self.db.hostName(),str(self.db.port()),self.db.databaseName(),'','')  # Kein Kennwort nötig, Single Sign On
+        #uri.setKeyColumn('ogc_fid') # GAR NICHT SCHÖN das so hardcodiert zu machenn
 
-        #QtGui.QMessageBox.about(None, "Layername", str(db_ogr))
         try:
             outputdb = ogr.Open('pg: host =' + self.db.hostName() + ' dbname =' + self.db.databaseName() + ' schemas=' + schema + ' port=' + str(self.db.port()))
             geom_column = outputdb.GetLayerByName('gst').GetGeometryColumn()
@@ -602,8 +602,8 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
             # um zu selektieren den geladenen Layer suchen
             # for lyr_tmp in self.mc.layers():    # geht nicht, da nicht sofort aktualisiert wird
             for lyr_tmp in self.iface.legendInterface().layers():    # vergisst und auch bei einem refresh nicht richtig macht....
-                #if lyr_tmp.name() == ("Grundstücke-").decode("utf-8") + self.Gemeinde + ' (a)':
-                if lyr_tmp.name() == ("Grundstücke-").decode("utf-8") +  'Vorarlberg (a)':
+                if lyr_tmp.name() == ("Grundstücke-").decode("utf-8") + self.Gemeinde + ' (a)':
+                #if lyr_tmp.name() == ("Grundstücke-").decode("utf-8") +  'Vorarlberg (a)':
                     if not fid is None:
                         lyr_tmp.setSelectedFeatures(fid)    # und selektieren
 
