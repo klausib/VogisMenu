@@ -469,8 +469,8 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
 
         self.mc.setRenderFlag(False)
         #nun wenn alles vorbereitet ist: Die IMPORTMETHODE starten für die DKM
-        #dkm.importieren(Pfad,liste,self.Gemeinde,True)
-        dkm.importieren(Pfad,liste,gemeinde_wie_filesystem,True)
+        dkm.importieren(Pfad,liste,self.Gemeinde,True)
+        #dkm.importieren(Pfad,liste,gemeinde_wie_filesystem,True)
         #dkm.importieren(Pfad,liste,self.Gemeinde,True)
 
         self.mc.setRenderFlag(True)
@@ -558,7 +558,8 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
 
 
         #------------------------------------------------------
-        # so geht die Suche schneller -Subset
+        # Subset Suche: Gibts so ein Grundstück überhaupt?
+        # erst wenn ja, dann wird geladen
         #------------------------------------------------------
 
 
@@ -587,24 +588,29 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
         # Ende Subset Suche
         #------------------------------------------------------
 
+
         #Wurde was gefunden? ja/nein
         if gst_lyr.selectedFeatureCount() >= 1: #Eins gefunden, Textfeld und Zoompunkt festlegen
             self.gefunden.setText(("Grundstück ").decode("utf-8") + nummer + " in  KG " + self.Kgemeinde + " gefunden")
             self.zoompunkt = gst_lyr.boundingBoxOfSelected()
-##            if Signal:
-##                self.mc.setExtent(self.zoompunkt)
-##            else:
-##                # Wenn die DKM der betreffenden Gemeinde noch nicht geladen ist
-##                # einfach laden
+
+            # Erstmal die Gemeinde laden
             self.ladeGemeinde()
 
 
+            # Ein Problem haben wir, da die FIDs der Layer nicht übereinstimmenm,
+            # da diese aus einem VIEW stammen und im Modul Projektimport zugewiesen werden
             # um zu selektieren den geladenen Layer suchen
-            # for lyr_tmp in self.mc.layers():    # geht nicht, da nicht sofort aktualisiert wird
             for lyr_tmp in self.iface.legendInterface().layers():    # vergisst und auch bei einem refresh nicht richtig macht....
                 if lyr_tmp.name() == ("Grundstücke-").decode("utf-8") + self.Gemeinde + ' (a)':
                 #if lyr_tmp.name() == ("Grundstücke-").decode("utf-8") +  'Vorarlberg (a)':
+                    # und nochmal die Subset auswahl durchführen
+                    # FIDS abfragen, Subset zurücksetzen und FIDS selektieren
                     if not fid is None:
+                        lyr_tmp.setSubsetString('(' + abfr_str +') and kg = (\'' + self.kgnummer + '\')')
+                        lyr_tmp.selectAll()
+                        fid = lyr_tmp.selectedFeaturesIds()
+                        lyr_tmp.setSubsetString('')
                         lyr_tmp.setSelectedFeatures(fid)    # und selektieren
 
         else:   #nichts gefunden: Textfeld und Zoompunkt zurücksetzen
