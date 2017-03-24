@@ -9,6 +9,7 @@ from qgis.analysis import *
 from gui_blattschnitte import *
 from gui_gstsuche import *
 from osgeo import ogr
+from globale_variablen import *     #Die Adresse der Listen importieren: Modulübergreifende globale Variablen sind so möglich
 
 
 from gui_gstauswahl import *
@@ -491,7 +492,11 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
     #Zoompunkt gesetz
     def gstsuche(self):
 
-
+        # Der Username der verwendet werden soll
+        if len(auth_user_global) > 0:    # Ist belegt
+            auth_user = auth_user_global[0]
+        else:
+            auth_user = None
 
         self.info.show()    # Infofenster, sollts länger dauern
         self.info.repaint()
@@ -536,10 +541,12 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
 
         uri = QgsDataSourceURI()
         uri.setConnection(self.db.hostName(),str(self.db.port()),self.db.databaseName(),'','')  # Kein Kennwort nötig, Single Sign On
-        #uri.setKeyColumn('ogc_fid') # GAR NICHT SCHÖN das so hardcodiert zu machenn
 
         try:
-            outputdb = ogr.Open('pg: host =' + self.db.hostName() + ' dbname =' + self.db.databaseName() + ' schemas=' + schema + ' port=' + str(self.db.port()))
+            if auth_user == None:
+                outputdb = ogr.Open('pg: host =' + self.db.hostName() + ' dbname =' + self.db.databaseName() + ' schemas=' + schema + ' port=' + str(self.db.port()))
+            else:
+                outputdb = ogr.Open('pg: host =' + self.db.hostName() + ' dbname =' + self.db.databaseName() + ' schemas=' + schema + ' port=' + str(self.db.port()) + ' user=' + auth_user)
             geom_column = outputdb.GetLayerByName('gst').GetGeometryColumn()
         except:
             geom_column = 'the_geom'
@@ -547,6 +554,8 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
         ##################################################
 
         uri.setDataSource(schema, 'gst', geom_column)
+        if not auth_user == None:
+            uri.setUsername(auth_user)
 
         gst_lyr = QgsVectorLayer(uri.uri(), "gst","postgres")
 
@@ -571,10 +580,10 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
         nummer = ''
         for gst in gstliste:
             if abfr_str == '':
-                abfr_str = abfr_str + 'gnr = \'' + gst + '\' '
+                abfr_str = abfr_str + 'gnr = \'' + string.strip(gst) + '\' '
                 nummer = nummer + gst + " "
             else:
-                abfr_str = abfr_str + 'or gnr = \'' + gst + '\' '
+                abfr_str = abfr_str + 'or gnr = \'' + string.strip(gst) + '\' '
                 nummer = nummer + gst + " "
 
 
@@ -612,6 +621,7 @@ class GstDialogPG (QtGui.QDialog,Ui_frmGstsuche):
                         fid = lyr_tmp.selectedFeaturesIds()
                         lyr_tmp.setSubsetString('')
                         lyr_tmp.setSelectedFeatures(fid)    # und selektieren
+                        #QtGui.QMessageBox.about(None, "Achtung", str(fid))
 
         else:   #nichts gefunden: Textfeld und Zoompunkt zurücksetzen
             self.gefunden.setText(("Grundstück ").decode("utf-8") + self.txtGstnr.text() + " in  KG " + self.Kgemeinde + " nicht gefunden")

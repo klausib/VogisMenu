@@ -44,8 +44,14 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
 
 
-    def importieren(self, pfad = None, liste = None, ergaenzungsname = None, anzeigename_ergaenzen = False, nach_unten = False, force_gruppenname = None, force_scale = None):
+    def importieren(self, pfad = None, liste = None, ergaenzungsname = None, anzeigename_ergaenzen = False, nach_unten = False, force_gruppenname = None, force_scale = None, DBschema_erweitern = True):
 
+
+        # Der Username der verwendet werden soll
+        if len(auth_user_global) > 0:    # Ist belegt
+            auth_user = auth_user_global[0]
+        else:
+            auth_user = None
 
         self.iface.layerTreeView().setCurrentLayer(None)    # None entspricht einem Null Pointer -> Auswahl wird entfernt -> nicht ausgewählt
 
@@ -53,7 +59,7 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
         # Gemeindespezifische Daten geladen werden
         # zwecks Übersichtlichkeit
         self.anzeigename_aendern = anzeigename_ergaenzen
-        self.gruppen_erg_name = ergaenzungsname     # oberste Gruppe wird mit diesem Namen ergänzt
+        self.gruppen_erg_name = ergaenzungsname     # oberste Gruppe/Layer wird mit diesem Namen ergänzt!
 
 
 
@@ -255,7 +261,7 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                             tablename = os.path.basename(self.maps.item(i).namedItem("datasource").firstChild().nodeValue()).split('.shp')[0]
                             db_ogr = tablename
 
-                        if ergaenzungsname != None:
+                        if ergaenzungsname != None and DBschema_erweitern:
                             tablename = string.lower('\"' + ergaenzungsname + '\".\"' + tablename + '\"')
                         else:
                             tablename = string.lower('\"vorarlberg".\"' + tablename + '\"')
@@ -269,6 +275,7 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                         tablename = tablename.replace(('Ü').decode('utf8'),'Ue')
                         tablename = tablename.replace(('ß').decode('utf8'),'ss')
                         tablename = tablename.replace('. ','_')
+
 
                         ################################################
                         # Geometriespalte bestimmen -- geht nur mit OGR
@@ -285,9 +292,12 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                                 host = string.replace(param,'host=','')
                             elif string.find(param,'port=') >= 0:
                                 port = string.replace(param,'port=','')
-                        #QtGui.QMessageBox.about(None, "Layername", str(db_ogr))
+
                         try:
-                            outputdb = ogr.Open('pg: host=' + host  + ' dbname=' + dbname + ' schemas=vorarlberg' + ' port=' + port)
+                            if auth_user == None:
+                                outputdb = ogr.Open('pg: host=' + host  + ' dbname=' + dbname + ' schemas=vorarlberg' + ' port=' + port)
+                            else:
+                                outputdb = ogr.Open('pg: host=' + host  + ' dbname=' + dbname + ' schemas=vorarlberg' + ' port=' + port + ' user=' + auth_user)
                             geom_column = outputdb.GetLayerByName(str(db_ogr)).GetGeometryColumn()
                         except:
                             geom_column = 'the_geom'
@@ -295,15 +305,26 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                         ##################################################
 
 
+                        #QtGui.QMessageBox.about(None, "Layername", str(auth_user))
 
                         if self.maps.item(i).namedItem("datasource").firstChild().nodeValue().find('ogc_fid') > 0:
                             #dbpath = string.lower(vogisDb_global[0] + ' sslmode=disable table=' +  tablename +  ' (the_geom) sql') + sql
-                            dbpath = string.lower(vogisDb_global[0] + ' sslmode=disable table=' +  tablename +  ' (' + geom_column + ') sql') + sql
-                            #QtGui.QMessageBox.about(None, "Achtung", str('gefunden'))
+                            # Achtung, das Attribut user darf nicht zwingen immer nur klein sein -> Siehe Usermapping in der Doku
+                            if auth_user == None:
+                                dbpath = string.lower(vogisDb_global[0] + ' sslmode=disable table=' +  tablename +  ' (' + geom_column + ') sql') + sql
+                            else:
+                                dbpath = string.lower(vogisDb_global[0]) + ' user=' + auth_user + string.lower(' sslmode=disable table=' +  tablename +  ' (' + geom_column + ') sql') + sql
+                            #QtGui.QMessageBox.about(None, "Achtung", str(dbpath))
                         else:
                             #dbpath = string.lower(vogisDb_global[0] + ' sslmode=disable key=ogc_fid table=' +  tablename +  ' (the_geom) sql') + sql
-                            dbpath = string.lower(vogisDb_global[0] + ' sslmode=disable key=ogc_fid table=' +  tablename +  ' (' + geom_column + ') sql') + sql
-                            #QtGui.QMessageBox.about(None, "Achtung", str('nicht gefunden'))
+                            # Achtung, das Attribut user darf nicht zwingen immer nur klein sein -> Siehe Usermapping in der Doku
+                            if auth_user == None:
+                                dbpath = string.lower(vogisDb_global[0] + ' sslmode=disable key=ogc_fid table=' +  tablename +  ' (' + geom_column + ') sql') + sql
+                            else:
+                                dbpath = string.lower(vogisDb_global[0]) + ' user=' + auth_user + string.lower(' sslmode=disable key=ogc_fid table=' +  tablename +  ' (' + geom_column + ') sql') + sql
+                        #QtGui.QMessageBox.about(None, "Achtung", str(dbpath))
+
+
 
                         nv_ds = self.maps.item(i).namedItem("datasource").firstChild().nodeValue()
                         nv_provider = self.maps.item(i).namedItem("provider").firstChild().nodeValue()
@@ -312,6 +333,7 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                         self.maps.item(i).namedItem("datasource").firstChild().setNodeValue(dbpath)
                         self.maps.item(i).namedItem("provider").firstChild().setNodeValue('postgres')
                         self.maps.item(i).namedItem("provider").attributes().namedItem('encoding').setNodeValue('UTF-8')
+
 
 
 
@@ -334,7 +356,7 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 ##                                port = string.replace(param,'port=','')
 ##
 ##                        # Username falls benötigt
-##                        #username = getpass.getuser().lower()
+##                        #username = getpass.getuser().upper()
 ##
 ##                        # Wir verwenden die Windows Domänen Authentifizierung. Keine User notwendig
 ##                        db = QtSql.QSqlDatabase.addDatabase("QPSQL","DbTest");  # Der Name macht ie Verbindung individuell - sonst ist eine Default Verbindung
@@ -372,6 +394,7 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
                     # Layer  einlesen!
                     proj_read = QgsProject.instance().read(self.maps.item(i))
+                    #QtGui.QMessageBox.about(None, "Achtung", str(proj_read))
                     if not proj_read and vogisDb_global[0] == 'filesystem geodaten': #hier wird der Layer geladen und gemäß den Eintragungen
                                                                                                                 #der DomNode auch gerendert und dargestellt
 

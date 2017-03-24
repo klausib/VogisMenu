@@ -12,7 +12,8 @@ from gui_adresssuche_pg import *
 from doVermessung import *
 from ladefortschritt import *
 from osgeo import ogr
-
+from direk_laden import *
+from globale_variablen import *     #Die Adresse der Listen importieren: Modulübergreifende globale Variablen sind so möglich
 #API up to 2.2
 if QGis.QGIS_VERSION_INT < 20300:
     from ProjektImport import *
@@ -214,6 +215,7 @@ class AdrDialogPG(QtGui.QDialog, Ui_frmAdresssuche):
             elif Index.parent().data() == None: # Es wird auf den Gemeindenamen geklickt , er hat keinen Parent
                 self.abfrage.exec_("select distinct gemeinde,strasse  from  " + self.tablename + "  where gemeinde = '" + Index.data() + "' order by gemeinde,strasse")
                 self.FlagTreeWahl = 'Gemeinde'
+                self.Gemeinde = Index.data()
             else:   # Hausnummer wird angeklickt
                 self.FlagTreeWahl = 'Nummer'
 
@@ -575,24 +577,57 @@ class AdrDialogPG(QtGui.QDialog, Ui_frmAdresssuche):
     #in der jeweiligen If clause ausgeführt
     def themenLaden(self):
 
+
+         # Der Username der verwendet werden soll
+        if len(auth_user_global) > 0:    # Ist belegt
+            auth_user = auth_user_global[0]
+        else:
+            auth_user = None
+
+
         self.iface.mapCanvas().setRenderFlag(False)
 
 
         ################################################
         # Geometriespalte bestimmen -- geht nur mit OGR
 
-        uri = QgsDataSourceURI()
-        uri.setConnection(self.db.hostName(),str(self.db.port()),self.db.databaseName(),'','')  # Kein Kennwort nötig, Single Sign On
+##        uri = QgsDataSourceURI()
+##        uri.setConnection(self.db.hostName(),str(self.db.port()),self.db.databaseName(),'','')  # Kein Kennwort nötig, Single Sign On
+##
+##        #QtGui.QMessageBox.about(None, "Layername", str(db_ogr))
+##        try:
+##            outputdb = ogr.Open('pg: host =' + self.db.hostName() + ' dbname =' + self.db.databaseName() + ' schemas=' + schema + ' port=' + str(self.db.port()))
+##            geom_column = outputdb.GetLayerByName('gst').GetGeometryColumn()
+##        except:
+##            geom_column = 'the_geom'
+##
+##        ##################################################
 
-        #QtGui.QMessageBox.about(None, "Layername", str(db_ogr))
-        try:
-            outputdb = ogr.Open('pg: host =' + self.db.hostName() + ' dbname =' + self.db.databaseName() + ' schemas=' + schema + ' port=' + str(self.db.port()))
-            geom_column = outputdb.GetLayerByName('gst').GetGeometryColumn()
-        except:
-            geom_column = 'the_geom'
-
-        ##################################################
-
+##        if self.db != None:
+##            try:  # Geodatenbank
+##
+##                uri = QgsDataSourceURI()
+##                uri.setConnection(self.db.hostName(),str(self.db.port()),self.db.databaseName(),'','')  # Kein Kennwort nötig, Single Sign On
+##
+##                ################################################
+##                # Geometriespalte bestimmen -- geht nur mit OGR
+##                try:
+##                    if auth_user == None:
+##                        outputdb = ogr.Open('pg: host =' + self.db.hostName() + ' dbname =' + self.db.databaseName() + ' schemas=' + schema + ' port=' + str(self.db.port()))
+##                    else:
+##                        outputdb = ogr.Open('pg: host =' + self.db.hostName() + ' dbname =' + self.db.databaseName() + ' schemas=' + schema + ' port=' + str(self.db.port()) + ' user=' + auth_user)
+##                    geom_column = outputdb.GetLayerByName(self.table).GetGeometryColumn()
+##                except:
+##                    geom_column = 'the_geom'
+##
+##                ################################################
+##             #und prüfen ob erfolgreich geladen
+##            except Exception as e: #nicht erfolgreich geladen
+##                QtGui.QMessageBox.about(None, "Fehler", "Layer " + self.table + " in der Datenbank nicht gefunden - es wird aufs Filesystem umgeschaltet")
+##                #QtGui.QMessageBox.about(None, "Fehler", str(e))
+##                erg_lyr = QgsVectorLayer(pfad + '/' + self.table, self.table,"ogr")
+##        elif self.db == None:
+##            erg_lyr = QgsVectorLayer(pfad + '/' + self.table, self.table,"ogr")
 
         #sämtliche Radiobuttons des Dialogfeldes sind gruppiert in ckButtons
         #und können so in einer Schleife auf ihren Zustand (gechecket) geprüft werden
@@ -605,10 +640,10 @@ class AdrDialogPG(QtGui.QDialog, Ui_frmAdresssuche):
 
                     #adressen laden
                     #uri.setDataSource(schema, table, geom_column)
-                    uri.setDataSource(self.schema, self.table, geom_column)
+                    #uri.setDataSource(self.schema, self.table, geom_column)
 
-                    adressen = QgsVectorLayer(uri.uri(), "adressen","postgres")
-                    #adressen.setProviderEncoding("utf-8")
+                    #adressen = QgsVectorLayer(uri.uri(), "adressen","postgres")
+                    adressen = direk_laden(self.db, "Adressen-Vorarlberg",'adressen',self.pfad + '\Vorarlberg"', self.iface)
 
 
                     #und prüfen ob erfolgreich geladen
@@ -631,14 +666,17 @@ class AdrDialogPG(QtGui.QDialog, Ui_frmAdresssuche):
 
                     #den mittelpunkt des extent rausfinden
                     #und die passende Gemeinde im ListWidget einstellen
-                    mittelpunkt = self.findemittelpunkt()
-                    self.returnGemeinde(mittelpunkt)
+##                    mittelpunkt = self.findemittelpunkt()
+##                    self.returnGemeinde(mittelpunkt)
 
-                    uri.setDataSource(self.schema, self.table, geom_column, "gemeinde = '" + self.Gemeinde + "'")
+                    #uri.setDataSource(self.schema, self.table, geom_column, "gemeinde = '" + self.Gemeinde + "'")
 
 
                     #adressen laden
-                    adressen = QgsVectorLayer(uri.uri(),"Adressen-" + self.Gemeinde,"postgres")
+                    #adressen = QgsVectorLayer(uri.uri(),"Adressen-" + self.Gemeinde,"postgres")
+
+                    adressen = direk_laden(self.db, "Adressen-" + self.Gemeinde,'adressen',self.pfad + self.Gemeinde, self.iface, 'gemeinde = \''+ self.Gemeinde +'\'')
+
                     #und prüfen ob erfolgreich geladen
                     if not adressen.isValid(): #nicht erfolgreich geladen
                         QtGui.QMessageBox.about(None, "Fehler", "Adressen konnte nicht geladen werden")

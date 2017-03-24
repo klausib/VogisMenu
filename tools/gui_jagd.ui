@@ -155,21 +155,6 @@
      </widget>
     </item>
     <item>
-     <widget class="QCheckBox" name="ckSteinwildvorkommen">
-      <property name="font">
-       <font>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Steinwildvorkommen</string>
-      </property>
-      <attribute name="buttonGroup">
-       <string>ckButtons</string>
-      </attribute>
-     </widget>
-    </item>
-    <item>
      <widget class="QCheckBox" name="ckWildfuetterungen">
       <property name="font">
        <font>
@@ -193,21 +178,6 @@
       </property>
       <property name="text">
        <string>Rotwildwintergatter</string>
-      </property>
-      <attribute name="buttonGroup">
-       <string>ckButtons</string>
-      </attribute>
-     </widget>
-    </item>
-    <item>
-     <widget class="QCheckBox" name="ckJagdflaeche">
-      <property name="font">
-       <font>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Nicht anrechenbare Jagdfläche</string>
       </property>
       <attribute name="buttonGroup">
        <string>ckButtons</string>

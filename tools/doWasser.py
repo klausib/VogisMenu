@@ -60,138 +60,162 @@ class WasserDialog(QtGui.QDialog, Ui_frmWasser):
                 if   ("Brunnen" in button.objectName()):
                     self.fullpath = self.pfad + "Brunnen/Vlbg/Brunnen/brunnen.qgs"
                     self.wasser.importieren(self.fullpath)
+
                 elif   ("ckQuellen" in button.objectName()):
                     self.fullpath = self.pfad + "Quellen/Vlbg/Quellpunkte/quellen.qgs"
                     self.wasser.importieren(self.fullpath)
+
                 elif   ("SchutzSchongebiete" in button.objectName()):
                     self.fullpath = self.pfad + "Schutz_Schongebiete/Vlbg/SchutzSchongebiete/schutzundschongebiete.qgs"
                     self.wasser.importieren(self.fullpath)
+
                 elif   ("GWWaermepumpen" in button.objectName()):
                     self.fullpath = self.pfad + "Grundwasser/Vlbg/ThermischeNutzungen/grundwasser_waermepumpen.qgs"
-                    self.wasser.importieren(self.fullpath,None,"wpog",False)
+                    self.wasser.importieren(self.fullpath,None,"wpog",False, False, None, None, False)
+
                 elif   ("Erdwaermeanlagen" in button.objectName()):
                     self.fullpath = self.pfad + "Grundwasser/Vlbg/ThermischeNutzungen/erdwaermeanlage.qgs"
-                    self.wasser.importieren(self.fullpath,None,"erdwaerme",False)
+                    self.wasser.importieren(self.fullpath,None,"erdwaerme",False, False, None, None, False)
+
                 elif   ("KuehlwasseranlagenGW" in button.objectName()):
                     self.fullpath  = self.pfad +  "Grundwasser/Vlbg/ThermischeNutzungen/kuehlwasseranlage_grundwasser.qgs"
-                    self.wasser.importieren(self.fullpath,None, "kuehlwasser" ,False)
+                    self.wasser.importieren(self.fullpath,None, "kuehlwasser" ,False, False, None, None, False)
+
                 elif   ("KuehlwasseranlagenOG" in button.objectName()):
                     self.fullpath  = self.pfad +  "Grundwasser/Vlbg/ThermischeNutzungen/kuehlwasseranlage_oberflaechengewaesser.qgs"
-                    self.wasser.importieren(self.fullpath,None,"kwog",False) #sonst wirds im Bulk nicht geladen!!
+                    self.wasser.importieren(self.fullpath,None,"kwog",False, False, None, None, False) #sonst wirds im Bulk nicht geladen!!
+
                 elif   ("WeitereAnlagen" in button.objectName()):
                     self.fullpath  = self.pfad +  "Grundwasser/Vlbg/Grundwasseranlagen/grundwasser_anlagen.qgs"
                     self.wasser.importieren(self.fullpath)
+
                 elif   ("Kraftwerke" in button.objectName()):
                     self.fullpath  = self.pfad +  "Wassernutzung/Vlbg/Kraftwerke/kraftwerke.qgs"
                     self.wasser.importieren(self.fullpath)
+
                 elif   ("SonstigeBetriebe" in button.objectName()):
                     self.fullpath  = self.pfad +  "Betriebe/Vlbg/Betriebe/betriebe.qgs"
                     self.wasser.importieren(self.fullpath)
+
                 elif   ("Geschiebe" in button.objectName()):
                     self.fullpath  = self.pfad +  "Flussbau/Vlbg/Rueckhalteeinrichtungen/geschiebe_rueckhalteeinrichtungen.qgs"
                     self.wasser.importieren(self.fullpath)
+
                 elif   ("SonstigeAnlagen" in button.objectName()):
                     self.fullpath  = self.pfad +  "Wassernutzung/Vlbg/Anlagen/oberflaechengewaesser_anlagen.qgs"
                     self.wasser.importieren(self.fullpath)
+
                 elif   ("KommunaleKlaeranlagen" in button.objectName()):
                     self.fullpath  = self.pfad +  "Abwasser/Vlbg/Klaeranlagen/kommunale_klaeranlagen.qgs"
-                    self.wasser.importieren(self.fullpath,None,"kommunale",False)
+                    self.wasser.importieren(self.fullpath,None,"kommunale",False, False, None, None, False)
+
                 elif   ("Kleinklaeranlagen" in button.objectName()):
                     self.fullpath  = self.pfad +  "Abwasser/Vlbg/Klaeranlagen/klein_klaeranlagen.qgs"
-                    self.wasser.importieren(self.fullpath,None,"klein",False)
+                    self.wasser.importieren(self.fullpath,None,"klein",False, False, None, None, False)
+
                 elif   ("BetrieblicheKlaeranlagen" in button.objectName()):
                     self.fullpath  = self.pfad +  "Abwasser/Vlbg/Klaeranlagen/betriebliche_klaeranlagen.qgs"
-                    self.wasser.importieren(self.fullpath,None,"betrieblich",False)
+                    self.wasser.importieren(self.fullpath,None,"betrieblich",False, False, None, None, False)
+
                 elif   ("OeffentlicheTankstellen" in button.objectName()):
                     self.fullpath  = self.pfad +  "Betriebe/Vlbg/OeffentlicheTankstellen/oeffentlichetankstellen.qgs"
                     self.wasser.importieren(self.fullpath)
-##                elif   ("EzFliessgewaesser" in button.objectName()):
-##                    self.fullpath  = self.pfad +  "Einzugsgebiete/Vlbg/HZB_Einzugsgebiete/einzugsgebiete_hzb.qgs"
-##                    self.wasser.importieren(self.fullpath)
+
                 elif   ("Niederschlagmessstellen" in button.objectName()):
                     self.fullpath  = self.pfad +  "Messstellen/Vlbg/Messstellen/niederschlag_messstellen.qgs"
-                    self.wasser.importieren(self.fullpath,None,"niederschlag",False)
+                    self.wasser.importieren(self.fullpath,None,"niederschlag",False, False, None, None, False)
+
                 elif   ("Oberflaechenwassermessstellen" in button.objectName()):
                     self.fullpath  = self.pfad +  "Messstellen/Vlbg/Messstellen/oberflaechengewaesser_messstellen.qgs"
-                    self.wasser.importieren(self.fullpath,None,"oberflaechenwasser",False)
+                    self.wasser.importieren(self.fullpath,None,"oberflaechenwasser",False, False, None, None, False)
+
                 elif   ("Grundwassermessstellen" in button.objectName()):
                     self.fullpath  = self.pfad +  "Messstellen/Vlbg/Messstellen/grundwasser_messstellen.qgs"
-                    self.wasser.importieren(self.fullpath,None,"grundwasser",False)
+                    self.wasser.importieren(self.fullpath,None,"grundwasser",False, False, None, None, False)
+
                 elif   ("Grundwasserfelder" in button.objectName()):
                     self.fullpath  = self.pfad +  "Grundwasser/Vlbg/Grundwasserfelder/grundwasserfelder.qgs"
                     self.wasser.importieren(self.fullpath)
+
                 elif   ("Gewaessernetz2012Vlbg" in button.objectName()):
                     self.fullpath  = self.pfad +  "Fluesse/Vlbg/Fluesse1t/Fluesse1t.qgs"
-                    self.wasser.importieren(self.fullpath,None,"Vlbg",False)
+                    self.wasser.importieren(self.fullpath,None,"Vlbg",False, False, None, None, False)
+
                 elif   ("Gewaessernetz2012Umgebung" in button.objectName()):
                     self.fullpath  = self.pfad +  "Fluesse/Vlbg_Umgebung/Fluesse1t/Fluesse1t.qgs"
-                    self.wasser.importieren(self.fullpath,None,"Vlbg_Umgebung",False)
+                    self.wasser.importieren(self.fullpath,None,"Vlbg_Umgebung",False, False, None, None, False)
+
                 elif   ("Gewaessernetz2000Vlbg" in button.objectName()):
                     self.fullpath  = self.pfad +  "Fluesse/Vlbg/Fluesse50t/Fluesse50t.qgs"
-                    self.wasser.importieren(self.fullpath,None,"Vlbg",False)
+                    self.wasser.importieren(self.fullpath,None,"Vlbg",False, False, None, None, False)
+
                 elif   ("Gewaessernetz2000Umgebung" in button.objectName()):
                     self.fullpath  = self.pfad +  "Fluesse/Vlbg_Umgebung/Fluesse50t/Fluesse50t.qgs"
-                    self.wasser.importieren(self.fullpath,None,"Vlbg_Umgebung",False)
+                    self.wasser.importieren(self.fullpath,None,"Vlbg_Umgebung",False, False, None, None, False)
+
                 elif   ("Direkteinleitungen" in button.objectName()):
                     self.fullpath  = self.pfad +  "Fluesse/Vlbg/Strukturzustand/direkteinleitungen2012.qgs"
-                    self.wasser.importieren(self.fullpath,None,"Strukturzustand",False)
+                    self.wasser.importieren(self.fullpath,None,"Strukturzustand",False, False, None, None, False)
+
                 elif   ("Kontinuumsunterbrechungen" in button.objectName()):
                     self.fullpath  = self.pfad +  "Fluesse/Vlbg/Strukturzustand/kontinuumsunterbrechungen2012.qgs"
-                    self.wasser.importieren(self.fullpath,None,"Strukturzustand",False)
+                    self.wasser.importieren(self.fullpath,None,"Strukturzustand",False, False, None, None, False)
+
                 elif   (("SohleBoeschung").decode('utf8') in button.objectName()):
                     self.fullpath  = self.pfad +  "Fluesse/Vlbg/Strukturzustand/sohle_boeschung2012.qgs"
-                    self.wasser.importieren(self.fullpath,None,"Strukturzustand",False)
+                    self.wasser.importieren(self.fullpath,None,"Strukturzustand",False, False, None, None, False)
+
                 elif   ("Strukturzustand" in button.objectName()):
                     self.fullpath  = self.pfad +  "Fluesse/Vlbg/Strukturzustand/strukturzustand2012.qgs"
-                    self.wasser.importieren(self.fullpath,None,"Strukturzustand",False)
+                    self.wasser.importieren(self.fullpath,None,"Strukturzustand",False, False, None, None, False)
+
                 elif   ("Ufervegetation" in button.objectName()):
                     self.fullpath  = self.pfad +  "Fluesse/Vlbg/Strukturzustand/ufervegetation2012.qgs"
-                    self.wasser.importieren(self.fullpath,None,"Strukturzustand",False)
+                    self.wasser.importieren(self.fullpath,None,"Strukturzustand",False, False, None, None, False)
+
                 elif   ("ckBodenseeAlles" in button.objectName()):
                     self.fullpath  = self.pfad +  "Seen/Bodensee/bodensee.qgs"
-                    self.wasser.importieren(self.fullpath,None,None,False)
+                    self.wasser.importieren(self.fullpath,None,None,False, False, None, None, False)
+
                 elif   ("ckBodenseeUferlinie" in button.objectName()):
                     self.fullpath  = self.pfad +  "Seen/Bodensee/Uferlinie/Bodensee_Uferlinie_2012.qgs"
-                    self.wasser.importieren(self.fullpath,None,None,False)
-##                    self.fullpath  = self.pfad +  "Seen/Bodensee/bodensee.qgs"
-##                    bodenseeliste = ['Bodensee_Uferlinie_2012']
-##                    self.wasser.importieren(self.fullpath,bodenseeliste,None,False)
+                    self.wasser.importieren(self.fullpath,None,None,False, False, None, None, False)
+
                 elif   ("ckBodenseeWasserflaeche" in button.objectName()):
-##                    self.fullpath  = self.pfad +  "Seen/Bodensee/Bodenseeuferlinie/bodenseewasserflaeche.qgs"
-##                    self.wasser.importieren(self.fullpath,None,None,False)
                     self.fullpath  = self.pfad +  "Seen/Bodensee/bodensee.qgs"
                     bodenseeliste = ['Bodensee_Wasserflaeche_2012']
-                    self.wasser.importieren(self.fullpath,bodenseeliste,None,False)
+                    self.wasser.importieren(self.fullpath,bodenseeliste,None,False, False, None, None, False)
                 elif   ("ckBodensee25m" in button.objectName()):
-##                    self.fullpath  = self.pfad +  "Seen/Bodensee/Bodenseetiefenlinie25m/bodenseetiefenlinie25m.qgs"
-##                    self.wasser.importieren(self.fullpath,None,None,False)
                     self.fullpath  = self.pfad +  "Seen/Bodensee/bodensee.qgs"
                     bodenseeliste = ['Bodensee_25m-Tiefenlinie_2014', 'Bodensee_25m-Tiefenlinie_2008','Bodensee_25m-Tiefenlinie_1999','Bodensee_25m-Tiefenlinie_1990']
-                    self.wasser.importieren(self.fullpath,bodenseeliste,None,False)
+                    self.wasser.importieren(self.fullpath,bodenseeliste,None,False, False, None, None, False)
+
                 elif   ("ckBodensee5m" in button.objectName()):
-##                    self.fullpath  = self.pfad +  "Seen/Bodensee/Bodenseetiefenlinie10m/bodenseetiefenlinie10m.qgs"
-##                    self.wasser.importieren(self.fullpath,None,None,False)
                     self.fullpath  = self.pfad +  "Seen/Bodensee/bodensee.qgs"
                     bodenseeliste = ['Bodensee_Tiefenlinien_5m_2014','Bodensee_Tiefenlinien_5m_2008','Bodensee_Tiefenlinien_5m_1999','Bodensee_Tiefenlinien_5m_1990']
-                    self.wasser.importieren(self.fullpath,bodenseeliste,None,False)
+                    self.wasser.importieren(self.fullpath,bodenseeliste,None,False, False, None, None, False)
+
                 elif   ("ckBodenseeRelief" in button.objectName()):
-##                    self.fullpath  = self.pfad +  "Seen/Bodensee/BodenseebeckenRelief/bodenseebecken_relief.qgs"
-##                    self.wasser.importieren(self.fullpath,None,None,False,True)
                     self.fullpath  = self.pfad +  "Seen/Bodensee/bodensee.qgs"
                     bodenseeliste = ['Bodensee_Schummerung_02m_2008','Bodensee_Schummerung_02m_1999','Bodensee_Schummerung_20m_1990']
-                    self.wasser.importieren(self.fullpath,bodenseeliste,None,False)
+                    self.wasser.importieren(self.fullpath,bodenseeliste,None,False, False, None, None, False)
+
                 elif   ("ckSeen" in button.objectName()):
                     self.fullpath  = self.pfad +  "Seen/Vlbg/Seen/Seen.qgs"
-                    self.wasser.importieren(self.fullpath,None,None,False)
+                    self.wasser.importieren(self.fullpath,None,None,False, False, None, None, False)
+
                 elif   ("EzQuellen" in button.objectName()):
                     self.fullpath  = self.pfad +  "Quellen/Vlbg/Quelleinzugsgebiete/quelleinzugsgebiete.qgs"
                     self.wasser.importieren(self.fullpath)
+
                 elif   ("EzOberflaechenwasserMesstellen" in button.objectName()):
                     self.fullpath  = self.pfad +  "Einzugsgebiete/Vlbg_Umgebung/Einzugsgebiete_Pegelstellen/EZG_Pegelstellen.qgs"
                     self.wasser.importieren(self.fullpath)
+
                 elif   ("EzFliessgewaesser" in button.objectName()):
                     self.fullpath  = self.pfad +  "Einzugsgebiete/Vlbg_Umgebung/Einzugsgebiete_FGW/Einzugsgebiete_Vlbg_Umgebung.qgs"
                     self.wasser.importieren(self.fullpath)
+
                 elif   ("EzWasserscheideRheinDonau" in button.objectName()):
                     self.fullpath  = self.pfad +  "Einzugsgebiete/Vlbg/Rhein_Donau/ezg_rhein_donau_vlbg.qgs"
                     self.wasser.importieren(self.fullpath)

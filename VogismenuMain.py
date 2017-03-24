@@ -151,12 +151,32 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
             del vogisEncoding_global[:]   #neu initialisieren
             del vogisKBS_global[:]
             del vogisDb_global[:]
+            del auth_user_global[:]
             vogisEncoding_global.append(self.vogisEncoding)
             vogisKBS_global.append (self.vogisKBS)
             vogisDb_global.append (self.vogisDb)
 
+
             # Postgres DB initialisieren
-            self.initPGDB()
+            # und angemeldeten Benutzer auslesen
+            # zuerst mal mit kleinem Benutzernamen
+            # Warum das? Siehe PRoblem Usermapping und GRoßKleinschreibung als Konflikt Windows-Linux
+            self.username = getpass.getuser().upper() # brauchen wir auch füs Mitloggen
+            if vogisDb_global[0] != 'filesystem geodaten' and vogisDb_global[0] != '':
+                if not self.initPGDB():
+                    # hat nicht geklappt
+                    # und dann noachmal mit Großem Benutzernamen
+                    self.username = getpass.getuser().lower()
+                    if not self.initPGDB():
+                        # auch nix
+                        del auth_user_global[:] # zurücksetzen
+                        QtGui.QMessageBox.about(None, "Fehler", 'Keine Verbindung zur Geodatenbank -  bitte in den Vogis Menü Einstellungen auf Filesystem umschalten!'.decode('UTF8'))
+                    else:
+                        # Passt!
+                        auth_user_global.append (self.username)
+                else:
+                    # Passt!
+                    auth_user_global.append (self.username)
 
         else:
             self.unload()
@@ -167,35 +187,34 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
         #############################################################################
         # Nur einmalig bei der DB Umstellung ANFANG
         #############################################################################
-        if vogisDb_global[0] == 'filesystem' or vogisDb_global[0] == '':
-            try:
-                self.vogisDb = 'dbname=vogis host=cnvbrwgdi6.net.vlr.gv.at port=9000'
-                vogisDb_global[0] = self.vogisDb
-                raus = QtCore.QByteArray()
-                d = QtCore.QXmlStreamWriter(raus)   #Das XMAL Handling für diese Zwecke ist damit OK
-                d.setAutoFormatting(True)
-                d.writeStartDocument()
-                d.writeStartElement('vogis')
-                d.writeTextElement('mainpath', self.vogisPfad)
-                d.writeTextElement('encoding', self.vogisEncoding)
-                d.writeTextElement('kbs', self.vogisKBS)
-                d.writeTextElement('db', self.vogisDb)
-                d.writeEndElement()
-                d.writeEndDocument()
-                #file = open(os.path.dirname(__file__) + os.sep + "vogisini.xml","w+")
-                # Codepage bestimmen Sunderzeicehn im Pfad zum Benutzerhome)
-                code_page =locale.getpreferredencoding()
-                file = open(os.getenv('HOME').decode(code_page) + os.sep + "vogisini.xml","w+")    #os.path.dirname(__file__) gibt pfad des aktuellen moduls
-                file.write(str(raus))
-                file.close()
-            except:
-                QtGui.QMessageBox.about(None, "Achtung", 'initialisierungsproblem - Vogis Options werden geöffnet'.decode('UTF8'))
-                self.doVogisOptions()
-                return
+##        if vogisDb_global[0] == 'filesystem geodaten' or vogisDb_global[0] == '':
+##            try:
+##                self.vogisDb = 'dbname=vogis host=cnvbrwgdi6.net.vlr.gv.at port=9000'
+##                vogisDb_global[0] = self.vogisDb
+##                raus = QtCore.QByteArray()
+##                d = QtCore.QXmlStreamWriter(raus)   #Das XMAL Handling für diese Zwecke ist damit OK
+##                d.setAutoFormatting(True)
+##                d.writeStartDocument()
+##                d.writeStartElement('vogis')
+##                d.writeTextElement('mainpath', self.vogisPfad)
+##                d.writeTextElement('encoding', self.vogisEncoding)
+##                d.writeTextElement('kbs', self.vogisKBS)
+##                d.writeTextElement('db', self.vogisDb)
+##                d.writeEndElement()
+##                d.writeEndDocument()
+##                #file = open(os.path.dirname(__file__) + os.sep + "vogisini.xml","w+")
+##                # Codepage bestimmen Sunderzeicehn im Pfad zum Benutzerhome)
+##                code_page =locale.getpreferredencoding()
+##                file = open(os.getenv('HOME').decode(code_page) + os.sep + "vogisini.xml","w+")    #os.path.dirname(__file__) gibt pfad des aktuellen moduls
+##                file.write(str(raus))
+##                file.close()
+##            except:
+##                QtGui.QMessageBox.about(None, "Achtung", 'initialisierungsproblem - Vogis Options werden geöffnet'.decode('UTF8'))
+##                self.doVogisOptions()
+##                return
         #############################################################################
         # Nur einmalig bei der DB Umstellung ENDE
         #############################################################################
-
 
 
 
@@ -226,9 +245,11 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                 elif string.find(param,'port=') >= 0:
                     port = string.replace(param,'port=','')
 
-            # Username falls benötigt
-            #username = getpass.getuser().lower()
-            # Wir verwenden die Windows Domänen Authentifizierung. Keine User notwendig
+
+            # Wir verwenden die Windows Domänen Authentifizierung.
+            # Allerdings gibts da Groß-Klein und Mixed Schreibweis
+            # was das Usermapping erschwert. Deshalb lesen wir den USer aus und verwenden Ihne
+            # direkt. Passwort aufgrund Windowsauthetifizeirung nicht nötig
             self.PGdb = QtSql.QSqlDatabase.addDatabase("QPSQL","vogis");  # Der Name macht die Verbindung individuell - sonst ist eine Default Verbindung
             if host != '':
                 self.PGdb.setHostName(host)
@@ -236,6 +257,9 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                 self.PGdb.setPort(int(port))
             if dbname != '':
                 self.PGdb.setDatabaseName(dbname)
+            if self.username != '':
+                self.PGdb.setUserName(self.username)
+
 
             ok = self.PGdb.open()    #Gibt True zurück wenn die Datenbank offen ist
 
@@ -263,6 +287,8 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                     self.PGdb.setPort(int(5432))
                 if dbname != '':
                     self.PGdb.setDatabaseName(dbname)
+                if self.username != '':
+                    self.PGdb.setUserName(self.username)
 
                 ok = self.PGdb.open()    #Gibt True zurück wenn die Datenbank offen ist
             if not ok:# and host == 'cnvbrwgdi6.net.vlr.gv.at':
@@ -274,15 +300,19 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                     self.PGdb.setPort(int(5432))
                 if dbname != '':
                     self.PGdb.setDatabaseName(dbname)
+                if self.username != '':
+                    self.PGdb.setUserName(self.username)
 
                 ok = self.PGdb.open()    #Gibt True zurück wenn die Datenbank offen ist
 
 
             if not ok:# and host == 'cnvbrwgdi7.net.vlr.gv.at':
-                QtGui.QMessageBox.about(None, "Fehler", 'Keine Verbindung zur Geodatenbank -  bitte in den Vogis Menü Einstellungen auf Filesystem umschalten!'.decode('UTF8'))
-                return  #Zurück
+                #QtGui.QMessageBox.about(None, "Fehler", 'Keine Verbindung zur Geodatenbank -  bitte in den Vogis Menü Einstellungen auf Filesystem umschalten!'.decode('UTF8') + ' ' + self.username)
+                return  False#Zurück
 
-
+            #hat geklappt
+            #QtGui.QMessageBox.about(None, "Achtung", self.username)
+            return True
 
     def initGui(self):
 
@@ -534,33 +564,35 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
         #-------------------------------------------------------------------------#
         #Eintrag in die User-Logging-Tabelle
+        try:
+            #Referenz auf die Datenquelle
+            #direkt über SQLITE
+            self.db = QtSql.QSqlDatabase.addDatabase("QSQLITE");
+            dbpfad = self.vogisPfad + "_Allgemein/userreg/vogis_allgemein_db.sqlite"
+            self.db.setDatabaseName(dbpfad);
 
-        #Referenz auf die Datenquelle
-        #direkt über SQLITE
-        self.db = QtSql.QSqlDatabase.addDatabase("QSQLITE");
-        dbpfad = self.vogisPfad + "_Allgemein/userreg/vogis_allgemein_db.sqlite"
-        self.db.setDatabaseName(dbpfad);
 
+            if os.path.exists(dbpfad) == 1: #sonst erzeugt open eine leer sqllitedb
 
-        if os.path.exists(dbpfad) == 1: #sonst erzeugt open eine leer sqllitedb
+                #nur wenn Öffnen OK
+                if  self.db.open():
+                    import getpass
+                    #username = getpass.getuser().upper()
+                    abfrage = QtSql.QSqlQuery(self.db)
+                    abfrage.exec_("SELECT starts  FROM qgis_user where user = '" + self.username.lower() + "'")
 
-            #nur wenn Öffnen OK
-            if  self.db.open():
-                import getpass
-                username = getpass.getuser().lower()
-                abfrage = QtSql.QSqlQuery(self.db)
-                abfrage.exec_("SELECT starts  FROM qgis_user where user = '" + username + "'")
+                    if abfrage.first(): #user gefunden
+                        abfrage.exec_("update qgis_user set starts = starts + 1 where user = '" + self.username.lower() + "'")
+                        abfrage.exec_("update qgis_user set version = '1.3' where user = '" + self.username.lower() + "'")
+                        abfrage.exec_("update qgis_user set qgis_version = '" + QGis.QGIS_VERSION + "' where user = '" + self.username.lower() + "'")
+                        abfrage.exec_("update qgis_user set datasource = '" + self.vogisDb + "' where user = '" + self.username.lower() + "'")
+                        self.db.close()
+                    else: #user nicht gefunden, d.h. noch nicht vorhanden
+                        abfrage.exec_("insert into qgis_user ("'user'", "'starts'", "'version'", "'qgis_version'", "'datasource'") values ('" + self.username.lower() + "', 1 , '1.3', '" + QGis.QGIS_VERSION + "', '" + self.vogisDb + "')")
 
-                if abfrage.first(): #user gefunden
-                    abfrage.exec_("update qgis_user set starts = starts + 1 where user = '" + username + "'")
-                    abfrage.exec_("update qgis_user set version = '1.3' where user = '" + username + "'")
-                    abfrage.exec_("update qgis_user set qgis_version = '" + QGis.QGIS_VERSION + "' where user = '" + username + "'")
-                    self.db.close()
-                else: #user nicht gefunden, d.h. noch nicht vorhanden
-                    abfrage.exec_("insert into qgis_user ("'user'", "'starts'", "'version'", "'qgis_version'") values ('" + username + "', 1 , '1.3', '" + QGis.QGIS_VERSION + "')")
-
-                    self.db.close()
-
+                        self.db.close()
+        except:
+            pass
         #--------------------------------------------------------------------------#
 
 
@@ -877,12 +909,36 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
         del vogisEncoding_global[:]   #neu initialisieren
         del vogisKBS_global[:]
         del vogisDb_global[:]
+        del auth_user_global[:]
         vogisEncoding_global.append(self.vogisEncoding)
         vogisKBS_global.append (self.vogisKBS)
         vogisDb_global.append (self.vogisDb)
 
-        # Die Postgres datenbank gegebenenfalls neu instanzieren
-        self.initPGDB()
+
+        # Postgres DB initialisieren
+        # und angemeldeten Benutzer auslesen
+        # zuerst mal mit kleinem Benutzernamen
+        # Warum das? Siehe PRoblem Usermapping und GRoßKleinschreibung als Konflikt Windows-Linux
+        self.username = getpass.getuser().upper() # brauchen wir auch füs Mitloggen
+        if vogisDb_global[0] != 'filesystem geodaten' and vogisDb_global[0] != '':
+            if not self.initPGDB():
+                # hat nicht geklappt
+                # und dann noachmal mit Großem Benutzernamen
+                self.username = getpass.getuser().lower()
+                if not self.initPGDB():
+                    # auch nix
+                    del auth_user_global[:] # zurücksetzen
+                    QtGui.QMessageBox.about(None, "Fehler", 'Keine Verbindung zur Geodatenbank -  bitte in den Vogis Menü Einstellungen auf Filesystem umschalten!'.decode('UTF8'))
+                else:
+                    # Passt!
+                    auth_user_global.append (self.username)
+            else:
+                # Passt!
+                auth_user_global.append (self.username)
+
+
+        # Die Postgres Datenbank gegebenenfalls neu instanzieren
+        #self.initPGDB()
 
 
     def do_gemeindeliste(self):

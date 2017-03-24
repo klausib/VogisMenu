@@ -59,10 +59,6 @@ class JagdDialog(QtGui.QDialog, Ui_frmJagd):
                     pfad_ind = self.pfad + "/Vlbg/Jagdwirtschaft/jagdwirtschaft.qgs"
                     name.append(("Rotwildwintergatter"))
 
-                elif ("Jagdflaeche" in button.objectName()):
-
-                    pfad_ind = self.pfad + "/Vlbg/Jagdwirtschaft/jagdwirtschaft.qgs"
-                    name.append(("Nicht anrechenbare Jagdfläche").decode('utf8'))
 
                 elif ("Rotwildgebiete" in button.objectName()):
 
@@ -79,10 +75,6 @@ class JagdDialog(QtGui.QDialog, Ui_frmJagd):
                     pfad_ind = self.pfad + "/Vlbg/Raumplanung/raumplanung.qgs"
                     name.append(("Wildfreihaltungen"))
 
-                elif ("Steinwildvorkommen" in button.objectName()):
-
-                    pfad_ind = self.pfad + "/Vlbg/Raumplanung/raumplanung.qgs"
-                    name.append(("Steinwildvorkommen"))
 
                 elif ("Gamszonierung" in button.objectName()):
 

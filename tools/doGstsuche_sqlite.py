@@ -517,7 +517,7 @@ class GstDialogSqlite (QtGui.QDialog,Ui_frmGstsuche):
             for attr in iter:
 
                 #hier die Werte der betreffenden Spalten mit den gesuchten Werten vergleichen
-                if attr.attribute("GNR") == gst and attr.attribute("KG") == self.kgnummer:
+                if attr.attribute("GNR") == string.strip(gst) and attr.attribute("KG") == self.kgnummer:
                     fid.append(attr.id())
                     nummer = nummer + gst + " "
                     break

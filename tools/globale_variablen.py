@@ -11,3 +11,4 @@
 vogisEncoding_global = []
 vogisKBS_global = []
 vogisDb_global = []
+auth_user_global = []

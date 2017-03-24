@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gui_jagd.ui'
 #
-# Created: Thu Jun 28 12:42:45 2012
+# Created: Thu Mar 16 11:36:16 2017
 #      by: PyQt4 UI code generator 4.8.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -81,13 +81,6 @@ class Ui_frmJagd(object):
         self.ckGamszonierung.setObjectName(_fromUtf8("ckGamszonierung"))
         self.ckButtons.addButton(self.ckGamszonierung)
         self.verticalLayout.addWidget(self.ckGamszonierung)
-        self.ckSteinwildvorkommen = QtGui.QCheckBox(self.layoutWidget)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.ckSteinwildvorkommen.setFont(font)
-        self.ckSteinwildvorkommen.setObjectName(_fromUtf8("ckSteinwildvorkommen"))
-        self.ckButtons.addButton(self.ckSteinwildvorkommen)
-        self.verticalLayout.addWidget(self.ckSteinwildvorkommen)
         self.ckWildfuetterungen = QtGui.QCheckBox(self.layoutWidget)
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -102,13 +95,6 @@ class Ui_frmJagd(object):
         self.ckRotwildwintergatter.setObjectName(_fromUtf8("ckRotwildwintergatter"))
         self.ckButtons.addButton(self.ckRotwildwintergatter)
         self.verticalLayout.addWidget(self.ckRotwildwintergatter)
-        self.ckJagdflaeche = QtGui.QCheckBox(self.layoutWidget)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.ckJagdflaeche.setFont(font)
-        self.ckJagdflaeche.setObjectName(_fromUtf8("ckJagdflaeche"))
-        self.ckButtons.addButton(self.ckJagdflaeche)
-        self.verticalLayout.addWidget(self.ckJagdflaeche)
 
         self.retranslateUi(frmJagd)
         QtCore.QObject.connect(self.ButtonBlattschnitteOk, QtCore.SIGNAL(_fromUtf8("clicked()")), frmJagd.accept)
@@ -126,8 +112,6 @@ class Ui_frmJagd(object):
         self.ckWildfreihaltungen.setText(QtGui.QApplication.translate("frmJagd", "Wildfreihaltungen", None, QtGui.QApplication.UnicodeUTF8))
         self.ckWildruhezonen.setText(QtGui.QApplication.translate("frmJagd", "Wildruhezonen", None, QtGui.QApplication.UnicodeUTF8))
         self.ckGamszonierung.setText(QtGui.QApplication.translate("frmJagd", "Gamszonierung", None, QtGui.QApplication.UnicodeUTF8))
-        self.ckSteinwildvorkommen.setText(QtGui.QApplication.translate("frmJagd", "Steinwildvorkommen", None, QtGui.QApplication.UnicodeUTF8))
         self.ckWildfuetterungen.setText(QtGui.QApplication.translate("frmJagd", "Wildfütterungen", None, QtGui.QApplication.UnicodeUTF8))
         self.ckRotwildwintergatter.setText(QtGui.QApplication.translate("frmJagd", "Rotwildwintergatter", None, QtGui.QApplication.UnicodeUTF8))
-        self.ckJagdflaeche.setText(QtGui.QApplication.translate("frmJagd", "Nicht anrechenbare Jagdfläche", None, QtGui.QApplication.UnicodeUTF8))
 
