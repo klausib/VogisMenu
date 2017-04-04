@@ -162,7 +162,7 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
             # zuerst mal mit kleinem Benutzernamen
             # Warum das? Siehe PRoblem Usermapping und GRoßKleinschreibung als Konflikt Windows-Linux
             self.username = getpass.getuser().upper() # brauchen wir auch füs Mitloggen
-            if vogisDb_global[0] != 'filesystem geodaten' and vogisDb_global[0] != '':
+            if vogisDb_global[0] != 'filesystem geodaten':# and vogisDb_global[0] != '':
                 if not self.initPGDB():
                     # hat nicht geklappt
                     # und dann noachmal mit Großem Benutzernamen
@@ -187,31 +187,31 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
         #############################################################################
         # Nur einmalig bei der DB Umstellung ANFANG
         #############################################################################
-##        if vogisDb_global[0] == 'filesystem geodaten' or vogisDb_global[0] == '':
-##            try:
-##                self.vogisDb = 'dbname=vogis host=cnvbrwgdi6.net.vlr.gv.at port=9000'
-##                vogisDb_global[0] = self.vogisDb
-##                raus = QtCore.QByteArray()
-##                d = QtCore.QXmlStreamWriter(raus)   #Das XMAL Handling für diese Zwecke ist damit OK
-##                d.setAutoFormatting(True)
-##                d.writeStartDocument()
-##                d.writeStartElement('vogis')
-##                d.writeTextElement('mainpath', self.vogisPfad)
-##                d.writeTextElement('encoding', self.vogisEncoding)
-##                d.writeTextElement('kbs', self.vogisKBS)
-##                d.writeTextElement('db', self.vogisDb)
-##                d.writeEndElement()
-##                d.writeEndDocument()
-##                #file = open(os.path.dirname(__file__) + os.sep + "vogisini.xml","w+")
-##                # Codepage bestimmen Sunderzeicehn im Pfad zum Benutzerhome)
-##                code_page =locale.getpreferredencoding()
-##                file = open(os.getenv('HOME').decode(code_page) + os.sep + "vogisini.xml","w+")    #os.path.dirname(__file__) gibt pfad des aktuellen moduls
-##                file.write(str(raus))
-##                file.close()
-##            except:
-##                QtGui.QMessageBox.about(None, "Achtung", 'initialisierungsproblem - Vogis Options werden geöffnet'.decode('UTF8'))
-##                self.doVogisOptions()
-##                return
+        if vogisDb_global[0] == '':
+            try:
+                self.vogisDb = 'dbname=vogis host=cnvbrwgdi6.net.vlr.gv.at port=9000'
+                vogisDb_global[0] = self.vogisDb
+                raus = QtCore.QByteArray()
+                d = QtCore.QXmlStreamWriter(raus)   #Das XML Handling für diese Zwecke ist damit OK
+                d.setAutoFormatting(True)
+                d.writeStartDocument()
+                d.writeStartElement('vogis')
+                d.writeTextElement('mainpath', self.vogisPfad)
+                d.writeTextElement('encoding', self.vogisEncoding)
+                d.writeTextElement('kbs', self.vogisKBS)
+                d.writeTextElement('db', self.vogisDb)
+                d.writeEndElement()
+                d.writeEndDocument()
+                #file = open(os.path.dirname(__file__) + os.sep + "vogisini.xml","w+")
+                # Codepage bestimmen Sunderzeicehn im Pfad zum Benutzerhome)
+                code_page =locale.getpreferredencoding()
+                file = open(os.getenv('HOME').decode(code_page) + os.sep + "vogisini.xml","w+")    #os.path.dirname(__file__) gibt pfad des aktuellen moduls
+                file.write(str(raus))
+                file.close()
+            except:
+                QtGui.QMessageBox.about(None, "Achtung", 'initialisierungsproblem - Vogis Options werden geöffnet'.decode('UTF8'))
+                self.doVogisOptions()
+                return
         #############################################################################
         # Nur einmalig bei der DB Umstellung ENDE
         #############################################################################
@@ -307,11 +307,10 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
 
             if not ok:# and host == 'cnvbrwgdi7.net.vlr.gv.at':
-                #QtGui.QMessageBox.about(None, "Fehler", 'Keine Verbindung zur Geodatenbank -  bitte in den Vogis Menü Einstellungen auf Filesystem umschalten!'.decode('UTF8') + ' ' + self.username)
+                QtGui.QMessageBox.about(None, "Fehler", 'Keine Verbindung zur Geodatenbank -  bitte in den Vogis Menü Einstellungen auf Filesystem umschalten!'.decode('UTF8') + ' ' + self.username)
                 return  False#Zurück
 
             #hat geklappt
-            #QtGui.QMessageBox.about(None, "Achtung", self.username)
             return True
 
     def initGui(self):
@@ -583,12 +582,12 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
                     if abfrage.first(): #user gefunden
                         abfrage.exec_("update qgis_user set starts = starts + 1 where user = '" + self.username.lower() + "'")
-                        abfrage.exec_("update qgis_user set version = '1.3' where user = '" + self.username.lower() + "'")
+                        abfrage.exec_("update qgis_user set version = '1.3.1' where user = '" + self.username.lower() + "'")
                         abfrage.exec_("update qgis_user set qgis_version = '" + QGis.QGIS_VERSION + "' where user = '" + self.username.lower() + "'")
                         abfrage.exec_("update qgis_user set datasource = '" + self.vogisDb + "' where user = '" + self.username.lower() + "'")
                         self.db.close()
                     else: #user nicht gefunden, d.h. noch nicht vorhanden
-                        abfrage.exec_("insert into qgis_user ("'user'", "'starts'", "'version'", "'qgis_version'", "'datasource'") values ('" + self.username.lower() + "', 1 , '1.3', '" + QGis.QGIS_VERSION + "', '" + self.vogisDb + "')")
+                        abfrage.exec_("insert into qgis_user ("'user'", "'starts'", "'version'", "'qgis_version'", "'datasource'") values ('" + self.username.lower() + "', 1 , '1.3.1', '" + QGis.QGIS_VERSION + "', '" + self.vogisDb + "')")
 
                         self.db.close()
         except:
