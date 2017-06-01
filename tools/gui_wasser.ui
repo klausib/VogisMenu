@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>362</width>
-    <height>480</height>
+    <height>481</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -436,10 +436,30 @@
        <x>20</x>
        <y>20</y>
        <width>325</width>
-       <height>92</height>
+       <height>140</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_6">
+      <item>
+       <widget class="QCheckBox" name="ckGewaessernetz2017Vlbg">
+        <property name="text">
+         <string>Gewässernetz 2017 Vorarlberg</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckGewaessernetz2017Umgebung">
+        <property name="text">
+         <string>Gewässernetz 2017 Vorarlberg + Umgebung</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string>ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
       <item>
        <widget class="QCheckBox" name="ckGewaessernetz2012Vlbg">
         <property name="text">

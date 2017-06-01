@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gui_wasser.ui'
 #
-# Created: Wed Nov 30 10:41:52 2016
+# Created: Fri Apr 28 10:49:22 2017
 #      by: PyQt4 UI code generator 4.8.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,7 +17,7 @@ except AttributeError:
 class Ui_frmWasser(object):
     def setupUi(self, frmWasser):
         frmWasser.setObjectName(_fromUtf8("frmWasser"))
-        frmWasser.resize(362, 480)
+        frmWasser.resize(362, 481)
         self.toolBox = QtGui.QToolBox(frmWasser)
         self.toolBox.setGeometry(QtCore.QRect(0, 0, 361, 411))
         self.toolBox.setFrameShape(QtGui.QFrame.Panel)
@@ -185,11 +185,19 @@ class Ui_frmWasser(object):
         self.page.setGeometry(QtCore.QRect(0, 0, 359, 166))
         self.page.setObjectName(_fromUtf8("page"))
         self.layoutWidget5 = QtGui.QWidget(self.page)
-        self.layoutWidget5.setGeometry(QtCore.QRect(20, 20, 325, 92))
+        self.layoutWidget5.setGeometry(QtCore.QRect(20, 20, 325, 140))
         self.layoutWidget5.setObjectName(_fromUtf8("layoutWidget5"))
         self.verticalLayout_6 = QtGui.QVBoxLayout(self.layoutWidget5)
         self.verticalLayout_6.setMargin(0)
         self.verticalLayout_6.setObjectName(_fromUtf8("verticalLayout_6"))
+        self.ckGewaessernetz2017Vlbg = QtGui.QCheckBox(self.layoutWidget5)
+        self.ckGewaessernetz2017Vlbg.setObjectName(_fromUtf8("ckGewaessernetz2017Vlbg"))
+        self.ckButtons.addButton(self.ckGewaessernetz2017Vlbg)
+        self.verticalLayout_6.addWidget(self.ckGewaessernetz2017Vlbg)
+        self.ckGewaessernetz2017Umgebung = QtGui.QCheckBox(self.layoutWidget5)
+        self.ckGewaessernetz2017Umgebung.setObjectName(_fromUtf8("ckGewaessernetz2017Umgebung"))
+        self.ckButtons.addButton(self.ckGewaessernetz2017Umgebung)
+        self.verticalLayout_6.addWidget(self.ckGewaessernetz2017Umgebung)
         self.ckGewaessernetz2012Vlbg = QtGui.QCheckBox(self.layoutWidget5)
         self.ckGewaessernetz2012Vlbg.setObjectName(_fromUtf8("ckGewaessernetz2012Vlbg"))
         self.ckButtons.addButton(self.ckGewaessernetz2012Vlbg)
@@ -332,6 +340,8 @@ class Ui_frmWasser(object):
         self.ckEzQuellen.setText(QtGui.QApplication.translate("frmWasser", "Quellen", None, QtGui.QApplication.UnicodeUTF8))
         self.ckEzWasserscheideRheinDonau.setText(QtGui.QApplication.translate("frmWasser", "Rhein Donau Wasserscheide", None, QtGui.QApplication.UnicodeUTF8))
         self.toolBox.setItemText(self.toolBox.indexOf(self.page_4), QtGui.QApplication.translate("frmWasser", "Einzugsgebiete", None, QtGui.QApplication.UnicodeUTF8))
+        self.ckGewaessernetz2017Vlbg.setText(QtGui.QApplication.translate("frmWasser", "Gewässernetz 2017 Vorarlberg", None, QtGui.QApplication.UnicodeUTF8))
+        self.ckGewaessernetz2017Umgebung.setText(QtGui.QApplication.translate("frmWasser", "Gewässernetz 2017 Vorarlberg + Umgebung", None, QtGui.QApplication.UnicodeUTF8))
         self.ckGewaessernetz2012Vlbg.setText(QtGui.QApplication.translate("frmWasser", "Gewässernetz 2012 Vorarlberg", None, QtGui.QApplication.UnicodeUTF8))
         self.ckGewaessernetz2012Umgebung.setText(QtGui.QApplication.translate("frmWasser", "Gewaessernetz 2012 Vorarlberg + Umgebung", None, QtGui.QApplication.UnicodeUTF8))
         self.ckGewaessernetz2000Vlbg.setText(QtGui.QApplication.translate("frmWasser", "Gewässernetz 2000 Vorarlberg", None, QtGui.QApplication.UnicodeUTF8))

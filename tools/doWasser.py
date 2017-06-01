@@ -19,7 +19,7 @@ import os
 
 
 
-#Dies Klassendefinition öffnet das Frame für
+#Die Klassendefinition öffnet das Frame für
 #die Auswahl der Datenebenen Wasser
 class WasserDialog(QtGui.QDialog, Ui_frmWasser):
     def __init__(self,parent,iface,pfad = None):
@@ -137,21 +137,29 @@ class WasserDialog(QtGui.QDialog, Ui_frmWasser):
                     self.fullpath  = self.pfad +  "Grundwasser/Vlbg/Grundwasserfelder/grundwasserfelder.qgs"
                     self.wasser.importieren(self.fullpath)
 
+                elif   ("Gewaessernetz2017Vlbg" in button.objectName()):
+                    self.fullpath  = self.pfad +  "Fluesse/Vlbg_Umgebung/Gewaessernetz2017/Gewaessernetz2017_nur_Vorarlberg.qgs"
+                    self.wasser.importieren(self.fullpath,None,"Vlbg17",False, False, None, None, False)
+
+                elif   ("Gewaessernetz2017Umgebung" in button.objectName()):
+                    self.fullpath  = self.pfad +  "Fluesse/Vlbg_Umgebung/Gewaessernetz2017/Gewaessernetz2017.qgs"
+                    self.wasser.importieren(self.fullpath,None,"Vlbg_Umgebung17",False, False, None, None, False)
+
                 elif   ("Gewaessernetz2012Vlbg" in button.objectName()):
                     self.fullpath  = self.pfad +  "Fluesse/Vlbg/Fluesse1t/Fluesse1t.qgs"
-                    self.wasser.importieren(self.fullpath,None,"Vlbg",False, False, None, None, False)
+                    self.wasser.importieren(self.fullpath,None,"Vlbg12",False, False, None, None, False)
 
                 elif   ("Gewaessernetz2012Umgebung" in button.objectName()):
                     self.fullpath  = self.pfad +  "Fluesse/Vlbg_Umgebung/Fluesse1t/Fluesse1t.qgs"
-                    self.wasser.importieren(self.fullpath,None,"Vlbg_Umgebung",False, False, None, None, False)
+                    self.wasser.importieren(self.fullpath,None,"Vlbg_Umgebung12",False, False, None, None, False)
 
                 elif   ("Gewaessernetz2000Vlbg" in button.objectName()):
                     self.fullpath  = self.pfad +  "Fluesse/Vlbg/Fluesse50t/Fluesse50t.qgs"
-                    self.wasser.importieren(self.fullpath,None,"Vlbg",False, False, None, None, False)
+                    self.wasser.importieren(self.fullpath,None,"Vlbg00",False, False, None, None, False)
 
                 elif   ("Gewaessernetz2000Umgebung" in button.objectName()):
                     self.fullpath  = self.pfad +  "Fluesse/Vlbg_Umgebung/Fluesse50t/Fluesse50t.qgs"
-                    self.wasser.importieren(self.fullpath,None,"Vlbg_Umgebung",False, False, None, None, False)
+                    self.wasser.importieren(self.fullpath,None,"Vlbg_Umgebung00",False, False, None, None, False)
 
                 elif   ("Direkteinleitungen" in button.objectName()):
                     self.fullpath  = self.pfad +  "Fluesse/Vlbg/Strukturzustand/direkteinleitungen2012.qgs"

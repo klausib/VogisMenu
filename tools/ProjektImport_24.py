@@ -107,8 +107,6 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
 
 
-
-
         #falls es länger dauert, ein kurzes Infofenster
         #für den Anwender
         self.info = ProgressbarDialog()
@@ -591,7 +589,7 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
                             #grp enthält das qtreewidgetitem Objekt der Gruppe!, in die der geladene
                             #Layer verschoben werden soll!
-                            grp  = sublayer(QgsProject.instance().layerTreeRoot(),leginterface,gruppen_liste, self.gruppen_erg_name, nach_unten)[0] #sollten es mehrere sein, immer nur die erste nehmen - sie Erklärung beim Sub selbst
+                            grp  = sublayer(QgsProject.instance().layerTreeRoot(),leginterface,gruppen_liste, self.gruppen_erg_name, nach_unten, anzeigename_ergaenzen)[0] #sollten es mehrere sein, immer nur die erste nehmen - sie Erklärung beim Sub selbst
 
                             zwtsch = QgsProject.instance().layerTreeRoot().findLayer(self.lyr.id())
 
@@ -777,14 +775,11 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
             if len(liste) > layerzaehler: #Ints! Dann wurde was nicht geladen
                 QtGui.QMessageBox.about(None, "Achtung", "Nicht alle Layer aus " + pfad + " konnte(n) geladen werden!!")
 
-
         # gejointe Relationen wiederherstellen
         # aber erst ganz am Schluss!!
         for singlejoin in self.joinliste:
             for singlejoininfo in singlejoin.joininfo:
                 singlejoin.joinlayer.addJoin(singlejoininfo)
-
-
 
 
 #####################################################################################################################################################################
@@ -799,7 +794,7 @@ class ProjektImport(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 #####################################################################################################################################################################
 
 
-def sublayer( legendtree,leginterface, gruppenliste,gruppen_ergname='', nach_unten = False):
+def sublayer(legendtree,leginterface, gruppenliste,gruppen_ergname='', nach_unten = False, anzeigename_ergaenzen_sub = False):
 
     # iterator beginnt hinten - also bei der äußersten Gruppe
 
@@ -807,13 +802,15 @@ def sublayer( legendtree,leginterface, gruppenliste,gruppen_ergname='', nach_unt
     parent_groups = []  # die Gruppen hierarchie, in die eine Gruppe reinkommt (wenn sie erzeugt werden muss)
     parent_groups.append(legendtree)    # wir beginnen mit der Root Node
 
+
     # Ergänzungname wenn vorhanden der obersten Gruppe
     # Hinzufügen, meist der Gemeindename
-    if not gruppen_ergname == '' and gruppen_ergname != None:
+    if not gruppen_ergname == '' and gruppen_ergname != None and anzeigename_ergaenzen_sub:
         neuername = gruppenliste[len(gruppenliste) - 1].name + '-' + gruppen_ergname
         gruppenliste[len(gruppenliste) - 1].name = neuername
 
-
+    # wieso brauch ich das??? Python Bug??
+    wieso = 0
 
     # die oberste Gruppe hat den höchsten Index!
     # deshalb Iteration von hinten beginnen
@@ -857,6 +854,9 @@ def sublayer( legendtree,leginterface, gruppenliste,gruppen_ergname='', nach_unt
 
     return parent_groups    # wie erwähnt (siehe start sub!), können es mehrer idente Hierarchien sein - es wird dann beim Aufruf
                             # ganze einfach nur die erste genommen - anderst gehts nicht
+
+
+
 
 
 ####################################################################

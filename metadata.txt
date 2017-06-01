@@ -12,7 +12,7 @@
 name=Vogismenue
 qgisMinimumVersion=2.0
 description=Zugriff auf Geodaten des Landes Vorarlberg
-version=1.3.1
+version=1.3.2
 author=Nikolaus Batlogg LVG
 email=nikolaus.batlogg@vorarlberg.at
 

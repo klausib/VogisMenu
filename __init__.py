@@ -6,7 +6,7 @@ def name():
 def description():
     return "Zugriff auf Geodaten des Landes Vorarlberg"
 def version():
-    return "1.3.1"
+    return "1.3.2"
 def qgisMinimumVersion():
     return "2.0"
 def authorName():

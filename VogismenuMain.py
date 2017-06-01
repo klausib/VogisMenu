@@ -170,7 +170,7 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                     if not self.initPGDB():
                         # auch nix
                         del auth_user_global[:] # zurücksetzen
-                        QtGui.QMessageBox.about(None, "Fehler", 'Keine Verbindung zur Geodatenbank -  bitte in den Vogis Menü Einstellungen auf Filesystem umschalten!'.decode('UTF8'))
+                        QtGui.QMessageBox.about(None, "Fehler", 'Keine Verbindung zur Geodatenbank! Unter dem Menüpunkt VOGIS->Vogis Menü Einstellungen \"Vektorlayer aus Geodatenbank\" deaktivieren!'.decode('UTF8'))
                     else:
                         # Passt!
                         auth_user_global.append (self.username)
@@ -307,7 +307,7 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
 
             if not ok:# and host == 'cnvbrwgdi7.net.vlr.gv.at':
-                QtGui.QMessageBox.about(None, "Fehler", 'Keine Verbindung zur Geodatenbank -  bitte in den Vogis Menü Einstellungen auf Filesystem umschalten!'.decode('UTF8') + ' ' + self.username)
+                #QtGui.QMessageBox.about(None, "Fehler", 'Keine Verbindung zur Geodatenbank! Unter VOGIS->Vogis Menü Einstellungen \"Vektorlayer aus Geodatenbank\" deaktivieren!'.decode('UTF8') + ' ' + self.username)
                 return  False#Zurück
 
             #hat geklappt
@@ -582,12 +582,12 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
 
                     if abfrage.first(): #user gefunden
                         abfrage.exec_("update qgis_user set starts = starts + 1 where user = '" + self.username.lower() + "'")
-                        abfrage.exec_("update qgis_user set version = '1.3.1' where user = '" + self.username.lower() + "'")
+                        abfrage.exec_("update qgis_user set version = '1.3.2' where user = '" + self.username.lower() + "'")
                         abfrage.exec_("update qgis_user set qgis_version = '" + QGis.QGIS_VERSION + "' where user = '" + self.username.lower() + "'")
                         abfrage.exec_("update qgis_user set datasource = '" + self.vogisDb + "' where user = '" + self.username.lower() + "'")
                         self.db.close()
                     else: #user nicht gefunden, d.h. noch nicht vorhanden
-                        abfrage.exec_("insert into qgis_user ("'user'", "'starts'", "'version'", "'qgis_version'", "'datasource'") values ('" + self.username.lower() + "', 1 , '1.3.1', '" + QGis.QGIS_VERSION + "', '" + self.vogisDb + "')")
+                        abfrage.exec_("insert into qgis_user ("'user'", "'starts'", "'version'", "'qgis_version'", "'datasource'") values ('" + self.username.lower() + "', 1 , '1.3.2', '" + QGis.QGIS_VERSION + "', '" + self.vogisDb + "')")
 
                         self.db.close()
         except:
@@ -927,7 +927,7 @@ class VogismenuMain(QtCore.QObject):    # Die Vererbung von QtCore.Qobject benö
                 if not self.initPGDB():
                     # auch nix
                     del auth_user_global[:] # zurücksetzen
-                    QtGui.QMessageBox.about(None, "Fehler", 'Keine Verbindung zur Geodatenbank -  bitte in den Vogis Menü Einstellungen auf Filesystem umschalten!'.decode('UTF8'))
+                    QtGui.QMessageBox.about(None, "Fehler", 'Keine Verbindung zur Geodatenbank! Unter dem Menüpunkt VOGIS->Vogis Menü Einstellungen \"Vektorlayer aus Geodatenbank\" deaktivieren!'.decode('UTF8'))
                 else:
                     # Passt!
                     auth_user_global.append (self.username)
