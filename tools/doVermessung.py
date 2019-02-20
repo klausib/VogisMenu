@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
 
-from PyQt4 import QtGui,QtCore,QtSql
+from qgis.PyQt import QtGui,QtCore,QtSql, QtPrintSupport
 
 from qgis.core import *
 from qgis.gui import *
@@ -9,23 +9,20 @@ from qgis.analysis import *
 from gui_vermessung import *
 from gui_topo import *
 from direk_laden import direk_laden
-#API up to 2.2
-if QGis.QGIS_VERSION_INT < 20300:
-    from ProjektImport import *
-else:
-    from ProjektImport_24 import *
+from ProjektImport import *
+
 import sys,datetime,string
 
 
 
-class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
+class VermessungDialog(QtWidgets.QDialog, Ui_frmVermessung):
 
     #Ein individuelles Signal als Klassenvariable definieren
     Abflug = QtCore.pyqtSignal(object)
 
 
     def __init__(self,parent,iface,pfad = None,vogisPfad = None, PGdb = None):
-        QtGui.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
+        QtWidgets.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
         Ui_frmVermessung.__init__(self)
 
         self.iface = iface
@@ -45,9 +42,14 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
 
         self.vermessung = ProjektImport(self.iface)    #das Projekt Import Objekt instanzieren
 
-        #Topografie/objekt instanzieren
-        #die Topografie wird in einem eigenen Fenster angezeigt
+        # Topografie/objekt instanzieren
+        # die Topografie wird in einem eigenen Fenster angezeigt
         self.topofenster = TopoAnsicht(self.iface.mainWindow(),self.iface,self.links,self.oben,self.rechts,self.unten)
+        #self.topofenster = TopoAnsicht(self.iface.mainWindow(),self.iface) # Unter QT5 funktionieren die Ränder nicht! Bug???
+
+        self.textfenster = QtGui.QTextDocument()
+        self.painter = QtGui.QPainter()
+        self.painter2 = QtGui.QPainter()
 
 
         self.buttonGroup.setExclusive(False)        #wenn im Designer gesetzt, wirds beim Coderzeugen nicht übernommen
@@ -84,7 +86,7 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
 
 
         if not self.ok:
-            QtGui.QMessageBox.about(None, "Fehler", 'Keine Datebankverbindung')
+            QtWidgets.QMessageBox.about(None, "Fehler", 'Keine Datebankverbindung')
             return
 
         #Verbindung zur GZ Datenbank herstellen
@@ -98,7 +100,7 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
         ok = self.db2.open()    #Gibt True zurück wenn die Datenbank offen ist
         if not ok:
             self.ok = False
-            QtGui.QMessageBox.warning(None, "Fehler", "GZ Datenbank kann nicht verbunden werden")
+            QtWidgets.QMessageBox.warning(None, "Fehler", "GZ Datenbank kann nicht verbunden werden")
             return  #Code wird nicht weiter ausgeführt (sonst else clause)
 
 
@@ -163,26 +165,19 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
 
         #WICHTIG: ein Signal/Slot Verbindung herstellen zwischen dem neuen Maptool
         #und der Methode die die Gemeinde einstellt. Dabei wird das punktobjekt übertragen!!
-        QtCore.QObject.connect(self.PtRueckgabeTopo, QtCore.SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.returnTopo)
+        self.PtRueckgabeTopo.canvasClicked.connect(self.returnTopo)
 
         #WICHTIG: ein Signal/Slot Verbindung herstellen zwischen dem neuen Maptool
         #und der Methode die die Gemeinde einstellt. Dabei wird das punktobjekt übertragen!!
-        QtCore.QObject.connect(self.PtRueckgabe, QtCore.SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.returnGemeinde)
+        self.PtRueckgabe.canvasClicked.connect(self.returnGemeinde)
 
         #WICHTIG: ein Signal/Slot Verbindung herstellen
         #wenn ein Maptool Change Signal emittiert wird!
-        QtCore.QObject.connect(self.mc, QtCore.SIGNAL("mapToolSet (QgsMapTool *)"), self.MapButtonZuruecksetzen)
+        self.mc.mapToolSet.connect(self.MapButtonZuruecksetzen)
 
         #das ist cool: damit wird die QT Schnittstelle verwendet, die Klasse
         #QTreeWidget um im Qgis die Legendenposition zu verändern. Da Qgis für die
         #Legende ja auf QT Zugreift geht das!!
-##        self.legendTree = self.iface.mainWindow().findChild(QtGui.QDockWidget,"Legend").findChild(QtGui.QTreeWidget)
-##        self.legendTree= QgsProject.instance().layerTreeRoot()
-
-##        #ACHTUNG: Aus irgendeinem Grund gibts Probleme mit den Gruppenlayer: Wenn innerhalb der so angelegten Gruppen
-##        # ein Layer ausgewählt wird, gibts beim Laden danach einen Fehler. Es MUSS deshalb der oberste Eintrag
-##        # der Legende vor allem Laden als Aktueller Layer gesetztw erden!!!
-##        self.legendTree.setCurrentItem(self.legendTree.topLevelItem(0))
 
 
     def MapButtonZuruecksetzen(self,Tool_Gecklickt):
@@ -204,15 +199,15 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
         #Am Filesystem gibts keine Sonderzeichen!
         #Also müssen die Pfadstrings korrigiert werden
         gemeinde_wie_filesystem = self.Gemeinde
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ä').decode('utf8'),'ae')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ä').decode('utf8'),'Ae')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ö').decode('utf8'),'oe')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ö').decode('utf8'),'Oe')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ü').decode('utf8'),'ue')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ü').decode('utf8'),'Ue')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ß').decode('utf8'),'ss')
+        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ä'),'ae')
+        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ä'),'Ae')
+        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ö'),'oe')
+        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ö'),'Oe')
+        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ü'),'ue')
+        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ü'),'Ue')
+        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ß'),'ss')
         gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace('. ','_')
-        gemeinde_wie_filesystem = string.strip(gemeinde_wie_filesystem)
+        gemeinde_wie_filesystem = str.strip(gemeinde_wie_filesystem)
 
         #rendern ausschalten, sonst flackerts
         self.mc.setRenderFlag(False)
@@ -227,7 +222,7 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
 
                 if   ("Einschaltpunkte" in button.objectName()):
                     abfrage_where = self.generiere_abfrage()
-                    if string.strip(self.Gemeinde) == "Vorarlberg":
+                    if str.strip(self.Gemeinde) == "Vorarlberg":
                         ep = self.daten("bev_ep","Einschaltpunkte","where kg Like '%'",self.Gemeinde)
                     else:
                         ep = self.daten("bev_ep","Einschaltpunkte",abfrage_where,self.Gemeinde)
@@ -236,7 +231,7 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
 
                 elif ("Triangulierungspunkte" in button.objectName()):
                     abfrage_where = self.generiere_abfrage()
-                    if string.strip(self.Gemeinde) == "Vorarlberg":
+                    if str.strip(self.Gemeinde) == "Vorarlberg":
                         tp = self.daten("bev_tp","Triangulierungspunkte","where kg Like '%'",self.Gemeinde)
                     else:
                         tp = self.daten("bev_tp","Triangulierungspunkte",abfrage_where,self.Gemeinde)
@@ -245,7 +240,7 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
 
                 elif ("Nivellement" in button.objectName()):
                     abfrage_where = self.generiere_abfrage()
-                    if string.strip(self.Gemeinde) == "Vorarlberg":
+                    if str.strip(self.Gemeinde) == "Vorarlberg":
                         niv = self.daten("bev_niv","Nivellement","where kg Like '%'",self.Gemeinde)
                     else:
                         niv = self.daten("bev_niv","Nivellement",abfrage_where,self.Gemeinde)
@@ -258,7 +253,6 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
                     lva = self.daten("lva_pkt","LVA Punkte","","Vorarlberg")
                     if not (lva is None):
                         self.qml_zuweisen(lva,self.pfad + "/Vermessungspunkte/Vlbg/hoehengis/lva_punkte.qml")
-                        lva.setAnnotationForm(self.pfad + "/Vermessungspunkte/Vlbg/hoehengis/ui/gz.ui")
 
 
                 elif ("Illwerke" in button.objectName()):
@@ -280,38 +274,18 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
                         self.qml_zuweisen(oniv,self.pfad + "/Vermessungspunkte/Vlbg/hoehengis/oniv.qml")
 
                 elif ("Polygonpunkte" in button.objectName()):  #ist nun ein Shape, nicht aus der DB!
-                    #schlampig: Legendenshape hier dazuladen
-##                    if self.pgdb != None:
-##                        try:  # Geodatenbank
-##                            uri = QgsDataSourceURI()
-##                            uri.setConnection(self.pgdb.hostName(),str(self.pgdb.port()),self.pgdb.databaseName(),'','')  # Keine Kennwort nötig, Single Sign On
-##
-##                            # Geometriespalte bestimmen -- geht nur mit OGR
-##                            outputdb = ogr.Open('pg: host =' + self.pgdb.hostName() + ' dbname =' + self.pgdb.databaseName() + ' schemas=vorarlberg')
-##                            geom_column = outputdb.GetLayerByName('vkw_polygonpunkte').GetGeometryColumn()
-##
-##                            uri.setDataSource('vorarlberg', 'vkw_polygonpunkte', geom_column)
-##
-##                            poly = QgsVectorLayer(uri.uri(), "vkw_polygonpunkte","postgres")
-##                        #und prüfen ob erfolgreich geladen
-##                        except: #nicht erfolgreich geladen
-##                            QtGui.QMessageBox.about(None, "Fehler", "Layer ""vkw_polygonpunkte"" in der Datenbank nicht gefunden - es wird aufs Filesystem umgeschaltet")
-##                            poly = QgsVectorLayer(self.vogisPfad + "Naturbestand/" + gemeinde_wie_filesystem + "/Polygonpunkte.shp","VKW-Polygonpunkte-" + self.Gemeinde ,"ogr")
-##                    elif self.pgdb == None:
-##                        poly = QgsVectorLayer(self.vogisPfad + "Naturbestand/" + gemeinde_wie_filesystem + "/Polygonpunkte.shp","VKW-Polygonpunkte-" + self.Gemeinde ,"ogr")
-
                     poly = direk_laden(self.pgdb, "polygonpunkte","Polygonpunkte.shp", self.vogisPfad + "Naturbestand/" + gemeinde_wie_filesystem + "/",self.iface)
 
                     if not (poly is None):
                         #Prüfen ob die Polygonpubnkte geladen sind
                         yes = False
                         for vorhanden in self.mc.layers():
-                            if string.strip(vorhanden.name()) == string.strip("VKW-Polygonpunkte-" + self.Gemeinde):  #Aha, den Layer gibts schon
+                            if str.strip(vorhanden.name()) == str.strip("VKW-Polygonpunkte-" + self.Gemeinde):  #Aha, den Layer gibts schon
                                 yes = True
                         if not yes:
                             self.qml_zuweisen(poly,self.pfad + "/Vermessungspunkte/Vlbg/hoehengis/vkw_polygonpunkte.qml")
                             if self.pgdb == None:
-                                self.gruppe(string.strip(self.Gemeinde) + "-Vermessung",poly)
+                                self.gruppe(str.strip(self.Gemeinde) + "-Vermessung",poly)
                             else:
                                 self.gruppe("Vorarlberg-Vermessung",poly)
                 elif ("Umrisspolygone" in button.objectName()):  #ist nun ein Projekt, nicht aus der DB!
@@ -347,7 +321,10 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
         self.abfrage_gz = None
         self.abfrage_logo = None
         self.abfrage_lva_pkt = None
-
+        self.topofenster = None
+        self.textfenster = None
+        self.painter = None
+        self.painter2 = None
         self.modell_kg = None
 
 
@@ -364,7 +341,8 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
 
         #disconnect: weil sonst trotz close und del das signal slot verhältnis nicht sauber gelöscht wird
         #wieso??
-        QtCore.QObject.disconnect(self.mc, QtCore.SIGNAL("mapToolSet (QgsMapTool *)"), self.MapButtonZuruecksetzen)
+        #QtCore.QObject.disconnect(self.mc, QtCore.SIGNAL("mapToolSet (QgsMapTool *)"), self.MapButtonZuruecksetzen)
+
 
 
         self.close()
@@ -390,15 +368,11 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
         #Die geladenen Layer im QGis durchgehen:
 
         for vorhanden in self.mc.layers():
-            if string.strip(vorhanden.name()) == string.strip(layername + "-" + Gemeindetext):  #Aha, den Layer gibts schon
+            if str.strip(vorhanden.name()) == str.strip(layername + "-" + Gemeindetext):  #Aha, den Layer gibts schon
                 #yes = True
                 return
-
-##        if yes:
-##            epLayer = vorhanden #Wenns ihn schon gibt, wird er verwendet um die Daten reinzuschreiben
-##        else:
-        epLayer = QgsVectorLayer(geomType, string.strip(layername) + "-" + string.strip(Gemeindetext), 'memory')
-        QgsMapLayerRegistry.instance().addMapLayer(epLayer)     #wenn nicht, dann neu anlegen
+        epLayer = QgsVectorLayer(geomType, str.strip(layername) + "-" + str.strip(Gemeindetext), 'memory')
+        QgsProject.instance().addMapLayer(epLayer)     #wenn nicht, dann neu anlegen
 
 
         #der Memorylayer soll ja nicht nur die Geometrie
@@ -458,7 +432,7 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
                                 #damit mit .next nicht der erste datensatz verschluckt wird!!
 
         #benötigte Punkt und Featureobjekte instanzieren
-        ep_point = QgsPoint()
+        ep_point = QgsPointXY()
         ep_geom = QgsGeometry()
         ep_feature = QgsFeature()
 
@@ -474,7 +448,7 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
             #Geometry des neuen Features
             ep_point.setX(self.abfrage.value(fieldNoX))
             ep_point.setY(self.abfrage.value(fieldNoY))    #da ein tuple zurückgegeben wird
-            ep_feature.setGeometry(ep_geom.fromPoint(ep_point))         #da ein tuple zurückgegeben wird
+            ep_feature.setGeometry(ep_geom.fromPointXY(ep_point))         #da ein tuple zurückgegeben wird
 
             d = []  #attibute map erzeugen: bekommt in der Schleife die Attributwerte
             for depp in range(feldnamen.count()):
@@ -495,12 +469,12 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
             #Die Gruppenzugehörigkeit regeln, d.h.
             #den Memorylayer in einen Gruppenlayer legen
             #Das macht die Methode gruppe!
-            self.gruppe(string.strip(Gemeindetext) + "-Vermessung",epLayer)
+            self.gruppe(str.strip(Gemeindetext) + "-Vermessung",epLayer)
 
             #referenz auf fertiges Layerobjekt zurückgeben
             return epLayer
         else:
-            QtGui.QMessageBox.critical(None, "Achtung",'Layer ' + string.strip(layername) + "-" + string.strip(Gemeindetext) + ' nicht erfolgreich geladen!')
+            QtWidgets.QMessageBox.critical(None, "Achtung",'Layer ' + str.strip(layername) + "-" + str.strip(Gemeindetext) + ' nicht erfolgreich geladen!')
             return None
 
     #Ermittelt anhand des aktuellen Kartenmittelpunkts (Variable ergebnis)
@@ -538,7 +512,7 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
         shift=self.mc.mapUnitsPerPixel()
         wahlRect = QgsRectangle(ergebnis.x(),ergebnis.y(),ergebnis.x()+ shift,ergebnis.y()+ shift)
         #Entsprechendes Feature (=Gemeinde) im Layer selektieren
-        gmdLayer.select(wahlRect,False)
+        gmdLayer.selectByRect(wahlRect,False)
 
         #Den Index des feldes PGEM_NAME
         #in der Attributtabelle des Layers finden
@@ -709,62 +683,27 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
     # Memorylayer reinbewegen
     def gruppe(self,layername,layerobjekt):
 
-        leginterface = self.iface.legendInterface()
+        #leginterface = self.iface.legendInterface()
 
-
+        gruppe_vorhanden = False
         if not (layername is None):
-            gruppenliste = leginterface.groups()
-            gruppe_vorhanden = False
-            #prüfen ob die Gruppe schon angelegt ist
-            for einzelgruppe in gruppenliste:
-                if einzelgruppe == layername: #Name ist übergeben worden
-                    gruppe_vorhanden = True
 
-        if QGis.QGIS_VERSION_INT < 20300:
-
-            self.legendTree = self.iface.mainWindow().findChild(QtGui.QDockWidget,"Legend").findChild(QtGui.QTreeWidget)
+            if QgsProject.instance().layerTreeRoot().findGroup(layername) != None: #Name ist übergeben worden
+                gruppe_vorhanden = True
 
 
-            #ACHTUNG: Aus irgendeinem Grund gibts Probleme mit den Gruppenlayer: Wenn innerhalb der so angelegten Gruppen
-            # ein Layer ausgewählt wird, gibts beim Laden danach einen Fehler. Es MUSS deshalb der oberste Eintrag
-            # der Legende vor allem Laden als Aktueller Layer gesetztw erden!!!
-            self.legendTree.setCurrentItem(self.legendTree.findItems(layerobjekt.name(),QtCore.Qt.MatchRecursive,0)[0])
+        self.legendTree= QgsProject.instance().layerTreeRoot()
 
-            tmp_ly = self.legendTree.currentItem()  #Widget Item des gerade eingefügten Layers
-            index_neu = self.legendTree.indexOfTopLevelItem(tmp_ly) #index bestimmen
-            index = self.legendTree.takeTopLevelItem(index_neu)  #und rausnehmen!
+        #Ist die Gruppe nicht vorhanden , anlegen
+        if (not gruppe_vorhanden):
+            grp = self.legendTree.insertGroup(0,layername)
 
-                #Ist die Gruppe nicht vorhanden , anlegen
-            if (not gruppe_vorhanden):
-                #QtGui.QMessageBox.about(None, "Fehler", 'Gruppi')
-                grp = leginterface.addGroup(layername,False,None)    #Name ist übergeben worden
-                #es ist notwendig die gruppe nach oben zu schieben
-                tmp = self.legendTree.currentItem()
-                grp_unten = self.legendTree.indexOfTopLevelItem(tmp)
-                grp_oben = self.legendTree.takeTopLevelItem(grp_unten)
-                self.legendTree.insertTopLevelItem(0,grp_oben)
-
-
-            liste = self.legendTree.findItems(layername,QtCore.Qt.MatchRecursive,0)[0]
-
-                #den Layer in die Legende unterhalb des Gruppenlayers einfügen
-            liste.insertChild(0,index)
-
-        else:
-
-
-            self.legendTree= QgsProject.instance().layerTreeRoot()
-
-            #Ist die Gruppe nicht vorhanden , anlegen
-            if (not gruppe_vorhanden):
-                grp = self.legendTree.insertGroup(0,layername)
-
-            zwtsch = QgsProject.instance().layerTreeRoot().findLayer(layerobjekt.id()) #der geladene layer
-            index = zwtsch.clone()
-            grp = QgsProject.instance().layerTreeRoot().findGroup(layername) #der geladene layer
-            grp.insertChildNode(0,index)
-            zwtsch.parent().removeChildNode(zwtsch)
-            grp.setExpanded(False)
+        zwtsch = QgsProject.instance().layerTreeRoot().findLayer(layerobjekt.id()) #der geladene layer
+        index = zwtsch.clone()
+        grp = QgsProject.instance().layerTreeRoot().findGroup(layername) #der geladene layer
+        grp.insertChildNode(0,index)
+        zwtsch.parent().removeChildNode(zwtsch)
+        grp.setExpanded(False)
 
 
 
@@ -773,19 +712,19 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
     def qml_zuweisen(self,layer,qmlpfad):
 
         if not layer.isValid(): #nicht erfolgreich geladen
-            QtGui.QMessageBox.about(None, "Fehler", layer.name())
+            QtWidgets.QMessageBox.about(None, "Fehler", layer.name())
         else:   #erfolgreich geladen
             #dem Vektorlayer das QML File zuweisen
             #flagge[1] ist false wenn das file nich gefunden wird
             flagge = layer.loadNamedStyle(qmlpfad)
             if flagge[1]:
                 #Legendenansicht aktualisieren
-                self.iface.legendInterface().refreshLayerSymbology( layer )
+                self.iface.layerTreeView().refreshLayerSymbology( layer.id() )
             else:
-                QtGui.QMessageBox.about(None, "Fehler", ("QML konnte nicht zugewiesen werden! - " + qmlpfad))
+                QtWidgets.QMessageBox.about(None, "Fehler", ("QML konnte nicht zugewiesen werden! - " + qmlpfad))
             #Zur Map Layer registry hinzufügen damit der Layer
             #dargestellt wird
-            QgsMapLayerRegistry.instance().addMapLayer(layer)
+            QgsProject.instance().addMapLayer(layer)
 
 
 
@@ -796,6 +735,11 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
         #Prüfen ob der Layer Gemeinde im Qgis eingebunden ist
         #Startet man das Vogis Projekt ist er autonmatisch dabei
         #Sonst wird abgebrochen
+
+        # Fenster (wieder) leeren
+        # sonst addiert sich der Inhalte mit jedem weiteren Klick
+        self.topofenster.textView.clear()
+
         yes = False
         for vorhanden in self.mc.layers():
             if "LVA Punkte" in vorhanden.name():
@@ -805,7 +749,7 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
         if yes:
             topoLayer = vorhanden
         else:
-            QtGui.QMessageBox.warning(None, "Fehler", "Layer LVA Punkte nicht geladen")
+            QtWidgets.QMessageBox.warning(None, "Fehler", "Layer LVA Punkte nicht geladen")
             return
 
 
@@ -817,17 +761,17 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
         wahlRect = QgsRectangle(punkt.x()- shift,punkt.y() - shift ,punkt.x()+ shift,punkt.y()+ shift)
         #Entsprechendes Feature im Layer selektieren
         topoLayer.removeSelection()
-        topoLayer.select(wahlRect,False)
+        topoLayer.selectByRect(wahlRect,False)
         #Index des benötigten Attributfeldes "index": Es verknüpft die lva Punkttablle
         #mit der tabelle, die die topographiebilder enthält
-        feldindex = topoLayer.fieldNameIndex("index")
+        feldindex = topoLayer.fields().lookupField("index")
         if feldindex == -1:
-            QtGui.QMessageBox.about(None, "Fehler", "Achtung, Feld index nicht gefunden!")
+            QtWidgets.QMessageBox.about(None, "Fehler", "Achtung, Feld index nicht gefunden!")
             return
         feat = QgsFeature()
 
         if not topoLayer.selectedFeatureCount() > 0:
-            QtGui.QMessageBox.about(None, "Fehler", "Kein Punkt angeklickt!")
+            QtWidgets.QMessageBox.about(None, "Fehler", "Kein Punkt angeklickt!")
             return
         featureliste = topoLayer.selectedFeatures()
 
@@ -854,7 +798,7 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
 
         #abfrage der Datenbank für die Gemeindebezeichnung
         self.abfrage_gemeinde = QtSql.QSqlQuery(self.db)
-        self.abfrage_gemeinde.exec_("select pol_name,kg from gemeinden where kg_name = '" + string.strip(self.abfrage_gz.value(0)) + "'")    #leider brauchts ein VIEW
+        self.abfrage_gemeinde.exec_("select pol_name,kg from gemeinden where kg_name = '" + str.strip(self.abfrage_gz.value(0)) + "'")    #leider brauchts ein VIEW
         self.abfrage_gemeinde.next()
 
 
@@ -863,28 +807,28 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
         #dann in eine imagevariable (objekt) eingelesen
         #topografiebilder in imageobjekt einlesen
         self.abfrage_bilder = QtSql.QSqlQuery(self.db)
-        self.abfrage_bilder.exec_("SELECT bild1 from lva_topo where index_lva_pkt = " + string.strip(str(attribute[feldindex])))
+        self.abfrage_bilder.exec_("SELECT bild1 from lva_topo where index_lva_pkt = " + str.strip(str(attribute[feldindex])))
         self.abfrage_bilder.next()
-        bild1 = QtGui.QImage()
-        bild1.loadFromData(self.abfrage_bilder.value(0))
-        if bild1.numBytes() < 1:    #keine Topografie vorhanden
-            QtGui.QMessageBox.information(None, "Hinweis", "Keine Topografie vorhanden")
+        self.bild1 = QtGui.QImage()
+        self.bild1.loadFromData(self.abfrage_bilder.value(0))
+        if self.bild1.byteCount() < 1:    #keine Topografie vorhanden
+            QtWidgets.QMessageBox.information(None, "Hinweis", "Keine Topografie vorhanden")
             return
 
-        self.abfrage_bilder.exec_("SELECT bild2 from lva_topo where index_lva_pkt = " + string.strip(str(attribute[feldindex])))
+        self.abfrage_bilder.exec_("SELECT bild2 from lva_topo where index_lva_pkt = " + str.strip(str(attribute[feldindex])))
         self.abfrage_bilder.next()
-        bild2 = QtGui.QImage()
-        bild2.loadFromData(self.abfrage_bilder.value(0))
-        if bild2.numBytes() < 1:        #keine Topografie vorhanden
-            QtGui.QMessageBox.information(None, "Hinweis", "Keine Topografie vorhanden")
+        self.bild2 = QtGui.QImage()
+        self.bild2.loadFromData(self.abfrage_bilder.value(0))
+        if self.bild2.byteCount() < 1:        #keine Topografie vorhanden
+            QtWidgets.QMessageBox.information(None, "Hinweis", "Keine Topografie vorhanden")
             return
 
         # das Logo aus der Datenbank holen
         self.abfrage_logo = QtSql.QSqlQuery(self.db)
         self.abfrage_logo.exec_("SELECT logos from logos where lva_log = 'lva'")
         self.abfrage_logo.next()
-        img = QtGui.QImage()
-        img.loadFromData(self.abfrage_logo.value(0))
+        self.img = QtGui.QImage()
+        self.img.loadFromData(self.abfrage_logo.value(0))
 
 
         #nun haben wir alles geholt
@@ -894,249 +838,289 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
         #dient das QTextDocument und dann für die
         #Darstellung das QTextEdit Objekt
         #Tabelle und Textfenster
-        textfenster = QtGui.QTextDocument() #DAS zentrale Texktobjekt, container für alles
-        textimage = QtGui.QTextCursor(textfenster)  #Cursor wird auf das zentrale Texktobjekt referenziert
-        textimage.movePosition(QtGui.QTextCursor.Start)
+        #self.textfenster = QtGui.QTextDocument() #DAS zentrale Texktobjekt, container für alles
+        self.textimage = QtGui.QTextCursor(self.textfenster)  #Cursor wird auf das zentrale Texktobjekt referenziert
+        self.textimage.movePosition(QtGui.QTextCursor.Start)
 
         #die Formate der Tabellen definieren: Es gibt
         #Haupt und Subtabellen
-        tabellenformat = QtGui.QTextTableFormat()
-        tabellenformat.setBorder(2)
-        tabellenformat.setCellPadding(1)
-        tabellenformat.setCellSpacing(1)
-        tabellenformat_sub = QtGui.QTextTableFormat()
-        tabellenformat_sub.setBorder(0)
-        tabellenformat_sub.setCellPadding(1)
-        tabellenformat_sub.setCellSpacing(1)
+        self.tabellenformat = QtGui.QTextTableFormat()
+        self.tabellenformat.setBorder(2)
+        self.tabellenformat.setCellPadding(1)
+        self.tabellenformat.setCellSpacing(1)
 
-        #Imagebreite in Pixel festlegen
-        monitoraufloesung = self.topofenster.textView.physicalDpiX()
+        self.tabellenformat_sub = QtGui.QTextTableFormat()
+        self.tabellenformat_sub.setBorder(0)
+        self.tabellenformat_sub.setCellPadding(1)
+        self.tabellenformat_sub.setCellSpacing(1)
+
+
+
+        # Imagebreite in Pixel festlegen
+        monitoraufloesung = self.topofenster.textView.logicalDpiX()
         breite = 210 - self.links - self.rechts #bezogen auf DIN A4 in mm
         pixelbreite = monitoraufloesung / 2.54 * breite/10
 
-        #Imagehöhe in Pixel festlegen
-        hoehe = 120 #bezogen auf DIN A4 in mm
+        # Imagehöhe in Pixel festlegen
+        hoehe = 125 #bezogen auf DIN A4 in mm
         pixelhoehe = (monitoraufloesung / 2.54 * hoehe/10)
 
-        #spaltenbreite der sub tabellen
+        # spaltenbreite der sub tabellen
         breite=[]
         breite.append (QtGui.QTextLength(QtGui.QTextLength.FixedLength,pixelbreite*0.95/2)) #für die erste spalte!!
         breite.append (QtGui.QTextLength(QtGui.QTextLength.FixedLength,pixelbreite*0.95/2)) #für die zweite spalte!!
 
-        #Schriftformate definieren
-        standardschrift = QtGui.QFont("Times New Roman", 16)
-        standardschriftFett = QtGui.QFont("Times New Roman", 16, QtGui.QFont.Bold)
-        standardschriftFettGroesser = QtGui.QFont("Times New Roman", 18, QtGui.QFont.Bold)
-        standardformat = QtGui.QTextCharFormat()
-        standardformat.setFont(standardschrift)
-        standardformatFett = QtGui.QTextCharFormat(standardformat)
-        standardformatFett.setFont(standardschriftFett)
-        standardformatFettGroesser = QtGui.QTextCharFormat(standardformat)
-        standardformatFettGroesser.setFont(standardschriftFettGroesser)
+        # Schriftformate definieren
+        self.standardschrift = QtGui.QFont("Times New Roman", 16)
+        self.standardschriftFett = QtGui.QFont("Times New Roman", 16, QtGui.QFont.Bold)
+        self.standardschriftFettGroesser = QtGui.QFont("Times New Roman", 18, QtGui.QFont.Bold)
+        self.standardformat = QtGui.QTextCharFormat()
+        self.standardformat.setFont(self.standardschrift)
+        self.standardformatFett = QtGui.QTextCharFormat(self.standardformat)
+        self.standardformatFett.setFont(self.standardschriftFett)
+        self.standardformatFettGroesser = QtGui.QTextCharFormat(self.standardformat)
+        self.standardformatFettGroesser.setFont(self.standardschriftFettGroesser)
 
 
         ###################################################################
         # Die erste Tabellenseite #########################################
         ###################################################################
 
-        tabelle1 = textimage.insertTable(5,1,tabellenformat)
-        tabelle1.setObjectName("tabelle1")  #ein objektname ist wichtig - siehe schreibschutz
+        self.tabelle1 = self.textimage.insertTable(5,1,self.tabellenformat)
+        self.tabelle1.setObjectName("tabelle1")  #ein objektname ist wichtig - siehe schreibschutz
 
         #Logo
-        cellCursor = tabelle1.cellAt(0,0).firstCursorPosition()
-        cellCursor.insertImage(img.scaledToWidth(pixelbreite*0.95,QtCore.Qt.SmoothTransformation))
+        self.cellCursor = self.tabelle1.cellAt(0,0).firstCursorPosition()
+        self.cellCursor.insertImage(self.img.scaledToWidth(pixelbreite*0.95,QtCore.Qt.SmoothTransformation))
         #GZ
-        cellCursor = tabelle1.cellAt(1,0).firstCursorPosition()
-        cellCursor.insertText("GZ: " + str(self.abfrage_lva_pkt.value(4)),standardformatFett)
+        self.cellCursor = self.tabelle1.cellAt(1,0).firstCursorPosition()
+        self.cellCursor.insertText("GZ: " + str(self.abfrage_lva_pkt.value(4)),self.standardformatFett)
         #HZB und fremde Nr
-        cellCursor = tabelle1.cellAt(2,0).firstCursorPosition()
-        tabellenformat_sub.setColumnWidthConstraints(breite)
-        tabelle1_sub = cellCursor.insertTable(2,2,tabellenformat_sub)
-        tabelle1_sub.setObjectName("tabelle1_sub")  #ein objektname ist wichtig - siehe schreibschutz
+        self.cellCursor = self.tabelle1.cellAt(2,0).firstCursorPosition()
+        self.tabellenformat_sub.setColumnWidthConstraints(breite)
+        self.tabelle1_sub = self.cellCursor.insertTable(2,2,self.tabellenformat_sub)
+        self.tabelle1_sub.setObjectName("self.tabelle1_sub")  #ein objektname ist wichtig - siehe schreibschutz
 
-        cellCursor_sub = tabelle1_sub.cellAt(0,1).firstCursorPosition()
-        cellCursor_sub.setBlockCharFormat(standardformat)   #gesamte Zelle auf Format setzen: Sonst kanns beim Editieren verloren gehen wenn text gelöscht wird
-        cellCursor_sub.insertText("HZB: ",standardformat)
-        cellCursor_sub = tabelle1_sub.cellAt(1,1).firstCursorPosition()
-        cellCursor_sub.setBlockCharFormat(standardformat)   #gesamte Zelle auf Format setzen: Sonst kanns beim Editieren verloren gehen wenn text gelöscht wird
-        cellCursor_sub.insertText("Fremde Nr.: ",standardformat)
-        cellCursor_sub = tabelle1_sub.cellAt(1,0).firstCursorPosition()
-        cellCursor_sub.insertText(self.abfrage_lva_pkt.value(13) + ": " + self.abfrage_lva_pkt.value(0),standardformatFettGroesser)
+        self.cellCursor_sub = self.tabelle1_sub.cellAt(0,1).firstCursorPosition()
+        self.cellCursor_sub.setBlockCharFormat(self.standardformat)   #gesamte Zelle auf Format setzen: Sonst kanns beim Editieren verloren gehen wenn text gelöscht wird
+        self.cellCursor_sub.insertText("HZB: ",self.standardformat)
+        self.cellCursor_sub = self.tabelle1_sub.cellAt(1,1).firstCursorPosition()
+        self.cellCursor_sub.setBlockCharFormat(self.standardformat)   #gesamte Zelle auf Format setzen: Sonst kanns beim Editieren verloren gehen wenn text gelöscht wird
+        self.cellCursor_sub.insertText("Fremde Nr.: ",self.standardformat)
+        self.cellCursor_sub = self.tabelle1_sub.cellAt(1,0).firstCursorPosition()
+        self.cellCursor_sub.insertText(self.abfrage_lva_pkt.value(13) + ": " + self.abfrage_lva_pkt.value(0),self.standardformatFettGroesser)
 
 
         #erster hauptblock
-        cellCursor = tabelle1.cellAt(3,0).firstCursorPosition()
-        tabellenformat_sub.setColumnWidthConstraints(breite)
-        tabelle2_sub = cellCursor.insertTable(9,2,tabellenformat_sub)
-        tabelle2_sub.setObjectName("tabelle2_sub")  #ein objektname ist wichtig - siehe schreibschutz
+        self.cellCursor = self.tabelle1.cellAt(3,0).firstCursorPosition()
+        self.tabellenformat_sub.setColumnWidthConstraints(breite)
+        self.tabelle2_sub = self.cellCursor.insertTable(9,2,self.tabellenformat_sub)
+        self.tabelle2_sub.setObjectName("self.tabelle2_sub")  #ein objektname ist wichtig - siehe schreibschutz
 
-        cellCursor_sub = tabelle2_sub.cellAt(0,0).firstCursorPosition()
-        cellCursor_sub.insertText("Ortsgemeinde:",standardformat)
-        cellCursor_sub = tabelle2_sub.cellAt(1,0).firstCursorPosition()
-        cellCursor_sub.insertText("Katastralgemeinde:",standardformat)
-        cellCursor_sub = tabelle2_sub.cellAt(2,0).firstCursorPosition()
-        cellCursor_sub.insertText("Kg.-Nr.:",standardformat)
-        cellCursor_sub = tabelle2_sub.cellAt(3,0).firstCursorPosition()
-        cellCursor_sub.insertText("Gst.-Nr.:",standardformat)
-        cellCursor_sub = tabelle2_sub.cellAt(4,0).firstCursorPosition()
-        cellCursor_sub.insertText(("Eigentümer:").decode('utf8'),standardformat)
-        cellCursor_sub = tabelle2_sub.cellAt(5,0).firstCursorPosition()
-        cellCursor_sub.insertText(("Eigentümer Rohr:").decode('utf8'),standardformat)
-        cellCursor_sub = tabelle2_sub.cellAt(6,0).firstCursorPosition()
-        cellCursor_sub.insertText(("Festpunktanschluß:").decode('utf8'),standardformat)
-        cellCursor_sub = tabelle2_sub.cellAt(7,0).firstCursorPosition()
-        cellCursor_sub.insertText("Koordinaten Rohr:",standardformat)
-        cellCursor_sub = tabelle2_sub.cellAt(8,0).firstCursorPosition()
-        cellCursor_sub.insertText("Koordinaten Bolzen:",standardformat)
+        self.cellCursor_sub = self.tabelle2_sub.cellAt(0,0).firstCursorPosition()
+        self.cellCursor_sub.insertText("Ortsgemeinde:",self.standardformat)
+        self.cellCursor_sub = self.tabelle2_sub.cellAt(1,0).firstCursorPosition()
+        self.cellCursor_sub.insertText("Katastralgemeinde:",self.standardformat)
+        self.cellCursor_sub = self.tabelle2_sub.cellAt(2,0).firstCursorPosition()
+        self.cellCursor_sub.insertText("Kg.-Nr.:",self.standardformat)
+        self.cellCursor_sub = self.tabelle2_sub.cellAt(3,0).firstCursorPosition()
+        self.cellCursor_sub.insertText("Gst.-Nr.:",self.standardformat)
+        self.cellCursor_sub = self.tabelle2_sub.cellAt(4,0).firstCursorPosition()
+        self.cellCursor_sub.insertText(("Eigentümer:"),self.standardformat)
+        self.cellCursor_sub = self.tabelle2_sub.cellAt(5,0).firstCursorPosition()
+        self.cellCursor_sub.insertText(("Eigentümer Rohr:"),self.standardformat)
+        self.cellCursor_sub = self.tabelle2_sub.cellAt(6,0).firstCursorPosition()
+        self.cellCursor_sub.insertText(("Festpunktanschluss:"),self.standardformat)
+        self.cellCursor_sub = self.tabelle2_sub.cellAt(7,0).firstCursorPosition()
+        self.cellCursor_sub.insertText("Koordinaten Rohr:",self.standardformat)
+        self.cellCursor_sub = self.tabelle2_sub.cellAt(8,0).firstCursorPosition()
+        self.cellCursor_sub.insertText("Koordinaten Bolzen:",self.standardformat)
 
-        cellCursor_sub = tabelle2_sub.cellAt(0,1).firstCursorPosition()
-        cellCursor_sub.insertText(self.abfrage_gemeinde.value(0),standardformat)
-        cellCursor_sub = tabelle2_sub.cellAt(1,1).firstCursorPosition()
-        cellCursor_sub.insertText(self.abfrage_gz.value(0),standardformat)
-        cellCursor_sub = tabelle2_sub.cellAt(2,1).firstCursorPosition()
-        cellCursor_sub.insertText(str(self.abfrage_gemeinde.value(1)),standardformat)
+        self.cellCursor_sub = self.tabelle2_sub.cellAt(0,1).firstCursorPosition()
+        self.cellCursor_sub.insertText(self.abfrage_gemeinde.value(0),self.standardformat)
+        self.cellCursor_sub = self.tabelle2_sub.cellAt(1,1).firstCursorPosition()
+        self.cellCursor_sub.insertText(self.abfrage_gz.value(0),self.standardformat)
+        self.cellCursor_sub = self.tabelle2_sub.cellAt(2,1).firstCursorPosition()
+        self.cellCursor_sub.insertText(str(self.abfrage_gemeinde.value(1)),self.standardformat)
 
-        cellCursor_sub = tabelle2_sub.cellAt(3,1).firstCursorPosition()
+        self.cellCursor_sub = self.tabelle2_sub.cellAt(3,1).firstCursorPosition()
         if not self.abfrage_lva_pkt.value(5) == None:  #falls in der db nicht befüllt wird die spalte leergelassen
-            cellCursor_sub.insertText(self.abfrage_lva_pkt.value(5),standardformat)
+            self.cellCursor_sub.insertText(self.abfrage_lva_pkt.value(5),self.standardformat)
         else:
-            cellCursor_sub.insertText("",standardformat)
+            self.cellCursor_sub.insertText("",self.standardformat)
 
-        cellCursor_sub = tabelle2_sub.cellAt(4,1).firstCursorPosition()
+        self.cellCursor_sub = self.tabelle2_sub.cellAt(4,1).firstCursorPosition()
         if not self.abfrage_lva_pkt.value(6) == None:  #falls in der db nicht befüllt wird die spalte leergelassen
-            cellCursor_sub.insertText(self.abfrage_lva_pkt.value(6),standardformat)
+            self.cellCursor_sub.insertText(self.abfrage_lva_pkt.value(6),self.standardformat)
         else:
-            cellCursor_sub.insertText("",standardformat)
+            self.cellCursor_sub.insertText("",self.standardformat)
 
-        cellCursor_sub = tabelle2_sub.cellAt(5,1).firstCursorPosition()
-        cellCursor_sub.setBlockCharFormat(standardformat)   #gesamte Zelle auf Format setzen: Sonst kanns beim Editieren verloren gehen wenn text gelöscht wird
-        cellCursor_sub.insertText(("Abt. VIId - Wasserwirtschaft"),standardformat)
+        self.cellCursor_sub = self.tabelle2_sub.cellAt(5,1).firstCursorPosition()
+        self.cellCursor_sub.setBlockCharFormat(self.standardformat)   #gesamte Zelle auf Format setzen: Sonst kanns beim Editieren verloren gehen wenn text gelöscht wird
+        self.cellCursor_sub.insertText(("Abt. VIId - Wasserwirtschaft"),self.standardformat)
 
-        cellCursor_sub = tabelle2_sub.cellAt(6,1).firstCursorPosition()
+        self.cellCursor_sub = self.tabelle2_sub.cellAt(6,1).firstCursorPosition()
         if not self.abfrage_lva_pkt.value(7) == None:  #falls in der db nicht befüllt wird die spalte leergelassen
-            cellCursor_sub.insertText(self.abfrage_lva_pkt.value(7),standardformat)
+            self.cellCursor_sub.insertText(self.abfrage_lva_pkt.value(7),self.standardformat)
         else:
-            cellCursor_sub.insertText("",standardformat)
+            self.cellCursor_sub.insertText("",self.standardformat)
 
-        cellCursor_sub = tabelle2_sub.cellAt(7,1).firstCursorPosition()
-        cellCursor_sub.insertText(str(self.abfrage_lva_pkt.value(1)) + "     " + str(self.abfrage_lva_pkt.value(2)),standardformat)
+        self.cellCursor_sub = self.tabelle2_sub.cellAt(7,1).firstCursorPosition()
+        self.cellCursor_sub.insertText(str(self.abfrage_lva_pkt.value(1)) + "     " + str(self.abfrage_lva_pkt.value(2)),self.standardformat)
 
-        cellCursor_sub = tabelle2_sub.cellAt(8,1).firstCursorPosition()
+        self.cellCursor_sub = self.tabelle2_sub.cellAt(8,1).firstCursorPosition()
         # Alter Code if not (self.abfrage_lva_pkt.value(8) == None or self.abfrage_lva_pkt.value(9).isNull()):  #falls in der db nicht befüllt wird die spalte leergelassen
         if not (self.abfrage_lva_pkt.value(8) == None or self.abfrage_lva_pkt.value(9) == None):  #falls in der db nicht befüllt wird die spalte leergelassen
-            # Alter Code cellCursor_sub.insertText(self.abfrage_lva_pkt.value(8) + "     " + self.abfrage_lva_pkt.value(9),standardformat)
-            cellCursor_sub.insertText(str(self.abfrage_lva_pkt.value(8)) + "     " + str(self.abfrage_lva_pkt.value(9)),standardformat)
+            # Alter Code self.cellCursor_sub.insertText(self.abfrage_lva_pkt.value(8) + "     " + self.abfrage_lva_pkt.value(9),self.standardformat)
+            self.cellCursor_sub.insertText(str(self.abfrage_lva_pkt.value(8)) + "     " + str(self.abfrage_lva_pkt.value(9)),self.standardformat)
         else:
-            cellCursor_sub.insertText("",standardformat)
+            self.cellCursor_sub.insertText("",self.standardformat)
+        # erstes Topografie Bild einfügen
+        self.cellCursor = self.tabelle1.cellAt(4,0).firstCursorPosition()
+        self.zentriert = QtGui.QTextBlockFormat()
+        self.zentriert.setAlignment(QtCore.Qt.AlignHCenter)
+        self.cellCursor.setBlockFormat(self.zentriert)
 
-        #erstes Topografie Bild einfügen
-        cellCursor = tabelle1.cellAt(4,0).firstCursorPosition()
-        zentriert = QtGui.QTextBlockFormat()
-        zentriert.setAlignment(QtCore.Qt.AlignHCenter)
-        cellCursor.setBlockFormat(zentriert)
-        cellCursor.insertImage(bild1.scaledToHeight(pixelhoehe*0.94,QtCore.Qt.SmoothTransformation))    #damits auf eine Seite paßt
+        # Damit die Seitenumbrüche und die Seitenränder auch mit unterschiedlichen Bildgrößen korrekt sind
+        # wird ein weisses Dummybild erzeugt mit konstanter und passender Größe das denn mit den eigentlichen
+        # Topographie Bild überlagert wird. Das Topographiebild wird dabei zur maximal Breite/Höhe (je nach dem
+        # was zuerst erreicht wird) vergrößert.
+        self.pm1 = QtGui.QPixmap(pixelbreite*0.985,pixelhoehe * 0.92)
+        self.pm1.fill(QtGui.QColor(QtCore.Qt.white)) # Weiß
+        self.pm2 = QtGui.QPixmap(self.bild1.scaled(pixelbreite*0.985,pixelhoehe * 0.92,QtCore.Qt.KeepAspectRatio,QtCore.Qt.SmoothTransformation))
+        self.pm = QtGui.QPixmap(pixelbreite * 0.985,pixelhoehe * 0.92)
+
+        self.label = QtWidgets.QLabel()  # um den Qself.painter in QGIS zu initialisieren
+                                # sonst gibts einen Crash. Möglicherweise gibt es eine besser Lösung
+                                # Achtung: Der self.painter wird bei bild2 auch wieder verwendet
+                                # muss aber nicht mehr initialisiert werden, da gleiches Objekt
+
+
+        self.painter.begin(self.pm)
+        self.painter.drawPixmap(0,0, self.pm1)
+        self.painter.drawPixmap((pixelbreite * 0.985 - self.pm2.width()) / 2,(pixelhoehe * 0.92 - self.pm2.height()) / 2, self.pm2)
+        self.label.setPixmap(self.pm) # Für die self.painter Initialisierung!
+        #self.label.show()
+
+        self.cellCursor.insertImage(self.pm.toImage().copy())    # in die Zelle einfügen
+
 
 
         ###################################################################
         # Die zweite Tabellenseite ########################################
         ###################################################################
 
-        #einfügecursor an das Ende der ersten Tabelle bewegen
-        textimage.movePosition(QtGui.QTextCursor.End)
-        tabelle2 = textimage.insertTable(5,1,tabellenformat)
-        tabelle2.setObjectName("tabelle2")  #ein objektname ist wichtig - siehe schreibschutz
+        # einfügecursor an das Ende der ersten Tabelle bewegen
+        self.textimage.movePosition(QtGui.QTextCursor.End)
+        self.tabelle2 = self.textimage.insertTable(5,1,self.tabellenformat)
+        self.tabelle2.setObjectName("tabelle2")  #ein objektname ist wichtig - siehe schreibschutz
 
-        #Logo
-        cellCursor = tabelle2.cellAt(0,0).firstCursorPosition()
-        cellCursor.insertImage(img.scaledToWidth(pixelbreite*0.95,QtCore.Qt.SmoothTransformation))
+        # Logo
+        self.cellCursor = self.tabelle2.cellAt(0,0).firstCursorPosition()
+        self.cellCursor.insertImage(self.img.scaledToWidth(pixelbreite*0.95,QtCore.Qt.SmoothTransformation))
         #GZ
-        cellCursor = tabelle2.cellAt(1,0).firstCursorPosition()
-        cellCursor.insertText("GZ: " + self.abfrage_lva_pkt.value(4),standardformatFett)
+        self.cellCursor = self.tabelle2.cellAt(1,0).firstCursorPosition()
+        self.cellCursor.insertText("GZ: " + self.abfrage_lva_pkt.value(4),self.standardformatFett)
 
-        cellCursor = tabelle2.cellAt(2,0).firstCursorPosition()
-        tabellenformat_sub.setColumnWidthConstraints(breite)
-        tabelle3_sub = cellCursor.insertTable(2,2,tabellenformat_sub)
+        self.cellCursor = self.tabelle2.cellAt(2,0).firstCursorPosition()
+        self.tabellenformat_sub.setColumnWidthConstraints(breite)
+        tabelle3_sub = self.cellCursor.insertTable(2,2,self.tabellenformat_sub)
         tabelle3_sub.setObjectName("tabelle3_sub")  #ein objektname ist wichtig - siehe schreibschutz
 
-        cellCursor_sub = tabelle3_sub.cellAt(1,0).firstCursorPosition()
+        self.cellCursor_sub = tabelle3_sub.cellAt(1,0).firstCursorPosition()
         if self.abfrage_lva_pkt.value(13) == 'GWR':
             bez = 'ROK'
         else:
             bez = self.abfrage_lva_pkt.value(13)
-        #cellCursor_sub.insertText(self.abfrage_lva_pkt.value(13) + ": " + str(self.abfrage_lva_pkt.value(3)) + (" müA").decode('utf8'),standardformatFettGroesser)
-        cellCursor_sub.insertText(bez + ": " + str(self.abfrage_lva_pkt.value(3)) + (" müA").decode('utf8'),standardformatFettGroesser)
-        cellCursor_sub = tabelle3_sub.cellAt(1,1).firstCursorPosition()
+        #self.cellCursor_sub.insertText(self.abfrage_lva_pkt.value(13) + ": " + str(self.abfrage_lva_pkt.value(3)) + (" müA"),standardformatFettGroesser)
+        self.cellCursor_sub.insertText(bez + ": " + str(self.abfrage_lva_pkt.value(3)) + (" müA"),self.standardformatFettGroesser)
+        self.cellCursor_sub = tabelle3_sub.cellAt(1,1).firstCursorPosition()
 
         if not self.abfrage_lva_pkt.value(10) == None :  #falls in der db nicht befüllt wird die spalte leergelassen
-            cellCursor_sub.insertText("Bolzen: " + str(self.abfrage_lva_pkt.value(10)) + (" müA").decode('utf8'),standardformatFettGroesser)
+            self.cellCursor_sub.insertText("Bolzen: " + str(self.abfrage_lva_pkt.value(10)) + (" müA"),self.standardformatFettGroesser)
         else:
-            cellCursor_sub.insertText("",standardformat)
-        cellCursor_sub = tabelle3_sub.cellAt(0,0).firstCursorPosition()
-        cellCursor_sub.insertText(self.abfrage_lva_pkt.value(13) + ": " + str(self.abfrage_lva_pkt.value(0)),standardformatFettGroesser)
+            self.cellCursor_sub.insertText("",self.standardformat)
+        self.cellCursor_sub = tabelle3_sub.cellAt(0,0).firstCursorPosition()
+        self.cellCursor_sub.insertText(self.abfrage_lva_pkt.value(13) + ": " + str(self.abfrage_lva_pkt.value(0)),self.standardformatFettGroesser)
 
 
         #erster hauptblock
-        cellCursor = tabelle2.cellAt(3,0).firstCursorPosition()
-        tabellenformat_sub.setColumnWidthConstraints(breite)
-        tabelle4_sub = cellCursor.insertTable(8,2,tabellenformat_sub)
-        tabelle4_sub.setObjectName("tabelle4_sub")  #ein objektname ist wichtig - siehe schreibschutz
+        self.cellCursor = self.tabelle2.cellAt(3,0).firstCursorPosition()
+        self.tabellenformat_sub.setColumnWidthConstraints(breite)
+        self.tabelle4_sub = self.cellCursor.insertTable(8,2,self.tabellenformat_sub)
+        self.tabelle4_sub.setObjectName("self.tabelle4_sub")  #ein objektname ist wichtig - siehe schreibschutz
 
-        cellCursor_sub = tabelle4_sub.cellAt(1,0).firstCursorPosition()
-        cellCursor_sub.insertText("HB Anschluss 1:",standardformat)
-        cellCursor_sub = tabelle4_sub.cellAt(1,1).firstCursorPosition()
+        self.cellCursor_sub = self.tabelle4_sub.cellAt(1,0).firstCursorPosition()
+        self.cellCursor_sub.insertText("HB Anschluss 1:",self.standardformat)
+        self.cellCursor_sub = self.tabelle4_sub.cellAt(1,1).firstCursorPosition()
         if not self.abfrage_lva_pkt.value(11) == None:  #falls in der db nicht befüllt wird die spalte leergelassen
-            cellCursor_sub.insertText(self.abfrage_lva_pkt.value(11),standardformat)
+            self.cellCursor_sub.insertText(self.abfrage_lva_pkt.value(11),self.standardformat)
         else:
-            cellCursor_sub.insertText("",standardformat)
-        cellCursor_sub = tabelle4_sub.cellAt(2,0).firstCursorPosition()
-        cellCursor_sub.insertText("HB Anschluss 2:",standardformat)
-        cellCursor_sub = tabelle4_sub.cellAt(2,1).firstCursorPosition()
+            self.cellCursor_sub.insertText("",self.standardformat)
+        self.cellCursor_sub = self.tabelle4_sub.cellAt(2,0).firstCursorPosition()
+        self.cellCursor_sub.insertText("HB Anschluss 2:",self.standardformat)
+        self.cellCursor_sub = self.tabelle4_sub.cellAt(2,1).firstCursorPosition()
         if not self.abfrage_lva_pkt.value(12) == None:  #falls in der db nicht befüllt wird die spalte leergelassen
-            cellCursor_sub.insertText(self.abfrage_lva_pkt.value(12),standardformat)
+            self.cellCursor_sub.insertText(self.abfrage_lva_pkt.value(12),self.standardformat)
         else:
-            cellCursor_sub.insertText("",standardformat)
+            self.cellCursor_sub.insertText("",self.standardformat)
 
-        cellCursor_sub = tabelle4_sub.cellAt(5,0).firstCursorPosition()
-        cellCursor_sub.insertText("Sachbearbeiter: " + self.abfrage_gz.value(1),standardformat)
-        cellCursor_sub = tabelle4_sub.cellAt(6,0).firstCursorPosition()
+        self.cellCursor_sub = self.tabelle4_sub.cellAt(5,0).firstCursorPosition()
+        self.cellCursor_sub.insertText("Sachbearbeiter: " + self.abfrage_gz.value(1),self.standardformat)
+        self.cellCursor_sub = self.tabelle4_sub.cellAt(6,0).firstCursorPosition()
         if not self.abfrage_lva_pkt.value(15) == None:  #falls in der db nicht befüllt wird die spalte leergelassen
-            cellCursor_sub.insertText(("Geprüft von: ").decode('utf8') + self.abfrage_lva_pkt.value(15),standardformat)
+            self.cellCursor_sub.insertText(("Geprüft von: ") + self.abfrage_lva_pkt.value(15),self.standardformat)
         else:
-            cellCursor_sub.insertText("",standardformat)
+            self.cellCursor_sub.insertText("",self.standardformat)
 
 
-        cellCursor_sub = tabelle4_sub.cellAt(5,1).firstCursorPosition()
+        self.cellCursor_sub = self.tabelle4_sub.cellAt(5,1).firstCursorPosition()
         tag = self.abfrage_gz.value(2).date().day()
         monat = self.abfrage_gz.value(2).date().month()
         jahr = self.abfrage_gz.value(2).date().year()
-        cellCursor_sub.insertText("Vermessung am: " + str(tag) + "." + str(monat) + "." + str(jahr),standardformat)
-        cellCursor_sub = tabelle4_sub.cellAt(6,1).firstCursorPosition()
+        self.cellCursor_sub.insertText("Vermessung am: " + str(tag) + "." + str(monat) + "." + str(jahr),self.standardformat)
+        self.cellCursor_sub = self.tabelle4_sub.cellAt(6,1).firstCursorPosition()
         tag = self.abfrage_gz.value(3).date().day()
         monat = self.abfrage_gz.value(3).date().month()
         jahr = self.abfrage_gz.value(3).date().year()
-        cellCursor_sub.insertText(("Geprüft am: ").decode('utf8') + str(tag) + "." + str(monat) + "." + str(jahr),standardformat)
+        self.cellCursor_sub.insertText(("Geprüft am: ") + str(tag) + "." + str(monat) + "." + str(jahr),self.standardformat)
+
 
         #zweites Topografie Bild einfügen
-        cellCursor = tabelle2.cellAt(4,0).firstCursorPosition()
-        cellCursor.setBlockFormat(zentriert)
-        cellCursor.insertImage(bild2.scaledToHeight(pixelhoehe*0.94,QtCore.Qt.SmoothTransformation))
-
+        self.cellCursor2 = self.tabelle2.cellAt(4,0).firstCursorPosition()
+        self.cellCursor2.setBlockFormat(self.zentriert)
+        # Damit die Seitenumbrüche und die Seitenränder auch mit unterschiedlichen Bildgrößen korrekt sind
+        # wird ein weisses Dummybild erzeugt mit konstanter und passender Größe das denn mit den eigentlichen
+        # Topographie Bild überlagert wird. Das Topographiebild wird dabei zur maximal Breite/Höhe (je nach dem
+        # was zuerst erreicht wird) vergrößert.
+        self.pm2 = QtGui.QPixmap(self.bild2.scaled(pixelbreite*0.985,pixelhoehe * 0.92,QtCore.Qt.KeepAspectRatio,QtCore.Qt.SmoothTransformation))
+        self.pm = QtGui.QPixmap(pixelbreite * 0.985,pixelhoehe * 0.92)
+        #self.painter2 = QtGui.QPainter(self.pm)
+        self.painter2.begin(self.pm)
+        self.painter2.drawPixmap(0,0, self.pm1)
+        self.painter2.drawPixmap((pixelbreite * 0.985 - self.pm2.width()) / 2,(pixelhoehe * 0.92 - self.pm2.height()) / 2, self.pm2)
+        self.cellCursor2.insertImage(self.pm.toImage())    # in die Zelle einfügen
 
         #Alles ins Textview reinschreiben
-
-        self.topofenster.textView.setDocument(textfenster)
+        self.topofenster.textView.setDocument(self.textfenster)
         self.topofenster.textView.setLineWrapMode(2)
         self.topofenster.textView.setLineWrapColumnOrWidth(pixelbreite)    #die Pixelanzahl die einer realen Breite von "breite" entspricht
+
+
 
         #Signal/Slot für den Schreibschutz der Tabelle
         #mit Schreibrechten in 3 Zellen jedoch!!
         #das Signal wird vomObjekttyp QTextEdit emittiert wann immer der Cursoer
         #neu positioniert wird. Indem man schaut ob das feld editierbar sein soll
         #kann so ein schreibschutz gesetzt werden
-        QtCore.QObject.connect(self.topofenster.textView, QtCore.SIGNAL("cursorPositionChanged ()"), self.schreibschutz)
-
+        #QtCore.QObject.connect(self.topofenster.textView, QtCore.SIGNAL("cursorPositionChanged ()"), self.schreibschutz)
+        self.topofenster.textView.cursorPositionChanged.connect(self.schreibschutz)
         #das Fenster zeigen (und eventschleife draufgeben)
         self.topofenster.show()
+
+        # Wichtig
+        self.painter.end()
+        self.painter2.end()
 
 
     #der slot der berechnet,
@@ -1152,7 +1136,7 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
 
             #wenn in die Zelle geklickt wird
             #prüfen ob schreiben erlaubt!
-            if edittable.objectName() == "tabelle1_sub":
+            if edittable.objectName() == "self.tabelle1_sub":
                 if aktZelle.row() == 0 and aktZelle.column() == 1:
                     self.topofenster.textView.setReadOnly(False)
                 elif aktZelle.row() == 1 and aktZelle.column() == 1:
@@ -1160,7 +1144,7 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
                 else:
                     self.topofenster.textView.setReadOnly(True)
 
-            if edittable.objectName() == "tabelle2_sub":
+            if edittable.objectName() == "self.tabelle2_sub":
                 if aktZelle.row() == 5 and aktZelle.column() == 1:
                     self.topofenster.textView.setReadOnly(False)
                 else:
@@ -1176,34 +1160,52 @@ class VermessungDialog(QtGui.QDialog, Ui_frmVermessung):
 
 #Klassendefinition für das Topographie Anzeigefenster
 #dieses Fenster kann auch den Inhalt drucken!
-class TopoAnsicht(QtGui.QDialog,Ui_frmTopo):
+class TopoAnsicht(QtWidgets.QDialog,Ui_frmTopo):
 
-    def __init__(self,parent,iface,links = 20,oben = 20,rechts = 20,unten = 20): #,iface,pfad = None):
-        QtGui.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
+    def __init__(self,parent,iface,links = 20,oben = 20,rechts = 20,unten = 20):
+        QtWidgets.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
         Ui_frmTopo.__init__(self)
 
 
-        self.drucker = QtGui.QPrinter(QtGui.QPrinter.PrinterResolution) #ACHTUNG: Druckerobjekt immer als
-                                                                        #Instanzvariable sonst klappts nicht!
-        self.drucker.setPageSize(QtGui.QPrinter.A4)
-        self.drucker.setPageMargins(links,oben,rechts,unten,0)
+        # Unter QT5 funktionieren die Ränder nicht! Bug???
+        self.links = 6 #links
+        self.rechts = 5 #rechts
+        self.oben = 5 #oben
+        self.unten = 5 #unten
+
+
+        self.drucker = QtPrintSupport.QPrinter(QtPrintSupport.QPrinter.HighResolution)  #ACHTUNG: Druckerobjekt immer als
+        self.drucker.setPageSize(QtGui.QPageSize(QtGui.QPageSize.A4))
+        self.drucker.setFullPage(True)
+        self.drucker.setPageMargins(self.links,self.oben,self.rechts,self.unten,0)
+
+
+
+        #depp = QtGui.QTextBlockFormat()
+        #depp.setPageBreakPolicy(QtGui.QTextFormat.PageBreak_AlwaysAfter)
+
+
 
         self.setupUi(self)
 
     #diese paar Zeilen genügen
     #um den Inhalt
     def drucken_text(self):
-        dialog_t = QtGui.QPrintDialog(self.drucker)
+        dialog_t = QtPrintSupport.QPrintDialog(self.drucker)
 
-        if dialog_t.exec_() == QtGui.QDialog.Accepted:
-            self.textView.print_(self.drucker)  #textView ist das TexteditObjekt im Ui_frmTopo
+        if dialog_t.exec_() == QtWidgets.QDialog.Accepted:
+
+            self.textView.print(self.drucker)  #textView ist das TexteditObjekt im Ui_frmTopo
                                                 #es wird ja in diese Klasse veraerbt und hat die Methode Drucken: Der Inhalt wird dann gedruckt
+
         del dialog_t
 
 
 
     def closeEvent(self,event = None):
+        self.drucker = None
         self.close()
+
 
 
 

@@ -2,69 +2,64 @@
 
 # Form implementation generated from reading ui file 'gui_options.ui'
 #
-# Created: Wed Feb 22 16:15:05 2017
-#      by: PyQt4 UI code generator 4.8.4
+# Created by: PyQt5 UI code generator 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt4 import QtCore, QtGui
-
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    _fromUtf8 = lambda s: s
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_frmOptions(object):
     def setupUi(self, frmOptions):
-        frmOptions.setObjectName(_fromUtf8("frmOptions"))
+        frmOptions.setObjectName("frmOptions")
         frmOptions.resize(349, 187)
-        self.ButtonSave = QtGui.QPushButton(frmOptions)
+        self.ButtonSave = QtWidgets.QPushButton(frmOptions)
         self.ButtonSave.setGeometry(QtCore.QRect(120, 150, 101, 23))
-        self.ButtonSave.setObjectName(_fromUtf8("ButtonSave"))
-        self.layoutWidget = QtGui.QWidget(frmOptions)
+        self.ButtonSave.setObjectName("ButtonSave")
+        self.layoutWidget = QtWidgets.QWidget(frmOptions)
         self.layoutWidget.setGeometry(QtCore.QRect(40, 20, 270, 77))
-        self.layoutWidget.setObjectName(_fromUtf8("layoutWidget"))
-        self.verticalLayout = QtGui.QVBoxLayout(self.layoutWidget)
-        self.verticalLayout.setMargin(0)
-        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.ckCRS = QtGui.QCheckBox(self.layoutWidget)
+        self.layoutWidget.setObjectName("layoutWidget")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.layoutWidget)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.ckCRS = QtWidgets.QCheckBox(self.layoutWidget)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.ckCRS.setFont(font)
-        self.ckCRS.setObjectName(_fromUtf8("ckCRS"))
+        self.ckCRS.setObjectName("ckCRS")
         self.verticalLayout.addWidget(self.ckCRS)
-        self.ckEncoding = QtGui.QCheckBox(self.layoutWidget)
+        self.ckEncoding = QtWidgets.QCheckBox(self.layoutWidget)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.ckEncoding.setFont(font)
-        self.ckEncoding.setObjectName(_fromUtf8("ckEncoding"))
+        self.ckEncoding.setObjectName("ckEncoding")
         self.verticalLayout.addWidget(self.ckEncoding)
-        self.ckDb = QtGui.QCheckBox(self.layoutWidget)
+        self.ckDb = QtWidgets.QCheckBox(self.layoutWidget)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.ckDb.setFont(font)
         self.ckDb.setChecked(True)
-        self.ckDb.setObjectName(_fromUtf8("ckDb"))
+        self.ckDb.setObjectName("ckDb")
         self.verticalLayout.addWidget(self.ckDb)
-        self.ButtonPath = QtGui.QPushButton(frmOptions)
+        self.ButtonPath = QtWidgets.QPushButton(frmOptions)
         self.ButtonPath.setGeometry(QtCore.QRect(230, 110, 81, 23))
-        self.ButtonPath.setObjectName(_fromUtf8("ButtonPath"))
-        self.lblPath = QtGui.QLabel(frmOptions)
+        self.ButtonPath.setObjectName("ButtonPath")
+        self.lblPath = QtWidgets.QLabel(frmOptions)
         self.lblPath.setGeometry(QtCore.QRect(40, 100, 181, 37))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.lblPath.setFont(font)
-        self.lblPath.setObjectName(_fromUtf8("lblPath"))
+        self.lblPath.setObjectName("lblPath")
 
         self.retranslateUi(frmOptions)
         QtCore.QMetaObject.connectSlotsByName(frmOptions)
 
     def retranslateUi(self, frmOptions):
-        frmOptions.setWindowTitle(QtGui.QApplication.translate("frmOptions", "VOGIS - Menü Einstellungen", None, QtGui.QApplication.UnicodeUTF8))
-        self.ButtonSave.setText(QtGui.QApplication.translate("frmOptions", "OK", None, QtGui.QApplication.UnicodeUTF8))
-        self.ckCRS.setText(QtGui.QApplication.translate("frmOptions", "Koordinatenbezugssystem aus Projektdatei", None, QtGui.QApplication.UnicodeUTF8))
-        self.ckEncoding.setText(QtGui.QApplication.translate("frmOptions", "Codierung Shapefiles aus Projektdatei", None, QtGui.QApplication.UnicodeUTF8))
-        self.ckDb.setText(QtGui.QApplication.translate("frmOptions", "Vektorlayer aus Geodatenbank", None, QtGui.QApplication.UnicodeUTF8))
-        self.ButtonPath.setText(QtGui.QApplication.translate("frmOptions", "Pfad Ändern", None, QtGui.QApplication.UnicodeUTF8))
-        self.lblPath.setText(QtGui.QApplication.translate("frmOptions", "Path", None, QtGui.QApplication.UnicodeUTF8))
+        _translate = QtCore.QCoreApplication.translate
+        frmOptions.setWindowTitle(_translate("frmOptions", "VOGIS - Menü Einstellungen"))
+        self.ButtonSave.setText(_translate("frmOptions", "OK"))
+        self.ckCRS.setText(_translate("frmOptions", "Koordinatenbezugssystem aus Projektdatei"))
+        self.ckEncoding.setText(_translate("frmOptions", "Codierung Shapefiles aus Projektdatei"))
+        self.ckDb.setText(_translate("frmOptions", "Vektorlayer aus Geodatenbank"))
+        self.ButtonPath.setText(_translate("frmOptions", "Pfad Ändern"))
+        self.lblPath.setText(_translate("frmOptions", "Path"))
 

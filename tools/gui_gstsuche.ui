@@ -103,7 +103,7 @@
     </font>
    </property>
    <property name="title">
-    <string>Digitale Katastralmappe (DKM)     Stand: dd.mm.yyyy</string>
+    <string>Digitale Katastralmappe (Stand: dd.mm.yyyy)</string>
    </property>
    <widget class="QGroupBox" name="groupBox_3">
     <property name="geometry">
@@ -329,7 +329,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>8</pointsize>
+      <pointsize>10</pointsize>
      </font>
     </property>
     <property name="title">
@@ -398,7 +398,7 @@
          <bool>false</bool>
         </property>
         <attribute name="buttonGroup">
-         <string>auswahlBoxen</string>
+         <string notr="true">auswahlBoxen</string>
         </attribute>
        </widget>
       </item>
@@ -413,7 +413,7 @@
          <string>Nutzungsflächen Umriss</string>
         </property>
         <attribute name="buttonGroup">
-         <string>auswahlBoxen</string>
+         <string notr="true">auswahlBoxen</string>
         </attribute>
        </widget>
       </item>
@@ -428,7 +428,7 @@
          <string>Sonstige Grenzen</string>
         </property>
         <attribute name="buttonGroup">
-         <string>auswahlBoxen</string>
+         <string notr="true">auswahlBoxen</string>
         </attribute>
        </widget>
       </item>
@@ -443,7 +443,7 @@
          <string>Sonstige Symbole</string>
         </property>
         <attribute name="buttonGroup">
-         <string>auswahlBoxen</string>
+         <string notr="true">auswahlBoxen</string>
         </attribute>
        </widget>
       </item>
@@ -458,7 +458,7 @@
          <string>Grenzpunkt Symbole</string>
         </property>
         <attribute name="buttonGroup">
-         <string>auswahlBoxen</string>
+         <string notr="true">auswahlBoxen</string>
         </attribute>
        </widget>
       </item>
@@ -473,7 +473,7 @@
          <string>Sonstige Texte</string>
         </property>
         <attribute name="buttonGroup">
-         <string>auswahlBoxen</string>
+         <string notr="true">auswahlBoxen</string>
         </attribute>
        </widget>
       </item>
@@ -488,7 +488,7 @@
          <string>Festpunkt Symbole</string>
         </property>
         <attribute name="buttonGroup">
-         <string>auswahlBoxen</string>
+         <string notr="true">auswahlBoxen</string>
         </attribute>
        </widget>
       </item>
@@ -518,7 +518,7 @@
          <bool>false</bool>
         </property>
         <attribute name="buttonGroup">
-         <string>auswahlBoxen</string>
+         <string notr="true">auswahlBoxen</string>
         </attribute>
        </widget>
       </item>
@@ -533,7 +533,7 @@
          <string>Nutzungsflächen</string>
         </property>
         <attribute name="buttonGroup">
-         <string>auswahlBoxen</string>
+         <string notr="true">auswahlBoxen</string>
         </attribute>
        </widget>
       </item>
@@ -548,7 +548,7 @@
          <string>Gebäudeflächen</string>
         </property>
         <attribute name="buttonGroup">
-         <string>auswahlBoxen</string>
+         <string notr="true">auswahlBoxen</string>
         </attribute>
        </widget>
       </item>
@@ -563,7 +563,7 @@
          <string>Nutzungs Symbole</string>
         </property>
         <attribute name="buttonGroup">
-         <string>auswahlBoxen</string>
+         <string notr="true">auswahlBoxen</string>
         </attribute>
        </widget>
       </item>
@@ -578,7 +578,7 @@
          <string>Grenzpunkt Nr</string>
         </property>
         <attribute name="buttonGroup">
-         <string>auswahlBoxen</string>
+         <string notr="true">auswahlBoxen</string>
         </attribute>
        </widget>
       </item>
@@ -593,7 +593,7 @@
          <string>Grenzpunkt Infos</string>
         </property>
         <attribute name="buttonGroup">
-         <string>auswahlBoxen</string>
+         <string notr="true">auswahlBoxen</string>
         </attribute>
        </widget>
       </item>
@@ -608,7 +608,7 @@
          <string>Festpunkte</string>
         </property>
         <attribute name="buttonGroup">
-         <string>auswahlBoxen</string>
+         <string notr="true">auswahlBoxen</string>
         </attribute>
        </widget>
       </item>

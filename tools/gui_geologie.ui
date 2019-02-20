@@ -90,7 +90,7 @@
        <string>Geologische Karte Vorarlberg (GBA, 2007)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup</string>
+       <string notr="true">checkButtonsGroup</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_2">
@@ -111,7 +111,7 @@
        <string>Geologische_Tektonische Karte (GBA, 1998)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup</string>
+       <string notr="true">checkButtonsGroup</string>
       </attribute>
      </widget>
      <widget class="QPushButton" name="Button_Legend_Geologie_2007">
@@ -142,7 +142,7 @@
        <string/>
       </property>
       <property name="icon">
-       <iconset resource="resources.qrc">
+       <iconset resource="resources_geologie.qrc">
         <normaloff>:/plugins/VogisMenu/icons/gui-rv.info.gif</normaloff>:/plugins/VogisMenu/icons/gui-rv.info.gif</iconset>
       </property>
      </widget>
@@ -174,7 +174,7 @@
        <string/>
       </property>
       <property name="icon">
-       <iconset resource="resources.qrc">
+       <iconset resource="resources_geologie.qrc">
         <normaloff>:/plugins/VogisMenu/icons/gui-rv.info.gif</normaloff>:/plugins/VogisMenu/icons/gui-rv.info.gif</iconset>
       </property>
      </widget>
@@ -224,7 +224,7 @@
        <string/>
       </property>
       <property name="icon">
-       <iconset resource="resources.qrc">
+       <iconset resource="resources_geologie.qrc">
         <normaloff>:/plugins/VogisMenu/icons/gui-rv.info.gif</normaloff>:/plugins/VogisMenu/icons/gui-rv.info.gif</iconset>
       </property>
      </widget>
@@ -246,7 +246,7 @@
        <string>Bohrprofile</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup</string>
+       <string notr="true">checkButtonsGroup</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_5">
@@ -267,7 +267,7 @@
        <string>Geologische Detailuntersuchungen</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup</string>
+       <string notr="true">checkButtonsGroup</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_6">
@@ -288,7 +288,7 @@
        <string>Geologische Karte (Richter)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup</string>
+       <string notr="true">checkButtonsGroup</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_7">
@@ -309,7 +309,7 @@
        <string>Geologie Rheintal (Starck, 1970)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup</string>
+       <string notr="true">checkButtonsGroup</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_8">
@@ -333,7 +333,7 @@
        <string>Gefahrenhinweiskarte (GBA, 2006)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup</string>
+       <string notr="true">checkButtonsGroup</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_9">
@@ -354,7 +354,7 @@
        <string>Georisken Montafon (Bertle, 1995)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup</string>
+       <string notr="true">checkButtonsGroup</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_23">
@@ -375,7 +375,7 @@
        <string>Geotop-Inventar</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup</string>
+       <string notr="true">checkButtonsGroup</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_25">
@@ -396,7 +396,7 @@
        <string>Grundwasser-Chemismus Rheintal (Starck)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup</string>
+       <string notr="true">checkButtonsGroup</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_24">
@@ -420,7 +420,7 @@
        <string>Grundwasser-Schichten_Linien Rheintal (nur VIIa)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup</string>
+       <string notr="true">checkButtonsGroup</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_11">
@@ -441,7 +441,7 @@
        <string>Historische Übersichtskarte (Schmidt 1839-1841)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup</string>
+       <string notr="true">checkButtonsGroup</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_19">
@@ -462,7 +462,7 @@
        <string>Ereigniskataster (Starck, 1974-2003)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup</string>
+       <string notr="true">checkButtonsGroup</string>
       </attribute>
      </widget>
     </widget>
@@ -509,7 +509,7 @@
           <string>Übersichtskarten</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup2</string>
+          <string notr="true">checkButtonsGroup2</string>
          </attribute>
         </widget>
        </item>
@@ -524,7 +524,7 @@
           <string>Arlberggebiet (GBA, 1932)</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup2</string>
+          <string notr="true">checkButtonsGroup2</string>
          </attribute>
         </widget>
        </item>
@@ -539,7 +539,7 @@
           <string>Bezau (GBA, Manuskript)</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup2</string>
+          <string notr="true">checkButtonsGroup2</string>
          </attribute>
         </widget>
        </item>
@@ -554,7 +554,7 @@
           <string>Bregenz (GBA, 1982)</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup2</string>
+          <string notr="true">checkButtonsGroup2</string>
          </attribute>
         </widget>
        </item>
@@ -569,7 +569,7 @@
           <string>Dornbirn Nord (GBA, 1994)</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup2</string>
+          <string notr="true">checkButtonsGroup2</string>
          </attribute>
         </widget>
        </item>
@@ -584,7 +584,7 @@
           <string>Dornbirn Süd (GBA, 1982)</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup2</string>
+          <string notr="true">checkButtonsGroup2</string>
          </attribute>
         </widget>
        </item>
@@ -599,7 +599,7 @@
           <string>Flexenpass (Doert und Helmcke, 1975)</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup2</string>
+          <string notr="true">checkButtonsGroup2</string>
          </attribute>
         </widget>
        </item>
@@ -617,7 +617,7 @@
           <string>Heiterwand (Tirol) (GBA, 1932)</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup2</string>
+          <string notr="true">checkButtonsGroup2</string>
          </attribute>
         </widget>
        </item>
@@ -632,7 +632,7 @@
           <string>Klostertal (Helmcke, 1972)</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup2</string>
+          <string notr="true">checkButtonsGroup2</string>
          </attribute>
         </widget>
        </item>
@@ -647,7 +647,7 @@
           <string>Klostertaler Alpen (GBA, 1932)</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup2</string>
+          <string notr="true">checkButtonsGroup2</string>
          </attribute>
         </widget>
        </item>
@@ -662,7 +662,7 @@
           <string>Liechtenstein (RFL, 1985)</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup2</string>
+          <string notr="true">checkButtonsGroup2</string>
          </attribute>
         </widget>
        </item>
@@ -680,7 +680,7 @@
           <string>Mittelberg (GBA, 1990)</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup2</string>
+          <string notr="true">checkButtonsGroup2</string>
          </attribute>
         </widget>
        </item>
@@ -698,7 +698,7 @@
           <string>Parseiergruppe (Tirol)  (GBA, 1932)</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup2</string>
+          <string notr="true">checkButtonsGroup2</string>
          </attribute>
         </widget>
        </item>
@@ -716,7 +716,7 @@
           <string>Partenen Ost (GBA, 1980)</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup2</string>
+          <string notr="true">checkButtonsGroup2</string>
          </attribute>
         </widget>
        </item>
@@ -734,7 +734,7 @@
           <string>Partenen West (GBA, 1980)</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup2</string>
+          <string notr="true">checkButtonsGroup2</string>
          </attribute>
         </widget>
        </item>
@@ -752,7 +752,7 @@
           <string>Walgau (GBA, 1967)</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup2</string>
+          <string notr="true">checkButtonsGroup2</string>
          </attribute>
         </widget>
        </item>
@@ -770,7 +770,7 @@
           <string>Walsertal (Otte und Helmcke)</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup2</string>
+          <string notr="true">checkButtonsGroup2</string>
          </attribute>
         </widget>
        </item>
@@ -788,7 +788,7 @@
           <string>Vorderwald (Muheim, 1934)</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup2</string>
+          <string notr="true">checkButtonsGroup2</string>
          </attribute>
         </widget>
        </item>
@@ -806,7 +806,7 @@
           <string>Sulzberg (GBA, 1984)</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup2</string>
+          <string notr="true">checkButtonsGroup2</string>
          </attribute>
         </widget>
        </item>
@@ -824,7 +824,7 @@
           <string>Stuben (GBA, 1937)</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup2</string>
+          <string notr="true">checkButtonsGroup2</string>
          </attribute>
         </widget>
        </item>
@@ -842,7 +842,7 @@
           <string>Schönenbach</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup2</string>
+          <string notr="true">checkButtonsGroup2</string>
          </attribute>
         </widget>
        </item>
@@ -860,7 +860,7 @@
           <string>Rätikon (GBA)</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup2</string>
+          <string notr="true">checkButtonsGroup2</string>
          </attribute>
         </widget>
        </item>
@@ -909,7 +909,7 @@
        <string>Ausser Montafon (Bertha, 1978)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup3</string>
+       <string notr="true">checkButtonsGroup3</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_21">
@@ -930,7 +930,7 @@
        <string>Dalaas (Koehler, 1977)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup3</string>
+       <string notr="true">checkButtonsGroup3</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_22">
@@ -951,7 +951,7 @@
        <string>Davenna (Kasper, 1990)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup3</string>
+       <string notr="true">checkButtonsGroup3</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_39">
@@ -972,7 +972,7 @@
        <string>Firstkette (Golde, 1993)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup3</string>
+       <string notr="true">checkButtonsGroup3</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_40">
@@ -993,7 +993,7 @@
        <string>Gafadura (Post, 1996)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup3</string>
+       <string notr="true">checkButtonsGroup3</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_41">
@@ -1014,7 +1014,7 @@
        <string>Gargellen (Bertle, 1972)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup3</string>
+       <string notr="true">checkButtonsGroup3</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_42">
@@ -1038,7 +1038,7 @@
        <string>Gopfberg (Oberhauser M., 1993)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup3</string>
+       <string notr="true">checkButtonsGroup3</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_43">
@@ -1059,7 +1059,7 @@
        <string>Rätikon östlich (Steinacher, 2004)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup3</string>
+       <string notr="true">checkButtonsGroup3</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_44">
@@ -1080,7 +1080,7 @@
        <string>Rätikon östlich (Mayerl, 2005)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup3</string>
+       <string notr="true">checkButtonsGroup3</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_45">
@@ -1101,7 +1101,7 @@
        <string>Sibratsgfäll (Haak, 1995)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup3</string>
+       <string notr="true">checkButtonsGroup3</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_46">
@@ -1125,7 +1125,7 @@
        <string>Tschagguns - Mauren (Bertle, 1995)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup3</string>
+       <string notr="true">checkButtonsGroup3</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_47">
@@ -1149,7 +1149,7 @@
        <string>Tschöppa (Bertle, 1992)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup3</string>
+       <string notr="true">checkButtonsGroup3</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_48">
@@ -1173,7 +1173,7 @@
        <string>Winterstaude (Oberhauser)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup3</string>
+       <string notr="true">checkButtonsGroup3</string>
       </attribute>
      </widget>
      <widget class="QCheckBox" name="checkBox_49">
@@ -1197,7 +1197,7 @@
        <string>Winterstaude (Alexander)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>checkButtonsGroup3</string>
+       <string notr="true">checkButtonsGroup3</string>
       </attribute>
      </widget>
     </widget>
@@ -1352,7 +1352,7 @@
           <string>Alberschwende</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -1367,7 +1367,7 @@
           <string>Au</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -1382,7 +1382,7 @@
           <string>Faschina</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -1397,7 +1397,7 @@
           <string>Hochtannberg/Arlberg</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -1412,7 +1412,7 @@
           <string>Sibratsgfäll</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -1565,7 +1565,7 @@
           <string>Alberschwende</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -1580,7 +1580,7 @@
           <string>Faschina</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -1595,7 +1595,7 @@
           <string>Hochtannberg</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -1610,7 +1610,7 @@
           <string>Schoppernau</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -1625,7 +1625,7 @@
           <string>Walgau</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -1778,7 +1778,7 @@
           <string>Hochtannberg</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -1793,7 +1793,7 @@
           <string>Klostertal</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -1808,7 +1808,7 @@
           <string>Mellau</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -1823,7 +1823,7 @@
           <string>Schröcken</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -1838,7 +1838,7 @@
           <string>Walgau</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -1883,7 +1883,7 @@
           <string>Alberschwende Nord</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -1898,7 +1898,7 @@
           <string>Alberschwende Süd</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -1913,7 +1913,7 @@
           <string>Au</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -1928,7 +1928,7 @@
           <string>Flexenpass</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -1943,7 +1943,7 @@
           <string>Ippacherwald</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -1958,7 +1958,7 @@
           <string>Lech</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -1973,7 +1973,7 @@
           <string>Mellau</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -1988,7 +1988,7 @@
           <string>Schoppernau</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -2003,7 +2003,7 @@
           <string>Schröcken</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -2018,7 +2018,7 @@
           <string>Schwarzachtobel</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -2033,7 +2033,7 @@
           <string>Sibratsgfäll</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -2048,7 +2048,7 @@
           <string>Warth</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -2063,7 +2063,7 @@
           <string>Warth/Saloberkopf</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup4</string>
+          <string notr="true">checkButtonsGroup4</string>
          </attribute>
         </widget>
        </item>
@@ -2113,7 +2113,7 @@
           <string>Blatt Hopfreben:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2128,7 +2128,7 @@
           <string>Blatt Ludesch:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2143,7 +2143,7 @@
           <string>Blatt Marul:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2158,7 +2158,7 @@
           <string>Blatt Mellau:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2173,7 +2173,7 @@
           <string>Blatt Mellenspitze:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2188,7 +2188,7 @@
           <string>Blatt Mittleres Silbertal:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2203,7 +2203,7 @@
           <string>Blatt Nenzinger Himmel:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2218,7 +2218,7 @@
           <string>Blatt Rellstal-Golm:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2233,7 +2233,7 @@
           <string>Blatt Rellstal-Zimba:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2248,7 +2248,7 @@
           <string>Blatt Satteins:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2263,7 +2263,7 @@
           <string>Blatt Schnepfau:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2278,7 +2278,7 @@
           <string>Blatt Schnifis:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2293,7 +2293,7 @@
           <string>Blatt Schoppernau:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2308,7 +2308,7 @@
           <string>Blatt Schönenbach:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2323,7 +2323,7 @@
           <string>Blatt Silbertal:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2338,7 +2338,7 @@
           <string>Blatt Sonntag:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2353,7 +2353,7 @@
           <string>Blatt St. Gallenkirch:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2368,7 +2368,7 @@
           <string>Blatt Zitterklapfen:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2395,7 +2395,7 @@
           <string>Blatt Au:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2410,7 +2410,7 @@
           <string>Blatt Bartholomäberg:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2425,7 +2425,7 @@
           <string>Blatt Bezau:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2440,7 +2440,7 @@
           <string>Blatt Bizau:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2455,7 +2455,7 @@
           <string>Blatt Brand-Nord:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2479,7 +2479,7 @@
           <string>Blatt Brand-Süd:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2494,7 +2494,7 @@
           <string>Blatt Damüls:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2509,7 +2509,7 @@
           <string>Blatt Damülser Mittagsspitze:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2524,7 +2524,7 @@
           <string>Blatt Diedamskopf:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2539,7 +2539,7 @@
           <string>Blatt Dunza-Tschengla:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2554,7 +2554,7 @@
           <string>Blatt Fundelkopf:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2569,7 +2569,7 @@
           <string>Blatt Gampberg:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2584,7 +2584,7 @@
           <string>Blatt Gurtis:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2599,7 +2599,7 @@
           <string>Blatt Klaus-Weiler:</string>
          </property>
          <attribute name="buttonGroup">
-          <string>checkButtonsGroup5</string>
+          <string notr="true">checkButtonsGroup5</string>
          </attribute>
         </widget>
        </item>
@@ -2633,7 +2633,7 @@
        <string/>
       </property>
       <property name="icon">
-       <iconset resource="resources.qrc">
+       <iconset resource="resources_geologie.qrc">
         <normaloff>:/plugins/VogisMenu/icons/gui-rv.info.gif</normaloff>:/plugins/VogisMenu/icons/gui-rv.info.gif</iconset>
       </property>
      </widget>
@@ -2691,7 +2691,7 @@
        <string/>
       </property>
       <property name="icon">
-       <iconset resource="resources.qrc">
+       <iconset resource="resources_geologie.qrc">
         <normaloff>:/plugins/VogisMenu/icons/gui-rv.info.gif</normaloff>:/plugins/VogisMenu/icons/gui-rv.info.gif</iconset>
       </property>
      </widget>
@@ -2700,8 +2700,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="resources.qrc"/>
-  <include location="../../../../../.qgis/python/plugins/VogisMenu/tools/resources.qrc"/>
+  <include location="resources_geologie.qrc"/>
  </resources>
  <connections>
   <connection>
@@ -2839,10 +2838,10 @@
   <slot>doGeomorphologie_Amsterdam()</slot>
  </slots>
  <buttongroups>
+  <buttongroup name="checkButtonsGroup2"/>
   <buttongroup name="checkButtonsGroup4"/>
   <buttongroup name="checkButtonsGroup5"/>
   <buttongroup name="checkButtonsGroup"/>
-  <buttongroup name="checkButtonsGroup2"/>
   <buttongroup name="checkButtonsGroup3"/>
  </buttongroups>
 </ui>

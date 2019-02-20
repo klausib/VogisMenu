@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
 
-from PyQt4 import QtGui,QtCore,QtSql
+from qgis.PyQt import QtGui,QtCore,QtSql
 
 from qgis.core import *
 from gui_naturschutz import *
 from qgis.gui import *
 from qgis.analysis import *
-#API up to 2.2
-if QGis.QGIS_VERSION_INT < 20300:
-    from ProjektImport import *
-else:
-    from ProjektImport_24 import *
+from ProjektImport import *
 import os
 
 
@@ -19,15 +15,15 @@ import os
 
 
 
-#Dies Klassendefinition öffnet das Frame für
-#die Auswahl der Datenebenen Naturschutz
-class NaturschutzDialog(QtGui.QDialog, Ui_frmNaturschutz):
+# Dies Klassendefinition öffnet das Frame für
+# die Auswahl der Datenebenen Naturschutz
+class NaturschutzDialog(QtWidgets.QDialog, Ui_frmNaturschutz):
 
-    #Ein individuelles Signal als Klassenvariable definieren
+    # Ein individuelles Signal als Klassenvariable definieren
     Abflug = QtCore.pyqtSignal(object)
 
     def __init__(self,parent,iface,pfad = None,vogispfad = None,gemeindeliste=None):
-        QtGui.QDialog.__init__(self,parent)
+        QtWidgets.QDialog.__init__(self,parent)
         Ui_frmNaturschutz.__init__(self)
 
 
@@ -43,11 +39,11 @@ class NaturschutzDialog(QtGui.QDialog, Ui_frmNaturschutz):
 
         self.naturschutz = ProjektImport(self.iface)    #das Projekt Import Objekt instanzieren
 
-        #Instanzierung des einegstellten toolobjektes
+        # Instanzierung des einegstellten toolobjektes
         self.tool_vorher = None
-        #Wir definieren einen eigenen Cursor: wird auf den
-        #Button mit dem roten Kruez geklickt
-        #bekommt der Mauscursor dieses Aussehen
+        # Wir definieren einen eigenen Cursor: wird auf den
+        # Button mit dem roten Kruez geklickt
+        # bekommt der Mauscursor dieses Aussehen
         self.cursor = QtGui.QCursor(QtGui.QPixmap(["16 16 3 1",
                                       "      c None",
                                       ".     c #FF0000",
@@ -72,32 +68,6 @@ class NaturschutzDialog(QtGui.QDialog, Ui_frmNaturschutz):
 
 
 
-##        #Die Kat_Gem Tabelle öffnen
-##        #Referenz auf die Datenquelle
-##        #über SQLITE
-##        self.db = QtSql.QSqlDatabase.addDatabase("QSQLITE");
-##        self.db.setDatabaseName(self.vogisPfad + "Grenzen/DKM/_Allgemein/kat_gem.sqlite");
-##
-##        #falls es länger dauert, eine kurze Info
-##        #info = LadefortschrittDialog()
-##        #info.show()
-##        #info.repaint()  #sonst bleibt das Fenster leer!
-##
-##        if  not (self.db.open()):
-##            QtGui.QMessageBox.about(None, "Achtung", ("Öffnen Kat_Gem gescheitert").decode('utf8'))
-##            return #wenns sich nicht öffnen läßt abbrechen
-##
-##        self.abfrage = QtSql.QSqlQuery(self.db)
-##        self.abfrage.exec_("SELECT DISTINCT PGEM_NAME  FROM kat_gem_vlbg")
-##
-##        Liste = []    #eine QStringList instanzieren
-##        while self.abfrage.next():
-##            #QtGui.QMessageBox.about(None, "Achtung", self.abfrage.value(0).toString())
-##            Liste.append(self.abfrage.value(0))
-##
-##        #Listenfeld des Dialogs frmWegtafeln mit den Tafelnummern füllen
-##        #und sortieren
-##        Liste.sort()
         #self.gemeindeliste.sort()
         self.cmbGemeinden.addItems(self.gemeindeliste)
 
@@ -117,11 +87,11 @@ class NaturschutzDialog(QtGui.QDialog, Ui_frmNaturschutz):
 
         #WICHTIG: ein Signal/Slot Verbindung herstellen zwischen dem neuen Maptool
         #und der Methode die die Gemeinde einstellt. Dabei wird das punktobjekt übertragen!!
-        QtCore.QObject.connect(self.PtRueckgabe, QtCore.SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.returnGemeinde)
+        self.PtRueckgabe.canvasClicked.connect(self.returnGemeinde)
 
         #WICHTIG: ein Signal/Slot Verbindung herstellen
         #wenn ein Maptool Change Signal emittiert wird!
-        QtCore.QObject.connect(self.mc, QtCore.SIGNAL("mapToolSet (QgsMapTool *)"), self.MapButtonZuruecksetzen)
+        self.mc.mapToolSet.connect(self.MapButtonZuruecksetzen)
 
     def MapButtonZuruecksetzen(self,Tool_Gecklickt):
         if not self.PtRueckgabe is None:
@@ -181,6 +151,9 @@ class NaturschutzDialog(QtGui.QDialog, Ui_frmNaturschutz):
                 elif   ("Naturdenkmale" in button.objectName()):
                     self.fullpath = self.pfad +  "Projekte/Vlbg/Naturdenkmale/Naturdenkmale.qgs"
                     self.naturschutz.importieren(self.fullpath)
+                elif   ("Amphibienzugstellen" in button.objectName()):
+                    self.fullpath = self.pfad +  "Projekte/Vlbg/artenschutz/Amphibienzugstrecken.qgs"
+                    self.naturschutz.importieren(self.fullpath)
 
 
         self.mc.setRenderFlag(True)
@@ -201,7 +174,7 @@ class NaturschutzDialog(QtGui.QDialog, Ui_frmNaturschutz):
             self.mc.setMapTool(self.tool_vorher)
         #disconnect: weil sonst trotz close und del das signal slot verhältnis nicht sauber gelöscht wird
         #wieso??
-        QtCore.QObject.disconnect(self.mc, QtCore.SIGNAL("mapToolSet (QgsMapTool *)"), self.MapButtonZuruecksetzen)
+        #QtCore.QObject.disconnect(self.mc, QtCore.SIGNAL("mapToolSet (QgsMapTool *)"), self.MapButtonZuruecksetzen)
         self.close()
 
     #
@@ -209,34 +182,34 @@ class NaturschutzDialog(QtGui.QDialog, Ui_frmNaturschutz):
         #Am Filesystem gibts keine Sonderzeichen!
         try:
             gemeinde_wie_filesystem = self.Gemeinde
-            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ä').decode('utf8'),'ae')
-            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ä').decode('utf8'),'Ae')
-            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ö').decode('utf8'),'oe')
-            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ö').decode('utf8'),'Oe')
-            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ü').decode('utf8'),'ue')
-            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ü').decode('utf8'),'Ue')
-            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ß').decode('utf8'),'ss')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ä'),'ae')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ä'),'Ae')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ö'),'oe')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ö'),'Oe')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ü'),'ue')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ü'),'Ue')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ß'),'ss')
             gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace('. ','_')
             os.startfile(self.pfad +  "Inventar/Vlbg/Biotopinventar_2009/Gemeindeberichte/" + gemeinde_wie_filesystem +".pdf")
         except:
-            QtGui.QMessageBox.critical(None, "Fehler", 'Bericht konnte nicht geladen werden')
+            QtWidgets.QMessageBox.critical(None, "Fehler", 'Bericht konnte nicht geladen werden')
 
     #
     def a3plaene(self):
         #Am Filesystem gibts keine Sonderzeichen!
         try:
             gemeinde_wie_filesystem = self.Gemeinde
-            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ä').decode('utf8'),'ae')
-            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ä').decode('utf8'),'Ae')
-            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ö').decode('utf8'),'oe')
-            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ö').decode('utf8'),'Oe')
-            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ü').decode('utf8'),'ue')
-            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ü').decode('utf8'),'Ue')
-            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ß').decode('utf8'),'ss')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ä'),'ae')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ä'),'Ae')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ö'),'oe')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ö'),'Oe')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ü'),'ue')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ü'),'Ue')
+            gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ß'),'ss')
             gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace('. ','_')
             os.startfile(self.pfad +  "Inventar/Vlbg/Biotopinventar_2009/A3_Plaene/" + gemeinde_wie_filesystem +".pdf")
         except:
-            QtGui.QMessageBox.critical(None, "Fehler", 'Plan konnte nicht geladen werden')
+            QtWidgets.QMessageBox.critical(None, "Fehler", 'Plan konnte nicht geladen werden')
 
 
 
@@ -299,7 +272,7 @@ class NaturschutzDialog(QtGui.QDialog, Ui_frmNaturschutz):
         shift=self.mc.mapUnitsPerPixel()
         wahlRect = QgsRectangle(ergebnis.x(),ergebnis.y(),ergebnis.x()+ shift,ergebnis.y()+ shift)
         #Entsprechendes Feature (=Gemeinde) im Layer selektieren
-        gmdLayer.select(wahlRect,False)
+        gmdLayer.selectByRect(wahlRect,False)
 
         #Den Index des feldes PGEM_NAME
         #in der Attributtabelle des Layers finden
@@ -349,11 +322,4 @@ class NaturschutzDialog(QtGui.QDialog, Ui_frmNaturschutz):
                 self.cmbGemeinden.setCurrentIndex(index)
             else:
                 self.cmbGemeinden.setCurrentIndex(0)
-                QtGui.QMessageBox.about(None, "Achtung", ("Layer Gemeinden nicht gefunden oder dessen Codierung prüfen!").decode('utf8'))
-##        else:
-##            #noch was optisches. Egal ob über Cursor oder Direkt im
-##            #Listenfeld ausgewählt: Die gewählte politische Gemeinde
-##            #wird automatisch in die mitte des Listenfeldes gescrollt
-##            self.Gemeinde = SelItem.data(0)
-##            self.cmbGemeinden.scrollTo(SelItem,3) #3 bedeutet in die Mitte des Listenfelds scrollen
-
+                QtWidgets.QMessageBox.about(None, "Achtung", ("Layer Gemeinden nicht gefunden oder dessen Codierung prüfen!"))

@@ -1,24 +1,20 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
 
-from PyQt4 import QtGui,QtCore
+from qgis.PyQt import QtGui,QtCore
 
 from qgis.core import *
 from gui_raumplanung import *
-#API up to 2.2
-if QGis.QGIS_VERSION_INT < 20300:
-    from ProjektImport import *
-else:
-    from ProjektImport_24 import *
+from ProjektImport import *
 
 
 
 
 #Dies Klassendefinition öffnet das Frame für
 #die Auswahl der Datenebenen
-class RaumplanungDialog(QtGui.QDialog, Ui_frmRaumplanung):
+class RaumplanungDialog(QtWidgets.QDialog, Ui_frmRaumplanung):
     def __init__(self,parent,iface,pfad = None):
-        QtGui.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
+        QtWidgets.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
         Ui_frmRaumplanung.__init__(self)
 
         self.iface = iface
@@ -48,45 +44,37 @@ class RaumplanungDialog(QtGui.QDialog, Ui_frmRaumplanung):
             if button.isChecked():
 
                 if   ("ckGruenzone" in button.objectName()):
-
                     pfad_ind = self.pfad + "/Beschraenkungszone/Vlbg/Gruenzone/gruenzone.qgs"
 
-
                 elif ("ckEignungEkz" in button.objectName()):
-
                     pfad_ind = self.pfad + "/Eignungszone/Vlbg/EKZ_Eignungszone/ekz_eignungszone.qgs"
 
                 elif ("ckEkz" in button.objectName()):
-
                     pfad_ind = self.pfad + "/Eignungszone/Vlbg/Einkaufszentrum/einkaufszentrum.qgs"
 
                 elif ("ckBauflaechen" in button.objectName()):
-
                     pfad_ind = self.pfad + "/Bauflaeche/Vlbg/Bauflaechennutzung/bauflaechennutzung.qgs"
 
                 elif ("ckSeveso" in button.objectName()):
-
                     pfad_ind = self.pfad + "/Beschraenkungszone/Vlbg/Seveso_II/seveso_2.qgs"
 
                 elif ("ckFundzonen" in button.objectName()):
-
                     pfad_ind = self.pfad + "/Beschraenkungszone/Vlbg/Archaeologische_Fundzonen/Fundzone.qgs"
 
                 elif ("ckRohstoffplan" in button.objectName()):
-
                     pfad_ind = self.pfad + "/Beschraenkungszone/Vlbg/Rohstoffplan/Lockergesteine.qgs"
 
                 elif ("ckBlauzone" in button.objectName()):
-
                     pfad_ind = self.pfad + "/Beschraenkungszone/Vlbg/Blauzone/blauzone.qgs"
 
                 elif ("ckWeisszone" in button.objectName()):
-
                     pfad_ind = self.pfad + "/Beschraenkungszone/Vlbg/WeissZone/Weisszone.qgs"
 
                 elif ("ckMauerinventar" in button.objectName()):
-
                     pfad_ind = self.pfad + "/Beschraenkungszone/Vlbg/Mauerinventar/Mauerinventar.qgs"
+
+                elif ("ckMaisaess" in button.objectName()):
+                    pfad_ind = self.pfad + "/Maisaessgebietsausweisung/maisaessgebietsausweisung.qgs"
 
 
                 self.raumplanung.importieren(pfad_ind)

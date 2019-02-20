@@ -1269,4 +1269,4 @@ class Ui_frmGeologie(object):
         self.label_2.setText(_translate("frmGeologie", "Geomorph. Legende (Orginal)"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_5), _translate("frmGeologie", "Geomorphologische Karten (Uni Amsterdam)"))
 
-import resources_geologie_rc
+import resources_rc

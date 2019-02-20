@@ -1,28 +1,27 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
 
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
-from PyQt4.uic import *
+from builtins import str
+from builtins import range
+from builtins import object
+from qgis.PyQt.QtCore import *
+from qgis.PyQt.QtGui import *
+from qgis.PyQt.uic import *
 
 from qgis.core import *
 from qgis.utils import *
 from qgis.gui import *
+from ProjektImport import *
 
-from gui_geologie import *
-#API up to 2.2
-if QGis.QGIS_VERSION_INT < 20300:
-    from ProjektImport import *
-else:
-    from ProjektImport_24 import *
 from osgeo import gdal, ogr
 from osgeo.gdalconst import *
+from gui_geologie import *
 
 
 
-class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
+class GeologieDialog(QtWidgets.QDialog, Ui_frmGeologie):
     def __init__(self,iface,pfad = None,vogisPfad = None):
-        QtGui.QDialog.__init__(self)
+        QtWidgets.QDialog.__init__(self)
         Ui_frmGeologie.__init__(self)
 
 
@@ -33,8 +32,9 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
         self.pfad = pfad
         self.checkButtonsGroup.setExclusive(True)       #wenn im Designer gesetzt, wirds beim Coderzeugen nicht übernommen
         self.checkButtonsGroup2.setExclusive(True)      #wenn im Designer gesetzt, wirds beim Coderzeugen nicht übernommen
+        self.checkButtonsGroup5.setExclusive(False)      #wenn im Designer gesetzt, wirds beim Coderzeugen nicht übernommen
         # Legendeninterface instanzieren. Wird gebraucht um die Layer checked oder uncheckd zu schalten (Kreuzchen)
-        self.leginterface = self.iface.legendInterface()
+        #self.leginterface = self.iface.legendInterface()
         self.vogisPfad = vogisPfad
 
     #************************************************************************************************
@@ -44,14 +44,15 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
 
         #Prüfen ob der Layer schon einmal geladen wurde!
         #Das machen wir halt nur über den Namen, aber das reicht!
-        if len(QgsMapLayerRegistry.instance().mapLayersByName(button_text)) < 1:
+        #if len(QgsMapLayerRegistry.instance().mapLayersByName(button_text)) < 1:
+        if len(QgsProject.instance().mapLayersByName(button_text)) < 1:
             layer = QgsRasterLayer(path,basename)
         else:
             return
 
         Lyr = rastername() #ind. datentyp!
         if not layer.isValid():
-            QtGui.QMessageBox.warning(None, "Fehler beim laden des Themas", "Thema:%s /nPfad: %s/nFehler:%s " %(button_text,path,str(layer.lastError())))
+            QtWidgets.QMessageBox.warning(None, "Fehler beim laden des Themas", "Thema:%s /nPfad: %s/nFehler:%s " %(button_text,path,str(layer.lastError())))
         else:
             Lyr.anzeigename = button_text
             Lyr.rasterobjekt = layer
@@ -73,7 +74,8 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
 
         mc.setRenderFlag(False)
 
-        layercount = QgsMapLayerRegistry.instance().count()
+        #layercount = QgsMapLayerRegistry.instance().count()
+        layercount = len(QgsProject.instance().layerTreeRoot().findLayers())
 
         #-------------------------------------
         # Lasche: Allgemein
@@ -94,7 +96,6 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
 
                     elif ("Ereigniskataster" in button.text()):
                         projekt.importieren(self.pfad + "/Ereigniskataster/Vlbg/ereigniskataster.qgs",)
-
 
                     elif ("Geologische Detailuntersuchungen" in button.text()):
                         projekt.importieren(self.pfad + "/Geologie_Detailuntersuchungen/Vlbg/Geologie_Detailuntersuchungen/Geologie_Detailuntersuchungen.qgs",None,None,None,None,"Geologische Detailuntersuchungen")
@@ -123,15 +124,15 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
                     elif ("Grundwasser-Schichten_Linien Rheintal (nur VIIa)" in button.text()):
                         projekt.importieren(self.pfad + "/Geologische_Karte/Rheintal/grundwasser_schichtenlinien.qgs",None,None,None,None,"Grundwasser-Schichten_Linien Rheintal (nur VIIa)")
 
-                    elif (("Historische Übersichtskarte (Schmidt 1839-1841").decode('utf8') in button.text()):
-                        projekt.importieren(self.pfad + "/Geologische_Karte/Vlbg/Schmidt_1839/schmidt1839.qgs",None,None,None,None,("Historische Übersichtskarte (Schmidt 1839-1841").decode('utf8'))
+                    elif (("Historische Übersichtskarte (Schmidt 1839-1841") in button.text()):
+                        projekt.importieren(self.pfad + "/Geologische_Karte/Vlbg/Schmidt_1839/schmidt1839.qgs",None,None,None,None,("Historische Übersichtskarte (Schmidt 1839-1841"))
 
                     else:
-                        QtGui.QMessageBox.warning(None, "Thema nicht vorhanden", "<P><FONT SIZE='16' COLOR='#800000'>%s</FONT></P>" %(button.text()))
+                        QtWidgets.QMessageBox.warning(None, "Thema nicht vorhanden", "<P><FONT SIZE='16' COLOR='#800000'>%s</FONT></P>" %(button.text()))
 
             #Warnung wenn keine Themen ausgewählt wurden
             if buttoncount == 0:
-                QtGui.QMessageBox.warning(None, "Keine Themen ausgewaehlt", "<P><FONT SIZE='10' COLOR='#B00000'>Keine Themen ausgewaehlt !</FONT></P>")
+                QtWidgets.QMessageBox.warning(None, "Keine Themen ausgewaehlt", "<P><FONT SIZE='10' COLOR='#B00000'>Keine Themen ausgewaehlt !</FONT></P>")
 
 
         #-------------------------------------
@@ -142,7 +143,7 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
             for button in self.checkButtonsGroup2.buttons():
                 if button.isChecked():
                     buttoncount =  + 1
-                    if ("Übersichtskarten".decode('utf8') in button.text()):
+                    if ("Übersichtskarten" in button.text()):
                         projekt.importieren(self.pfad + "/Geologische_Karte/Vlbg/Karten_Uebersicht/geologie_uebersicht.qgs",)
 
                     elif ("Arlberggebiet (GBA, 1932)" in button.text()):
@@ -157,7 +158,7 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
                     elif ("Dornbirn Nord (GBA, 1994)" in button.text()):
                         self.load_raster(self.pfad + "/Geologische_Karte/Vlbg/geo_Dornbirn_nord.ecw","geo_Dornbirn_nord",button.text())
 
-                    elif ("Dornbirn Süd (GBA, 1982)".decode('utf8') in button.text()):
+                    elif ("Dornbirn Süd (GBA, 1982)" in button.text()):
                         self.load_raster(self.pfad + "/Geologische_Karte/Vlbg/geo_Dornbirn_sued.ecw","geo_Dornbirn_sued",button.text())
 
                     elif ("Flexenpass (Doert und Helmcke, 1975)" in button.text()):
@@ -187,10 +188,10 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
                     elif ("Partenen West (GBA, 1980)" in button.text()):
                         self.load_raster(self.pfad + "/Geologische_Karte/Vlbg/geo_Partenen_west.ecw","geo_Partenen_west",button.text())
 
-                    elif ("Rätikon (GBA)".decode('utf8') in button.text()):
+                    elif ("Rätikon (GBA)" in button.text()):
                         self.load_raster(self.pfad + "/Geologische_Karte/Vlbg/geo_Raetikon.ecw","geo_Raetikon",button.text())
 
-                    elif ("Schönenbach".decode('utf8') in button.text()):
+                    elif ("Schönenbach" in button.text()):
                         self.load_raster(self.pfad + "/Geologische_Karte/Vlbg/geo_Schoenenbach.ecw","geo_Schoenenbach",button.text())
 
                     elif ("Stuben (GBA, 1937)" in button.text()):
@@ -209,11 +210,11 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
                         self.load_raster(self.pfad + "/Geologische_Karte/Vlbg/Geo_Walsertal.ecw","Geo_Walsertal",button.text())
 
                     else:
-                        QtGui.QMessageBox.warning(None, "Thema nicht vorhanden", "<P><FONT SIZE='16' COLOR='#800000'>%s</FONT></P>" %(button.text()))
+                        QtWidgets.QMessageBox.warning(None, "Thema nicht vorhanden", "<P><FONT SIZE='16' COLOR='#800000'>%s</FONT></P>" %(button.text()))
 
             #Warnung wenn keine Themen ausgewählt wurden
             if buttoncount == 0:
-                QtGui.QMessageBox.warning(None, "Keine Themen ausgewaehlt", "<P><FONT SIZE='10' COLOR='#B00000'>Keine Themen ausgewaehlt !</FONT></P>")
+                QtWidgets.QMessageBox.warning(None, "Keine Themen ausgewaehlt", "<P><FONT SIZE='10' COLOR='#B00000'>Keine Themen ausgewaehlt !</FONT></P>")
 
 
 
@@ -246,20 +247,20 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
                     elif ("Gopfberg (Oberhauser M., 1993)" in button.text()):
                         self.load_raster(self.pfad + "/Geologische_Detailkarte/Vlbg/geo_Gopfberg.ecw","geo_Gopfberg",button.text())
 
-                    elif ("Rätikon östlich (Steinacher, 2004)".decode('utf8') in button.text()):
+                    elif ("Rätikon östlich (Steinacher, 2004)" in button.text()):
                         self.load_raster(self.pfad + "/Geologische_Detailkarte/Vlbg/geo_Raetikon_st1.ecw","geo_Raetikon_st1",button.text())
                         self.load_raster(self.pfad + "/Geologische_Detailkarte/Vlbg/geo_Raetikon_st2.ecw","geo_Raetikon_st2",button.text())
 
-                    elif ("Rätikon östlich (Mayerl, 2005)".decode('utf8') in button.text()):
+                    elif ("Rätikon östlich (Mayerl, 2005)" in button.text()):
                         self.load_raster(self.pfad + "/Geologische_Detailkarte/Vlbg/geo_Raetikon_ma.ecw","geo_Raetikon_ma",button.text())
 
-                    elif ("Sibratsgfäll (Haak, 1995)".decode('utf8') in button.text()):
+                    elif ("Sibratsgfäll (Haak, 1995)" in button.text()):
                         self.load_raster(self.pfad + "/Geologische_Detailkarte/Vlbg/geo_Sibratsgfaell.ecw","geo_Sibratsgfaell",button.text())
 
                     elif ("Tschagguns - Mauren (Bertle, 1995)" in button.text()):
                         self.load_raster(self.pfad + "/Geologische_Detailkarte/Vlbg/geo_Tschagguns_Mauren.ecw","geo_Tschagguns_Mauren",button.text())
 
-                    elif ("Tschöppa (Bertle, 1992)".decode('utf8') in button.text()):
+                    elif ("Tschöppa (Bertle, 1992)" in button.text()):
                         self.load_raster(self.pfad + "/Geologische_Detailkarte/Vlbg/geo_Tschoeppa.ecw","geo_Tschoeppa",button.text())
 
                     elif ("Winterstaude (Oberhauser)" in button.text()):
@@ -269,7 +270,7 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
                         self.load_raster(self.pfad + "/Geologische_Detailkarte/Vlbg/geo_Winterstaude_ka.ecw","geo_Winterstaude_ka",button.text())
 
                     else:
-                        QtGui.QMessageBox.warning(None, "Thema nicht vorhanden", "<P><FONT SIZE='16' COLOR='#800000'>%s</FONT></P>" %(button.text()))
+                        QtWidgets.QMessageBox.warning(None, "Thema nicht vorhanden", "<P><FONT SIZE='16' COLOR='#800000'>%s</FONT></P>" %(button.text()))
 
 
 
@@ -279,7 +280,7 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
 
             #Warnung wenn keine Themen ausgewählt wurden
             if buttoncount == 0:
-                QtGui.QMessageBox.warning(None, "Keine Themen ausgewaehlt", "<P><FONT SIZE='10' COLOR='#B00000'>Keine Themen ausgewaehlt !</FONT></P>")
+                QtWidgets.QMessageBox.warning(None, "Keine Themen ausgewaehlt", "<P><FONT SIZE='10' COLOR='#B00000'>Keine Themen ausgewaehlt !</FONT></P>")
 
 
         #-------------------------------------
@@ -303,7 +304,7 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
                     elif ("Hochtannberg/Arlberg" in button.text()):
                         self.load_raster(self.pfad + "/Georisiko_Karte/Vlbg/Geol_Hochtannberg_Arlberg.ecw","Geol_Hochtannberg_Arlberg",button.text())
 
-                    elif ("Sibratsgfäll".decode('utf8') in button.text()):
+                    elif ("Sibratsgfäll" in button.text()):
                         self.load_raster(self.pfad + "/Georisiko_Karte/Vlbg/Geol_Sibratsgfaell.ecw","Geol_Sibratsgfaell",button.text())
 
                     # Rutschung
@@ -332,7 +333,7 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
                     elif ("Mellau" in button.text()):
                         self.load_raster(self.pfad + "/Georisiko_Karte/Vlbg/Georisk_Steinschlag_Mellau.ecw","Georisk_Steinschlag_Mellau",button.text())
 
-                    elif ("Schröcken".decode('utf8') in button.text()):
+                    elif ("Schröcken" in button.text()):
                         self.load_raster(self.pfad + "/Georisiko_Karte/Vlbg/Georisk_Steinschlag_Schroecken.ecw","Georisk_Steinschlag_Schroecken",button.text())
 
                     elif ("Walgau" in button.text()):
@@ -342,7 +343,7 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
                     elif ("Alberschwende Nord" in button.text()):
                         self.load_raster(self.pfad + "/Georisiko_Karte/Vlbg/Geotech_Alberschwende_N.ecw","Geotech_Alberschwende_N",button.text())
 
-                    elif ("Alberschwende Süd".decode('utf8') in button.text()):
+                    elif ("Alberschwende Süd" in button.text()):
                         self.load_raster(self.pfad + "/Georisiko_Karte/Vlbg/Geotech_Alberschwende_S.ecw","Geotech_Alberschwende_S",button.text())
 
                     elif ("Au" in button.text()):
@@ -363,13 +364,13 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
                     elif ("Schoppernau" in button.text()):
                         self.load_raster(self.pfad + "/Georisiko_Karte/Vlbg/Geotech_Schoppernau.ecw","Geotech_Schoppernau",button.text())
 
-                    elif ("Schröcken".decode('utf8') in button.text()):
+                    elif ("Schröcken" in button.text()):
                         self.load_raster(self.pfad + "/Georisiko_Karte/Vlbg/Geotech_Schroecken.ecw","Geotech_Schroecken",button.text())
 
                     elif ("Schwarzachtobel" in button.text()):
                         self.load_raster(self.pfad + "/Georisiko_Karte/Vlbg/Geotech_Schwarzachtobel.ecw","Geotech_Schwarzachtobel",button.text())
 
-                    elif ("Sibratsgfäll".decode('utf8') in button.text()):
+                    elif ("Sibratsgfäll" in button.text()):
                         self.load_raster(self.pfad + "/Georisiko_Karte/Vlbg/Geotech_Sibratsgfaell.ecw","Geotech_Sibratsgfaell",button.text())
 
                     elif ("Warth" in button.text()):
@@ -379,11 +380,11 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
                         self.load_raster(self.pfad + "/Georisiko_Karte/Vlbg/Geotech_Warth_Saloberkopf.ecw","Geotech_Warth_Saloberkopf",button.text())
 
                     else:
-                        QtGui.QMessageBox.warning(None, "Thema nicht vorhanden", "<P><FONT SIZE='16' COLOR='#800000'>%s</FONT></P>" %(button.text()))
+                        QtWidgets.QMessageBox.warning(None, "Thema nicht vorhanden", "<P><FONT SIZE='16' COLOR='#800000'>%s</FONT></P>" %(button.text()))
 
             #Warnung wenn keine Themen ausgewählt wurden
             if buttoncount == 0:
-                QtGui.QMessageBox.warning(None, "Keine Themen ausgewaehlt", "<P><FONT SIZE='10' COLOR='#B00000'>Keine Themen ausgewaehlt !</FONT></P>")
+                QtWidgets.QMessageBox.warning(None, "Keine Themen ausgewaehlt", "<P><FONT SIZE='10' COLOR='#B00000'>Keine Themen ausgewaehlt !</FONT></P>")
 
         #-------------------------------------
         # Lasche: Geomorpholigie UNI Amsterdam
@@ -402,7 +403,7 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
                     elif ("Blatt Au:" in button.text()):
                         self.load_raster(self.pfad + "/Geomorphologische_Karte/Vlbg/geomorph_au.tif","geomorph_au",button.text())
 
-                    elif ("Blatt Bartholomäberg:".decode('utf8') in button.text()):
+                    elif ("Blatt Bartholomäberg:" in button.text()):
                         self.load_raster(self.pfad + "/Geomorphologische_Karte/Vlbg/geomorph_bartholomaeberg.tif","geomorph_bartholomaeberg",button.text())
 
                     elif ("Blatt Bezau:" in button.text()):
@@ -414,13 +415,13 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
                     elif ("Blatt Brand-Nord:" in button.text()):
                         self.load_raster(self.pfad + "/Geomorphologische_Karte/Vlbg/geomorph_brand-nord.tif","geomorph_brand-nord",button.text())
 
-                    elif ("Blatt Brand-Süd:".decode('utf8') in button.text()):
+                    elif ("Blatt Brand-Süd:" in button.text()):
                         self.load_raster(self.pfad + "/Geomorphologische_Karte/Vlbg/geomorph_brand-sued.tif","geomorph_brand-sued",button.text())
 
-                    elif ("Blatt Damüls:".decode('utf8') in button.text()):
+                    elif ("Blatt Damüls:" in button.text()):
                         self.load_raster(self.pfad + "/Geomorphologische_Karte/Vlbg/geomorph_damuels.tif","geomorph_damuels",button.text())
 
-                    elif ("Blatt Damülser Mittagsspitze:".decode('utf8') in button.text()):
+                    elif ("Blatt Damülser Mittagsspitze:" in button.text()):
                         self.load_raster(self.pfad + "/Geomorphologische_Karte/Vlbg/geomorph_damuelser-mittagsspitze.tif","geomorph_damuels",button.text())
 
                     elif ("Blatt Diedamskopf:" in button.text()):
@@ -480,7 +481,7 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
                     elif ("Blatt Schoppernau:" in button.text()):
                         self.load_raster(self.pfad + "/Geomorphologische_Karte/Vlbg/geomorph_schoppernau.tif","geomorph_schoppernau",button.text())
 
-                    elif ("Blatt Schönenbach:".decode('utf8') in button.text()):
+                    elif ("Blatt Schönenbach:" in button.text()):
                         self.load_raster(self.pfad + "/Geomorphologische_Karte/Vlbg/geomorph_schoenenbach.tif","geomorph_schoenenbach",button.text())
 
                     elif ("Blatt Silbertal:" in button.text()):
@@ -496,7 +497,7 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
                         self.load_raster(self.pfad + "/Geomorphologische_Karte/Vlbg/geomorph_zitterklapfen.tif","geomorph_zitterklapfen",button.text())
 
                     else:
-                        QtGui.QMessageBox.warning(None, "Thema nicht vorhanden", "<P><FONT SIZE='16' COLOR='#800000'>%s</FONT></P>" %(button.text()))
+                        QtWidgets.QMessageBox.warning(None, "Thema nicht vorhanden", "<P><FONT SIZE='16' COLOR='#800000'>%s</FONT></P>" %(button.text()))
 
         #--------------------------------------------------------------------------
         # Max-Extent der Layers ermitteln wenn keine Layer zuvor geladen wurden.
@@ -540,73 +541,27 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
         gruppe_vorhanden = False
 
 
+        legendroot = QgsProject.instance().layerTreeRoot()
+        # Raster Layer(s) instanzieren: Dazu die Layerliste durchlaufen
+        for i in range(len(self.layerliste)):
+            #initialisieren
+            self.einzelliste = self.layerliste[i] #gibt  #ind. datentyp zurück!
+            QgsProject.instance().addMapLayer(self.einzelliste.rasterobjekt)
+            #wenn Gruppenlayer nicht vorhanden ist, anlegen
+            index = legendroot.findGroup(gruppenname)
+            if index == None:
+                #grp = self.leginterface.addGroup(gruppenname,0) #so hat die Gruppe das QGIS spez. Aussehen
+                index = legendroot.insertGroup(-1,gruppenname)
 
-
-        #API up to 2.2
-        if QGis.QGIS_VERSION_INT < 20300:
-            #das ist cool: damit wird die QT Schnittstelle verwendet, die Klasse
-            #QTreeWidget um im Qgis die Legendenposition zu verändern. Da Qgis für die
-            #Legende ja auf QT Zugreift geht das!!
-            self.legendTree = self.iface.mainWindow().findChild(QtGui.QDockWidget,"Legend").findChild(QtGui.QTreeWidget)
-            ziel = QtGui.QTreeWidgetItem()
-
-            # Raster Layer(s) instanzieren: Dazu die Layerliste durchlaufen
-            for i in range(len(self.layerliste)):
-                #initialisieren
-                self.einzelliste = self.layerliste[i] #gibt  #ind. datentyp zurück!
-                QgsMapLayerRegistry.instance().addMapLayer(self.einzelliste.rasterobjekt)
-
-
-                tmp_ly = self.legendTree.currentItem()  #Widget Item des gerade eingefügten Layers
-                index_neu = self.legendTree.indexOfTopLevelItem(tmp_ly) #index bestimmen
-                index = self.legendTree.takeTopLevelItem(index_neu)  #und rausnehmen!
-
-                #prüfen ob die Gruppe schon angelegt ist
-                #das muß wirklich bei jedem Layer passieren!
-                gruppenliste = self.leginterface.groups()
-                for einzelgruppe in gruppenliste:
-                    if einzelgruppe == gruppenname:
-                        gruppe_vorhanden = True
-                        #QtGui.QMessageBox.about(None, "Gruppe vorhanden", "Gruppe vorhanden")
-
-                #wenn Gruppenlayer nicht vorhanden ist, anlegen
-                if not gruppe_vorhanden:
-                    grp = self.leginterface.addGroup(gruppenname,0) #so hat die Gruppe das QGIS spez. Aussehen
-
-                liste = self.legendTree.findItems(gruppenname,QtCore.Qt.MatchRecursive,0)[0]
-
-                #den Layer in die LEgende unterhalb des Gruppenlayers einfügen
-                liste.insertChild(0,index)
-
-
-                if type(self.einzelliste.rasterobjekt) is QgsRasterLayer: #nur Raster werden in der Legende nach unten geschoben
-                    anzeigename = self.einzelliste.anzeigename
-                    self.einzelliste.rasterobjekt.setLayerName(anzeigename)     #ACHTUNG: Damit wird auch erzeungen, daß die Layerdarstellung
-                                                                                #(Reihenfolge) aktualisiert wird!!
-                                                                                #Aber nur wenn anzeigename nicht schon gleich belegt war!!!
-        else:
-
-            legendroot = QgsProject.instance().layerTreeRoot()
-            # Raster Layer(s) instanzieren: Dazu die Layerliste durchlaufen
-            for i in range(len(self.layerliste)):
-                #initialisieren
-                self.einzelliste = self.layerliste[i] #gibt  #ind. datentyp zurück!
-                QgsMapLayerRegistry.instance().addMapLayer(self.einzelliste.rasterobjekt)
-                #wenn Gruppenlayer nicht vorhanden ist, anlegen
-                index = legendroot.findGroup(gruppenname)
-                if index == None:
-                    #grp = self.leginterface.addGroup(gruppenname,0) #so hat die Gruppe das QGIS spez. Aussehen
-                    index = legendroot.insertGroup(-1,gruppenname)
-
-                kindi = QgsProject.instance().layerTreeRoot().findLayer(self.einzelliste.rasterobjekt.id())
-                zwtsch = kindi.clone()
-                index.insertChildNode(-1,zwtsch)
-                #QtGui.QMessageBox.about(None, "Gruppe vorhanden", str(kindi))
-                kindi.parent().removeChildNode(kindi)
-                index.setExpanded(False)
-                if type(self.einzelliste.rasterobjekt) is QgsRasterLayer: #nur Raster werden in der Legende nach unten geschoben
-                    anzeigename = self.einzelliste.anzeigename
-                    self.einzelliste.rasterobjekt.setLayerName(anzeigename)
+            kindi = QgsProject.instance().layerTreeRoot().findLayer(self.einzelliste.rasterobjekt.id())
+            zwtsch = kindi.clone()
+            index.insertChildNode(-1,zwtsch)
+            #QtGui.QMessageBox.about(None, "Gruppe vorhanden", str(kindi))
+            kindi.parent().removeChildNode(kindi)
+            index.setExpanded(False)
+            if type(self.einzelliste.rasterobjekt) is QgsRasterLayer: #nur Raster werden in der Legende nach unten geschoben
+                anzeigename = self.einzelliste.anzeigename
+                self.einzelliste.rasterobjekt.setName(anzeigename)
 
         mc.setRenderFlag(True)
 
@@ -643,7 +598,7 @@ class GeologieDialog(QtGui.QDialog, Ui_frmGeologie):
 #diese Klasse ist nichts anderes wie eine
 #art struct, wir wollen das layerobjekt (Typ QgsMapLayer)
 #und den Anzeigename in einem Datentyp zusammenfassen
-class rastername:
+class rastername(object):
     def __init__(self):
         self.rasterobjekt = QgsRasterLayer()
         self.anzeigename = str

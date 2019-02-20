@@ -60,7 +60,7 @@
        <string>Auwald</string>
       </property>
       <attribute name="buttonGroup">
-       <string>ckButtons</string>
+       <string notr="true">ckButtons</string>
       </attribute>
      </widget>
     </item>
@@ -75,7 +75,7 @@
        <string>Saatgut</string>
       </property>
       <attribute name="buttonGroup">
-       <string>ckButtons</string>
+       <string notr="true">ckButtons</string>
       </attribute>
      </widget>
     </item>
@@ -90,7 +90,7 @@
        <string>Ufergehölz</string>
       </property>
       <attribute name="buttonGroup">
-       <string>ckButtons</string>
+       <string notr="true">ckButtons</string>
       </attribute>
      </widget>
     </item>
@@ -105,7 +105,7 @@
        <string>Waldklassifizierung aus Orthofotos 2001</string>
       </property>
       <attribute name="buttonGroup">
-       <string>ckButtons</string>
+       <string notr="true">ckButtons</string>
       </attribute>
      </widget>
     </item>
@@ -120,7 +120,7 @@
        <string>Waldfläche aus ÖK50</string>
       </property>
       <attribute name="buttonGroup">
-       <string>ckButtons</string>
+       <string notr="true">ckButtons</string>
       </attribute>
      </widget>
     </item>
@@ -135,7 +135,7 @@
        <string>Waldentwicklungsplan</string>
       </property>
       <attribute name="buttonGroup">
-       <string>ckButtons</string>
+       <string notr="true">ckButtons</string>
       </attribute>
      </widget>
     </item>
@@ -150,7 +150,7 @@
        <string>Waldregionen</string>
       </property>
       <attribute name="buttonGroup">
-       <string>ckButtons</string>
+       <string notr="true">ckButtons</string>
       </attribute>
      </widget>
     </item>
@@ -165,7 +165,7 @@
        <string>Waldkarte</string>
       </property>
       <attribute name="buttonGroup">
-       <string>ckButtons</string>
+       <string notr="true">ckButtons</string>
       </attribute>
      </widget>
     </item>
@@ -194,19 +194,22 @@
    <sender>ButtonBlattschnitteCancel</sender>
    <signal>clicked()</signal>
    <receiver>frmWald</receiver>
-   <slot>close()</slot>
+   <slot>closeEvent()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>160</x>
-     <y>471</y>
+     <x>219</x>
+     <y>255</y>
     </hint>
     <hint type="destinationlabel">
-     <x>175</x>
-     <y>277</y>
+     <x>264</x>
+     <y>227</y>
     </hint>
    </hints>
   </connection>
  </connections>
+ <slots>
+  <slot>closeEvent()</slot>
+ </slots>
  <buttongroups>
   <buttongroup name="ckButtons">
    <property name="exclusive">

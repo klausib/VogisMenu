@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from PyQt4 import QtGui,QtCore,QtSql
+from qgis.PyQt import QtGui,QtCore,QtSql
 from qgis.core import *
 
 from Ui_gui_VogisPrint import Ui_VogisPrint
@@ -17,15 +17,15 @@ from VogisPrint_layout import Layout
 
 
 
-class VogisPrintDialog(QtGui.QDialog, Ui_VogisPrint,  Ui_VogisPrintSerieGrid):
+class VogisPrintDialog(QtWidgets.QDialog, Ui_VogisPrint,  Ui_VogisPrintSerieGrid):
 
     #-----------------------------------------------------------------
     # Constructor
     #-----------------------------------------------------------------
     def __init__(self, iface, parent,pfad = None,stand_dkm = None):
 
-        QDialog.__init__(self, parent)
-        Ui_VogisPrint.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self,parent)
+        Ui_VogisPrint.__init__(self)
 
         # Save reference to the QGIS interface.
         self.iface = iface
@@ -34,44 +34,21 @@ class VogisPrintDialog(QtGui.QDialog, Ui_VogisPrint,  Ui_VogisPrintSerieGrid):
         self.scale = "none"
 
         self.stand_dkm = unicode(stand_dkm)
-        #QMessageBox.about(None, "VogisPrintDialog:54", "stand_dkm = "  + stand_dkm)
 
-        #--------------------------------------------------------
-        # Initialize the translation environment.
-        # War ursprünglich in EasyPrint __init__()
-        #--------------------------------------------------------
-        # Eigene Pfade
-##        userPluginPath = QFileInfo(QgsApplication.qgisUserDbFilePath()).path()+"/python/plugins/VogisMenu/standardlayout"
-##        systemPluginPath = QgsApplication.prefixPath()+"/python/plugins/VogisMenu/standardlayout"
-##
-##
-##
-        locale = QSettings().value("locale/userLocale")
+        locale = QtCore.QSettings().value("locale/userLocale")
         myLocale = locale[0:2]
-##
-##
-##        # Pfad fuer QM-Files setzen
-##        if QFileInfo(userPluginPath).exists():
-##          pluginPath = userPluginPath+"/i18n/standardlayout_"+myLocale+".qm"
-##          # Debug
-##          #QMessageBox.about(None, "VogisPrintDialog:54", "pluginPath = "  + pluginPath)
-##        elif QFileInfo(systemPluginPath).exists():
-##          pluginPath = systemPluginPath+"/i18n/standardlayout_"+myLocale+".qm"
-
 
         pluginPath = os.path.dirname(__file__) +"/i18n/standardlayout_"+myLocale+".qm"
 
 
 
-        # Ueberstzung laden
+        # Uebersetzung laden
         self.localePath = pluginPath
-        if QFileInfo(self.localePath).exists():
-          self.translator = QTranslator()
+        if QtCore.QFileInfo(self.localePath).exists():
+          self.translator = QtCore.QTranslator()
           self.translator.load(self.localePath)
 
-          # QT-Uebersetzer aktivieren.
-          if qVersion() > '4.3.3':
-            QCoreApplication.installTranslator(self.translator)
+        QtWidgets.QApplication.installTranslator(self.translator)
 
 
         self.tabIndex = 0
@@ -84,17 +61,16 @@ class VogisPrintDialog(QtGui.QDialog, Ui_VogisPrint,  Ui_VogisPrintSerieGrid):
 
 
         # Simplemap-Button mit accept-Funktion verknüpfen
-        self.connect(self.pushButton_3, SIGNAL("accepted()"), self.accept)
-        self.settings = QSettings("CatAIS","doVogisPrint")
-        #self.connect(self.printScale.lineEdit(), SIGNAL("editingFinished()"),  self.Check_Scale)
+        self.pushButton_2.clicked.connect(self.on_pushButton_2_click)
+        self.settings = QtCore.QSettings("CatAIS","doVogisPrint")
 
 
         #.......................................................................
         # Sub-Window Seriendruck mit Raster konfigurieren
         #.......................................................................
         self.serie_grid = VogisPrintSerieGrid(self.iface.mainWindow(),self.iface)
-        QtCore.QObject.connect(self.serie_grid.btnMbGrid, QtCore.SIGNAL(("pressed()")), self.serie_grid_grid_created)
-        QtCore.QObject.connect(self.serie_grid.buttonClose, QtCore.SIGNAL(("clicked()")), self.closeEvent)
+        self.serie_grid.btnMbGrid.clicked.connect(self.serie_grid_grid_created)
+##        self.serie_grid.buttonClose.clicked.connect(self.closeEvent)
 
 
 
@@ -123,7 +99,7 @@ class VogisPrintDialog(QtGui.QDialog, Ui_VogisPrint,  Ui_VogisPrintSerieGrid):
 
 
         paperformats = self.preferences("format",  True)
-       
+
         # Layernamen holen
         self.maplayers = getLayerNames("all")
         self.vectorlayers = getLayerNames([0, 1, 2])
@@ -140,10 +116,10 @@ class VogisPrintDialog(QtGui.QDialog, Ui_VogisPrint,  Ui_VogisPrintSerieGrid):
         for l in layouts:
             self.layout.addItem(l.getID())
 
-        departments = self.preferences("department",  True)            
-            
+        departments = self.preferences("department",  True)
+
         # Fill the combobox with available departments.
-        self.department.addItems(departments)            
+        self.department.addItems(departments)
 
 
 
@@ -153,7 +129,7 @@ class VogisPrintDialog(QtGui.QDialog, Ui_VogisPrint,  Ui_VogisPrintSerieGrid):
         self.person.setText( unicode(self.settings.value("gui/person")) )
 
         # Handling fuer die erste Verwendung
-        try: 
+        try:
             dummy = int(self.settings.value("gui/department"))
         except:
             dummy = 0
@@ -166,34 +142,26 @@ class VogisPrintDialog(QtGui.QDialog, Ui_VogisPrint,  Ui_VogisPrintSerieGrid):
         else:
             #QMessageBox.about(None, "VogisPrint:155     ", "FALSE self.settings.value gui/grids = "  + self.settings.value("gui/gridsave"))
             self.grid.setChecked( False )
-#  alt   self.grid.setChecked( bool(self.settings.value("gui/grids")) )
 
         if self.settings.value("gui/legendsave") == "True":
             self.legend.setChecked( True )
         else:
             self.legend.setChecked( False )
-#  alt   self.legend.setChecked( bool(self.settings.value("gui/legend")) )
 
         if self.settings.value("gui/cuttinglinessave") == "True":
             self.cuttinglines.setChecked( True )
         else:
             self.cuttinglines.setChecked( False )
-#  alt   self.legend.setChecked( bool(self.settings.value("gui/cuttinglines")) )
 
         if self.settings.value("gui/foldingmarkssave") == "True":
             self.foldingmarks.setChecked( True )
         else:
             self.foldingmarks.setChecked( False )
-# alt    self.foldingmarks.setChecked( bool(self.settings.value("gui/foldingmarks")) )
 
         if self.settings.value("gui/crsdescsave") == "True":
             self.crsdesc.setChecked( True )
         else:
             self.crsdesc.setChecked( False )
-# alt    self.crsdesc.setChecked( bool(self.settings.value("gui/crsdescription")) )
-
-        #       Copyright-Verweis ist nicht mehr waehlbar
-#        self.copyright.setChecked( self.settings.value("gui/copyright", False).toBool() )
 
 
 
@@ -203,45 +171,42 @@ class VogisPrintDialog(QtGui.QDialog, Ui_VogisPrint,  Ui_VogisPrintSerieGrid):
     # Button "Seriendruck nach Raster" betaetigt
     #--------------------------------------------------------------
     #--------------------------------------------------------------
-    @pyqtSignature("on_pushButton_2_pressed()")
-    def on_pushButton_2_pressed(self):
-
+    def on_pushButton_2_click(self):
+        #QtWidgets.QMessageBox.warning( None, "", "Begin")
         # Aktuell eingestellten Massstab aus dem Hauptfenster übernehmen
         self.serie_grid.mprintScale.setItemText(0,self.printScale.currentText())
 
         test = self.serie_grid.mbgridtype.findText("--------------------")
         if test == -1:
-            self.serie_grid.mbgridtype.insertItem( 0,  QCoreApplication.translate("VogisPrintDialog", "Regular grid" ),   1  )
-            self.serie_grid.mbgridtype.insertItem( 1,  QCoreApplication.translate("VogisPrintDialog", "Regular grid (w/o empty grids)" ),   2  )
+            self.serie_grid.mbgridtype.insertItem( 0,  QtWidgets.QApplication.translate("VogisPrintDialog", "Regular grid" ),   1  )
+            self.serie_grid.mbgridtype.insertItem( 1,  QtWidgets.QApplication.translate("VogisPrintDialog", "Regular grid (w/o empty grids)" ),   2  )
             self.serie_grid.mbgridtype.insertItem( 0,  "--------------------", -1 )
 
         self.serie_grid.mbgridtype.setCurrentIndex(0)
 
-        self.serie_grid.label.setText('Ausgabemaßstab für'.decode('utf8') + ' ' + self.printFormat.currentText() + ':')
-        self.serie_grid.exec_()
+        self.serie_grid.label.setText('Ausgabemaßstab für' + ' ' + self.printFormat.currentText() + ':')
         self.tabIndex = 1
-
+        self.serie_grid.exec_()
     # Handling für das Erzeugen des Rasters
     def serie_grid_grid_created(self):
 
 
         if self.serie_grid.mbmaplayer.currentText() == "":
             #FIXME Translation
-            text = QCoreApplication.translate("warning-no-ref-layer", "No reference map layer selected.")
-            QMessageBox.warning( None, "", text)
+            text = QtWidgets.QApplication.translate("warning-no-ref-layer", "No reference map layer selected.")
+            QtWidgets.QMessageBox.warning( None, "", text)
             return
 
 
 
         self.scale = self.serie_grid.mprintScale.currentText().replace('.','')
-        #self.scale = self.printScale.currentText()
         self.scale = self.Check_Scale(self.scale)
         if self.scale < 1.0:
             return
 
 
         # Hier wird der Raster erzeugt
-        if self.serie_grid.mbgridtype.currentIndex() <> 0:
+        if self.serie_grid.mbgridtype.currentIndex() != 0:
             from doVogisPrintCreateMapBookGrid import CreateMapBookGrid
             d = CreateMapBookGrid(self.iface, self.serie_grid.mbgridtype.itemData(self.serie_grid.mbgridtype.currentIndex()), self.scale, self.printFormat.currentText(), int(self.layout.currentIndex()), self.serie_grid.mbmaplayer.currentText(),self.stand_dkm)
 
@@ -249,8 +214,8 @@ class VogisPrintDialog(QtGui.QDialog, Ui_VogisPrint,  Ui_VogisPrintSerieGrid):
             self.serie_grid.memoryName = d.memoryName
 
         else:
-            text = QCoreApplication.translate("warning-no-raster-type", "No raster type selected.")
-            QMessageBox.warning( None, "", text)
+            text = QtWidgets.QApplication.translate("warning-no-raster-type", "No raster type selected.")
+            QtWidgets.QMessageBox.warning( None, "", text)
             return
 
 
@@ -270,13 +235,6 @@ class VogisPrintDialog(QtGui.QDialog, Ui_VogisPrint,  Ui_VogisPrintSerieGrid):
         self.settings.setValue( "gui/person", ( self.person.text() ) )
 
         self.settings.setValue( "gui/department", ( str(self.department.currentIndex()) ) )
-
-#  alt   self.settings.setValue( "gui/legend", ( str(self.legend.isChecked()) ) )
-#  alt   self.settings.setValue( "gui/cuttinglines", ( str(self.cuttinglines.isChecked()) ) )
-#  alt   self.settings.setValue( "gui/foldingmarks", ( str(self.foldingmarks.isChecked()) ) )
-#  alt   self.settings.setValue( "gui/crsdescription", ( str(self.crsdesc.isChecked()) ) )
-
-
 
         if self.legend.isChecked() == True:
             self.settings.setValue( "gui/legendsave", ( "True" ) )
@@ -303,15 +261,6 @@ class VogisPrintDialog(QtGui.QDialog, Ui_VogisPrint,  Ui_VogisPrintSerieGrid):
         else:
             self.settings.setValue( "gui/crsdescsave", ( "False" ) )
 
-
-
-#        tttt = self.settings.value("gui/andy")
-#        
-#        #QMessageBox.about(None, "VogisPrint:247", "self.settings.value in accept() = "  + tttt)
-
-
-
-
         # Massstab prüfen
         self.scale = self.printScale.currentText().replace('.','')
 
@@ -320,7 +269,7 @@ class VogisPrintDialog(QtGui.QDialog, Ui_VogisPrint,  Ui_VogisPrintSerieGrid):
             return
         from doVogisPrintCreateSimpleMap import CreateSimpleMap
         copyright = True
-        #QMessageBox.about(None, "VogisPrintDialog:388", "stand_dkm = "  + self.stand_dkm)
+        #QtWidgets.QMessageBox.about(None, "VogisPrintDialog:388", "stand_dkm = "  + self.stand_dkm)
         d = CreateSimpleMap(self.iface,  self.scale ,    self.printFormat.currentText(),  int(self.layout.currentIndex()), self.title.text(), self.subtitle.text(), self.person.text(), self.department.currentText(), self.crsdesc.isChecked(), self.grid.isChecked(), self.legend.isChecked(), copyright,  self.cuttinglines.isChecked(), self.foldingmarks.isChecked(), self.stand_dkm )
         d.run()
 
@@ -392,7 +341,6 @@ class VogisPrintDialog(QtGui.QDialog, Ui_VogisPrint,  Ui_VogisPrintSerieGrid):
     def preferences(self,  pref,  text):
         prefs = []
 
-        #preffilename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/VogisMenu/standardlayout/preferences/preferences.xml"))
         preffilename = os.path.dirname(__file__) + "/preferences/preferences.xml"
         os.path.dirname(__file__)
         try:
@@ -417,12 +365,14 @@ class VogisPrintDialog(QtGui.QDialog, Ui_VogisPrint,  Ui_VogisPrintSerieGrid):
                                 float(sube.toElement().text())
                             prefs.append(unicode(sube.toElement().text()))
                         except ValueError:
-                            print "float error: reading scales"
+                            pass
+                            #print ("float error: reading scales")
                     sube = sube.nextSibling()
                 n = n.nextSibling()
 
         except IOError:
-            print "error opening preferences.xml"
+            pass
+            #print ("error opening preferences.xml")
 
         return prefs
 
@@ -433,7 +383,6 @@ class VogisPrintDialog(QtGui.QDialog, Ui_VogisPrint,  Ui_VogisPrintSerieGrid):
     def layouts(self):
         layouts = []
 
-        #layoutsfilename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/VogisMenu/standardlayout/layouts/layouts.xml"))
         layoutsfilename = os.path.dirname(__file__) + "/layouts/layouts.xml"
         try:
             layoutsfile = open(layoutsfilename,"r")
@@ -459,7 +408,7 @@ class VogisPrintDialog(QtGui.QDialog, Ui_VogisPrint,  Ui_VogisPrintSerieGrid):
                     ## Read a single layout.
                     layoutnode = node.toElement().firstChild()
                     while not layoutnode.isNull():
-                        print "layoutnode.nodeName() = %s" %(layoutnode.nodeName())
+                        #print ("layoutnode.nodeName() = "+  layoutnode.nodeName())
                         if layoutnode.toElement() and layoutnode.nodeName() == "margins":
                             ## Read margins.
                             marginnode = layoutnode.toElement().firstChild()
@@ -470,7 +419,7 @@ class VogisPrintDialog(QtGui.QDialog, Ui_VogisPrint,  Ui_VogisPrintSerieGrid):
                                 except ValueError:
                                     margins.append( float(0.0) )
                                 marginnode = marginnode.nextSibling()
-                            print margins
+                            #print (str(margins))
                             layout.setMargins(margins)
 
                         elif layoutnode.toElement() and layoutnode.nodeName() == "decorations":
@@ -565,7 +514,8 @@ class VogisPrintDialog(QtGui.QDialog, Ui_VogisPrint,  Ui_VogisPrintSerieGrid):
                 node = node.nextSibling()
 
         except IOError:
-            print "error opening preferences.xml"
+            pass
+            #print ("error opening preferences.xml")
 
         #print "Ende layouts()."
 
@@ -579,7 +529,7 @@ class VogisPrintDialog(QtGui.QDialog, Ui_VogisPrint,  Ui_VogisPrintSerieGrid):
     def Check_Scale(self, scale):
         #QMessageBox.about(None, "doVogisPrint:658", "scale = %s"  %(scale))
 
-        message = "<FONT COLOR='#000000' SIZE=4>Masstab <FONT COLOR='#000080' SIZE=4>%s<FONT COLOR='#000000' SIZE=4> ungültig!<br>Masstab bitte in der Form 1:10.000 oder 1:10000 oder 10000 eingeben.".decode('utf8') %(scale)
+        message = "<FONT COLOR='#000000' SIZE=4>Masstab <FONT COLOR='#000080' SIZE=4>%s<FONT COLOR='#000000' SIZE=4> ungültig!<br>Masstab bitte in der Form 1:10.000 oder 1:10000 oder 10000 eingeben." %(scale)
         message = message
 
 
@@ -616,8 +566,7 @@ class VogisPrintDialog(QtGui.QDialog, Ui_VogisPrint,  Ui_VogisPrintSerieGrid):
         #QMessageBox.about(None, "doVogisPrint:694", "Start def __init__(..) printScale = %s  Scheint in Ordnung zu sein."  %(scale))
         return dummy1
 
-    def closeEvent(self,event = None):
-        self.serie_grid.close()
+
     #-----------------------------------------------------------------
     # insertTooltips
     #-----------------------------------------------------------------
@@ -627,58 +576,58 @@ class VogisPrintDialog(QtGui.QDialog, Ui_VogisPrint,  Ui_VogisPrintSerieGrid):
         #---------------------------------------------------------------------
         # Tooltips fuer das Haupt-Fenster
         #---------------------------------------------------------------------
-        text = QCoreApplication.translate("tt-Output-Print-Scale", "Print-scale used to render the plots" )
+        text = QtWidgets.QApplication.translate("tt-Output-Print-Scale", "Print-scale used to render the plots" )
         self.label.setToolTip(text)
         self.printScale.setToolTip(text)
 
-        text = QCoreApplication.translate("tt-mapbook-simple-button", "Creates a single plot." )
+        text = QtWidgets.QApplication.translate("tt-mapbook-simple-button", "Creates a single plot." )
         self.pushButton_3.setToolTip(text)
 
-        text = QCoreApplication.translate("tt-mapbook-grid-button", "Creates a user defined grid." )
+        text = QtWidgets.QApplication.translate("tt-mapbook-grid-button", "Creates a user defined grid." )
         self.pushButton_2.setToolTip(text)
 
-        text = QCoreApplication.translate("tt-papersize", "Selection of plot-papersize (e.g. A4)." )
+        text = QtWidgets.QApplication.translate("tt-papersize", "Selection of plot-papersize (e.g. A4)." )
         self.label_2.setToolTip(text)
         self.printFormat.setToolTip(text)
 
-        text = QCoreApplication.translate("tt-layout", "Selection of plot-layout (e.g. portrait)." )
+        text = QtWidgets.QApplication.translate("tt-layout", "Selection of plot-layout (e.g. portrait)." )
         self.label_5.setToolTip(text)
         self.layout.setToolTip(text)
 
-        text = QCoreApplication.translate("tt-title", "Title of the plot." )
+        text = QtWidgets.QApplication.translate("tt-title", "Title of the plot." )
         self.label_3.setToolTip(text)
         self.title.setToolTip(text)
 
-        text = QCoreApplication.translate("tt-subtitle", "Subtitle of the plot." )
+        text = QtWidgets.QApplication.translate("tt-subtitle", "Subtitle of the plot." )
         self.label_4.setToolTip(text)
         self.subtitle.setToolTip(text)
 
-        text = QCoreApplication.translate("tt-person", "Author." )
+        text = QtWidgets.QApplication.translate("tt-person", "Author." )
         self.label_6.setToolTip(text)
         self.person.setToolTip(text)
 
-        text = QCoreApplication.translate("tt-cuttinglines", "Prints cuttinglines." )
+        text = QtWidgets.QApplication.translate("tt-cuttinglines", "Prints cuttinglines." )
         self.label_40.setToolTip(text)
         self.cuttinglines.setToolTip(text)
 
-        text = QCoreApplication.translate("tt-foldingmarks", "Prints foldingmarks." )
+        text = QtWidgets.QApplication.translate("tt-foldingmarks", "Prints foldingmarks." )
         self.label_43.setToolTip(text)
         self.foldingmarks.setToolTip(text)
 
-        text = QCoreApplication.translate("tt-crsdesc", "Prints the crs used for this plot." )
+        text = QtWidgets.QApplication.translate("tt-crsdesc", "Prints the crs used for this plot." )
         self.label_42.setToolTip(text)
         self.crsdesc.setToolTip(text)
 
-        text = QCoreApplication.translate("tt-legend", "Prints a legend." )
+        text = QtWidgets.QApplication.translate("tt-legend", "Prints a legend." )
         self.label_39.setToolTip(text)
         self.legend.setToolTip(text)
 
 
 
-class VogisPrintSerieGrid(QtGui.QDialog,Ui_VogisPrintSerieGrid):
+class VogisPrintSerieGrid(QtWidgets.QDialog,Ui_VogisPrintSerieGrid):
 
     def __init__(self,parent,iface): #,iface,pfad = None):
-        QtGui.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
+        QtWidgets.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
         Ui_VogisPrintSerieGrid.__init__(self)
 
         self.setupUi(self)

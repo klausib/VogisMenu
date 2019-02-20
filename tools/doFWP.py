@@ -1,26 +1,18 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
 
-from PyQt4 import QtGui,QtCore,QtSql
+from qgis.PyQt import QtGui, QtCore, QtSql
 import copy
 from qgis.core import *
 from qgis.gui import *
 from qgis.analysis import *
 from gui_fwp import *
-from ladefortschritt import *
-
-#API up to 2.2
-if QGis.QGIS_VERSION_INT < 20300:
-    from ProjektImport import *
-else:
-    from ProjektImport_24 import *
-
-
-
+#from ladefortschritt import *
+from ProjektImport import *
 
 
 #Klassendefinition für das Laden Des FWP
-class FWPDialog (QtGui.QDialog,Ui_frmFWP):
+class FWPDialog (QtWidgets.QDialog,Ui_frmFWP):
 
 
     #Ein individuelles Signal als Klassenvariable definieren
@@ -28,7 +20,7 @@ class FWPDialog (QtGui.QDialog,Ui_frmFWP):
 
     #Initialisierung der GUI
     def __init__(self, parent,iface,dkmstand,pfad = None,vogisPfad = None, PGdb = None, gemeindeliste=None):
-        QtGui.QDialog.__init__(self,parent)
+        QtWidgets.QDialog.__init__(self,parent)
         Ui_frmFWP.__init__(self)
         self.iface = iface
         self.mc = self.iface.mapCanvas()
@@ -37,26 +29,6 @@ class FWPDialog (QtGui.QDialog,Ui_frmFWP):
         self.setupUi(self) #User Interface für Hauptfenster FWP Suche initialisieren
         self.gemeindeliste = gemeindeliste
 
-
-##
-##        #über SQLITE
-##        if PGdb == None:
-##            self.db = QtSql.QSqlDatabase.addDatabase("QSQLITE");
-##            self.db.setDatabaseName(self.vogisPfad + "Grenzen/DKM/_Allgemein/kat_gem.sqlite");
-##             #falls es länger dauert, eine kurze Info
-##            info = LadefortschrittDialog()
-##            info.show()
-##            info.repaint()  #sonst bleibt das Fenster leer!
-##
-##            if  not (self.db.open()):
-##                QtGui.QMessageBox.about(None, "Achtung", ("Öffnen Kat_Gem gescheitert").decode('utf8'))
-##                return #wenns sich nicht öffnen läßt abbrechen
-##            self.abfrage = QtSql.QSqlQuery(self.db)
-##            self.abfrage.exec_("SELECT DISTINCT PGEM_NAME  FROM kat_gem_vlbg")
-##        else:   # über Postgres
-##            self.db = PGdb
-##            self.abfrage = QtSql.QSqlQuery(self.db)
-##            self.abfrage.exec_("SELECT DISTINCT PGEM_NAME  FROM vorarlberg.kat_gem order by PGEM_NAME")
 
 
 
@@ -72,10 +44,6 @@ class FWPDialog (QtGui.QDialog,Ui_frmFWP):
 
 
 
-##
-##        #Modell und Widget füllen
-##        self.modelli = QtSql.QSqlQueryModel()
-##        self.modelli.setQuery(self.abfrage)
         self.lstGemeinden.setModel(self.modelli)
 
 
@@ -134,11 +102,13 @@ class FWPDialog (QtGui.QDialog,Ui_frmFWP):
 
         #WICHTIG: ein Signal/Slot Verbindung herstellen zwischen dem neuen Maptool
         #und der Methode die die Gemeinde einstellt. Dabei wird das punktobjekt übertragen!!
-        QtCore.QObject.connect(self.PtRueckgabe, QtCore.SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.returnGemeinde)
+        #QtCore.QObject.connect(self.PtRueckgabe, QtCore.SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.returnGemeinde)
+        self.PtRueckgabe.canvasClicked.connect(self.returnGemeinde)
 
         #WICHTIG: ein Signal/Slot Verbindung herstellen
         #wenn ein Maptool Change Signal emittiert wird!
-        QtCore.QObject.connect(self.mc, QtCore.SIGNAL("mapToolSet (QgsMapTool *)"), self.MapButtonZuruecksetzen)
+        #QtCore.QObject.connect(self.mc, QtCore.SIGNAL("mapToolSet (QgsMapTool *)"), self.MapButtonZuruecksetzen)
+        self.mc.mapToolSet.connect(self.MapButtonZuruecksetzen)
 
     def MapButtonZuruecksetzen(self,Tool_Gecklickt):
         if not self.PtRueckgabe is None:
@@ -212,7 +182,7 @@ class FWPDialog (QtGui.QDialog,Ui_frmFWP):
         shift=self.mc.mapUnitsPerPixel()
         wahlRect = QgsRectangle(ergebnis.x(),ergebnis.y(),ergebnis.x()+ shift,ergebnis.y()+ shift)
         #Entsprechendes Feature (=Gemeinde) im Layer selektieren
-        gmdLayer.select(wahlRect,False)
+        gmdLayer.selectByRect(wahlRect,False)
 
         #Den Index des feldes PGEM_NAME
         #in der Attributtabelle des Layers finden
@@ -252,7 +222,7 @@ class FWPDialog (QtGui.QDialog,Ui_frmFWP):
 
 
         #if isinstance(SelItem, unicode):    #QGIS 2 hat je keine Qstring mehr!
-        if isinstance(SelItem, unicode):    #QGIS 2 hat je keine Qstring mehr!
+        if isinstance(SelItem, str):    #QGIS 2 hat je keine Qstring mehr!
             #noch was optisches. Egal ob über Cursor oder Direkt im
             #Listenfeld ausgewählt: Die gewählte politische Gemeinde
             #wird automatisch in die mitte des Listenfeldes gescrollt
@@ -263,7 +233,7 @@ class FWPDialog (QtGui.QDialog,Ui_frmFWP):
             if len(index) > 0:
                 self.lstGemeinden.scrollTo(index[0],3) #3 bedeutet in die Mitte des Listenfelds scrollen
             else:
-                QtGui.QMessageBox.about(None, "Achtung", ("Layer Gemeinden nicht gefunden oder dessen Codierung prüfen!").decode('utf8'))
+                QtWidgets.QMessageBox.about(None, "Achtung", ("Layer Gemeinden nicht gefunden oder dessen Codierung prüfen!"))
 
         elif isinstance(SelItem, str):
             self.Gemeinde = SelItem
@@ -273,7 +243,7 @@ class FWPDialog (QtGui.QDialog,Ui_frmFWP):
             if len(index) > 0:
                 self.lstGemeinden.scrollTo(index[0],3) #3 bedeutet in die Mitte des Listenfelds scrollen
             else:
-                QtGui.QMessageBox.about(None, "Achtung", ("Layer Gemeinden nicht gefunden oder dessen Codierung prüfen!").decode('utf8'))
+                QtWidgets.QMessageBox.about(None, "Achtung", ("Layer Gemeinden nicht gefunden oder dessen Codierung prüfen!"))
         else:
             #noch was optisches. Egal ob über Cursor oder Direkt im
             #Listenfeld ausgewählt: Die gewählte politische Gemeinde
@@ -296,15 +266,22 @@ class FWPDialog (QtGui.QDialog,Ui_frmFWP):
     def ladeGemeinde(self):
         #Am Filesystem gibts keine Sonderzeichen!
         gemeinde_wie_filesystem = self.Gemeinde
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ä').decode('utf8'),'ae')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ä').decode('utf8'),'Ae')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ö').decode('utf8'),'oe')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ö').decode('utf8'),'Oe')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ü').decode('utf8'),'ue')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ü').decode('utf8'),'Ue')
-        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ß').decode('utf8'),'ss')
+##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ä').decode('utf8'),'ae')
+##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ä').decode('utf8'),'Ae')
+##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ö').decode('utf8'),'oe')
+##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ö').decode('utf8'),'Oe')
+##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ü').decode('utf8'),'ue')
+##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ü').decode('utf8'),'Ue')
+##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ß').decode('utf8'),'ss')
+##        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace('. ','_')
+        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ä'),'ae')
+        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ä'),'Ae')
+        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ö'),'oe')
+        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ö'),'Oe')
+        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ü'),'ue')
+        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('Ü'),'Ue')
+        gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace(('ß'),'ss')
         gemeinde_wie_filesystem = gemeinde_wie_filesystem.replace('. ','_')
-
         #Prüfen ob ein Zoompunkt gesetzt ist. Das ist nur der Fall wenn ein Grundstück gesucht wird
         #und auf den betreffenden Extent zoomen
         #(Das zoomen auf den GEmeindeextent ist zwar eingebaut aber auskommentiert!)
@@ -355,7 +332,9 @@ class FWPDialog (QtGui.QDialog,Ui_frmFWP):
             self.mc.setMapTool(self.tool_vorher)
         #disconnect: weil sonst trotz close und del das signal slot verhältnis nicht sauber gelöscht wird
         #wieso??
-        QtCore.QObject.disconnect(self.mc, QtCore.SIGNAL("mapToolSet (QgsMapTool *)"), self.MapButtonZuruecksetzen)
+        #QtCore.QObject.disconnect(self.mc, QtCore.SIGNAL("mapToolSet (QgsMapTool *)"), self.MapButtonZuruecksetzen)
+
+        # Anscheinend disconnected Qgis inzwischen automatisch??
         self.close()
 
 

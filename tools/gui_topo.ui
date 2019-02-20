@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>703</width>
+    <width>694</width>
     <height>913</height>
    </rect>
   </property>
@@ -16,9 +16,9 @@
   <widget class="QTextEdit" name="textView">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>20</x>
      <y>20</y>
-     <width>631</width>
+     <width>651</width>
      <height>831</height>
     </rect>
    </property>

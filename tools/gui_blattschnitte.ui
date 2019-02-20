@@ -75,7 +75,7 @@
         <string>Blattschnitt ÖK</string>
        </property>
        <attribute name="buttonGroup">
-        <string>checkButtonsGroup</string>
+        <string notr="true">checkButtonsGroup</string>
        </attribute>
       </widget>
      </item>
@@ -90,7 +90,7 @@
         <string>Blattschnitt 50000</string>
        </property>
        <attribute name="buttonGroup">
-        <string>checkButtonsGroup</string>
+        <string notr="true">checkButtonsGroup</string>
        </attribute>
       </widget>
      </item>
@@ -105,7 +105,7 @@
         <string>Blattschnitt 25000</string>
        </property>
        <attribute name="buttonGroup">
-        <string>checkButtonsGroup</string>
+        <string notr="true">checkButtonsGroup</string>
        </attribute>
       </widget>
      </item>
@@ -120,7 +120,7 @@
         <string>Blattschnitt 20000</string>
        </property>
        <attribute name="buttonGroup">
-        <string>checkButtonsGroup</string>
+        <string notr="true">checkButtonsGroup</string>
        </attribute>
       </widget>
      </item>
@@ -135,7 +135,7 @@
         <string>Blattschnitt 10000</string>
        </property>
        <attribute name="buttonGroup">
-        <string>checkButtonsGroup</string>
+        <string notr="true">checkButtonsGroup</string>
        </attribute>
       </widget>
      </item>
@@ -150,7 +150,7 @@
         <string>Blattschnitt 5000</string>
        </property>
        <attribute name="buttonGroup">
-        <string>checkButtonsGroup</string>
+        <string notr="true">checkButtonsGroup</string>
        </attribute>
       </widget>
      </item>
@@ -165,7 +165,7 @@
         <string>Blattschnitt 2500</string>
        </property>
        <attribute name="buttonGroup">
-        <string>checkButtonsGroup</string>
+        <string notr="true">checkButtonsGroup</string>
        </attribute>
       </widget>
      </item>
@@ -180,7 +180,7 @@
         <string>Blattschnitt 2000</string>
        </property>
        <attribute name="buttonGroup">
-        <string>checkButtonsGroup</string>
+        <string notr="true">checkButtonsGroup</string>
        </attribute>
       </widget>
      </item>
@@ -195,7 +195,7 @@
         <string>Blattschnitt 1000</string>
        </property>
        <attribute name="buttonGroup">
-        <string>checkButtonsGroup</string>
+        <string notr="true">checkButtonsGroup</string>
        </attribute>
       </widget>
      </item>
@@ -210,7 +210,7 @@
         <string>Blattschnitt Urmappe</string>
        </property>
        <attribute name="buttonGroup">
-        <string>checkButtonsGroup</string>
+        <string notr="true">checkButtonsGroup</string>
        </attribute>
       </widget>
      </item>
@@ -225,7 +225,7 @@
         <string>Koordinatennetz</string>
        </property>
        <attribute name="buttonGroup">
-        <string>checkButtonsGroup</string>
+        <string notr="true">checkButtonsGroup</string>
        </attribute>
       </widget>
      </item>

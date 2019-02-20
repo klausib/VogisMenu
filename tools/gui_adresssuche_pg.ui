@@ -91,7 +91,7 @@
      <bool>true</bool>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
    <widget class="QCheckBox" name="checkBox_2">
@@ -112,7 +112,7 @@
      <string>Adressen Landesfläche</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
   </widget>
@@ -271,22 +271,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>pushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>frmAdresssuche</receiver>
-   <slot>adrClear()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>338</x>
-     <y>250</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>482</x>
-     <y>258</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>ButtonAdressenOk</sender>
    <signal>clicked()</signal>
    <receiver>frmAdresssuche</receiver>
@@ -302,6 +286,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>frmAdresssuche</receiver>
+   <slot>adrClear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>379</x>
+     <y>346</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>479</x>
+     <y>410</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>lstGemeindeKlicked()</slot>
@@ -311,6 +311,7 @@
   <slot>strassensuche()</slot>
   <slot>themenLaden()</slot>
   <slot>closeEvent()</slot>
+  <slot>grafikreturn()</slot>
  </slots>
  <buttongroups>
   <buttongroup name="buttonGroup"/>

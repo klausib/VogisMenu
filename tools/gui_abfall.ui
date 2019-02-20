@@ -78,7 +78,7 @@
         <bool>true</bool>
        </property>
        <attribute name="buttonGroup">
-        <string>checkButtonsGroup</string>
+        <string notr="true">checkButtonsGroup</string>
        </attribute>
       </widget>
      </item>
@@ -93,7 +93,7 @@
         <string>Altstandorte</string>
        </property>
        <attribute name="buttonGroup">
-        <string>checkButtonsGroup</string>
+        <string notr="true">checkButtonsGroup</string>
        </attribute>
       </widget>
      </item>

@@ -2,32 +2,26 @@
 
 # Form implementation generated from reading ui file 'gui_gfz.ui'
 #
-# Created: Wed Nov 30 13:30:05 2016
-#      by: PyQt4 UI code generator 4.8.4
+# Created by: PyQt5 UI code generator 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt4 import QtCore, QtGui
-
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    _fromUtf8 = lambda s: s
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_frmGFZ(object):
     def setupUi(self, frmGFZ):
-        frmGFZ.setObjectName(_fromUtf8("frmGFZ"))
+        frmGFZ.setObjectName("frmGFZ")
         frmGFZ.resize(354, 595)
-        self.btnAbbrechen = QtGui.QPushButton(frmGFZ)
+        self.btnAbbrechen = QtWidgets.QPushButton(frmGFZ)
         self.btnAbbrechen.setGeometry(QtCore.QRect(120, 530, 121, 31))
-        self.btnAbbrechen.setObjectName(_fromUtf8("btnAbbrechen"))
-        self.groupBox = QtGui.QGroupBox(frmGFZ)
+        self.btnAbbrechen.setObjectName("btnAbbrechen")
+        self.groupBox = QtWidgets.QGroupBox(frmGFZ)
         self.groupBox.setGeometry(QtCore.QRect(20, 10, 311, 281))
-        self.groupBox.setObjectName(_fromUtf8("groupBox"))
-        self.btnGFZ = QtGui.QPushButton(self.groupBox)
+        self.groupBox.setObjectName("groupBox")
+        self.btnGFZ = QtWidgets.QPushButton(self.groupBox)
         self.btnGFZ.setGeometry(QtCore.QRect(100, 232, 111, 31))
-        self.btnGFZ.setObjectName(_fromUtf8("btnGFZ"))
-        self.btGmdChoice = QtGui.QPushButton(self.groupBox)
+        self.btnGFZ.setObjectName("btnGFZ")
+        self.btGmdChoice = QtWidgets.QPushButton(self.groupBox)
         self.btGmdChoice.setGeometry(QtCore.QRect(210, 190, 31, 23))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 0, 127))
@@ -46,54 +40,55 @@ class Ui_frmGFZ(object):
         self.btGmdChoice.setFocusPolicy(QtCore.Qt.StrongFocus)
         self.btGmdChoice.setCheckable(True)
         self.btGmdChoice.setChecked(False)
-        self.btGmdChoice.setObjectName(_fromUtf8("btGmdChoice"))
-        self.lstGemeinden = QtGui.QListView(self.groupBox)
+        self.btGmdChoice.setObjectName("btGmdChoice")
+        self.lstGemeinden = QtWidgets.QListView(self.groupBox)
         self.lstGemeinden.setGeometry(QtCore.QRect(30, 20, 256, 161))
-        self.lstGemeinden.setObjectName(_fromUtf8("lstGemeinden"))
-        self.btnVorarlberg = QtGui.QPushButton(self.groupBox)
+        self.lstGemeinden.setObjectName("lstGemeinden")
+        self.btnVorarlberg = QtWidgets.QPushButton(self.groupBox)
         self.btnVorarlberg.setGeometry(QtCore.QRect(50, 190, 111, 23))
-        self.btnVorarlberg.setObjectName(_fromUtf8("btnVorarlberg"))
-        self.groupBox_2 = QtGui.QGroupBox(frmGFZ)
+        self.btnVorarlberg.setObjectName("btnVorarlberg")
+        self.groupBox_2 = QtWidgets.QGroupBox(frmGFZ)
         self.groupBox_2.setGeometry(QtCore.QRect(20, 310, 311, 201))
-        self.groupBox_2.setObjectName(_fromUtf8("groupBox_2"))
-        self.btnGFZVIId = QtGui.QPushButton(self.groupBox_2)
+        self.groupBox_2.setObjectName("groupBox_2")
+        self.btnGFZVIId = QtWidgets.QPushButton(self.groupBox_2)
         self.btnGFZVIId.setGeometry(QtCore.QRect(180, 70, 111, 23))
-        self.btnGFZVIId.setObjectName(_fromUtf8("btnGFZVIId"))
-        self.GfzBwv = QtGui.QRadioButton(self.groupBox_2)
+        self.btnGFZVIId.setObjectName("btnGFZVIId")
+        self.GfzBwv = QtWidgets.QRadioButton(self.groupBox_2)
         self.GfzBwv.setGeometry(QtCore.QRect(10, 60, 131, 18))
         self.GfzBwv.setChecked(True)
-        self.GfzBwv.setObjectName(_fromUtf8("GfzBwv"))
-        self.buttonGroup = QtGui.QButtonGroup(frmGFZ)
-        self.buttonGroup.setObjectName(_fromUtf8("buttonGroup"))
+        self.GfzBwv.setObjectName("GfzBwv")
+        self.buttonGroup = QtWidgets.QButtonGroup(frmGFZ)
+        self.buttonGroup.setObjectName("buttonGroup")
         self.buttonGroup.addButton(self.GfzBwv)
-        self.btnKompetenzgrenzen = QtGui.QPushButton(self.groupBox_2)
+        self.btnKompetenzgrenzen = QtWidgets.QPushButton(self.groupBox_2)
         self.btnKompetenzgrenzen.setGeometry(QtCore.QRect(70, 150, 161, 31))
-        self.btnKompetenzgrenzen.setObjectName(_fromUtf8("btnKompetenzgrenzen"))
-        self.ckUeberflutungsflaechen = QtGui.QRadioButton(self.groupBox_2)
+        self.btnKompetenzgrenzen.setObjectName("btnKompetenzgrenzen")
+        self.ckUeberflutungsflaechen = QtWidgets.QRadioButton(self.groupBox_2)
         self.ckUeberflutungsflaechen.setGeometry(QtCore.QRect(10, 90, 161, 18))
-        self.ckUeberflutungsflaechen.setObjectName(_fromUtf8("ckUeberflutungsflaechen"))
+        self.ckUeberflutungsflaechen.setObjectName("ckUeberflutungsflaechen")
         self.buttonGroup.addButton(self.ckUeberflutungsflaechen)
 
         self.retranslateUi(frmGFZ)
-        QtCore.QObject.connect(self.btnAbbrechen, QtCore.SIGNAL(_fromUtf8("clicked()")), frmGFZ.closeEvent)
-        QtCore.QObject.connect(self.btnGFZ, QtCore.SIGNAL(_fromUtf8("clicked()")), frmGFZ.ladeGemeinde)
-        QtCore.QObject.connect(self.btGmdChoice, QtCore.SIGNAL(_fromUtf8("clicked()")), frmGFZ.gmd_choice_toggled)
-        QtCore.QObject.connect(self.lstGemeinden, QtCore.SIGNAL(_fromUtf8("clicked(QModelIndex)")), frmGFZ.auswahlaenderung)
-        QtCore.QObject.connect(self.btnGFZVIId, QtCore.SIGNAL(_fromUtf8("clicked()")), frmGFZ.ladeGFZWB)
-        QtCore.QObject.connect(self.btnKompetenzgrenzen, QtCore.SIGNAL(_fromUtf8("clicked()")), frmGFZ.ladeKompetenzgrenzen)
-        QtCore.QObject.connect(self.btnVorarlberg, QtCore.SIGNAL(_fromUtf8("clicked()")), frmGFZ.landesflaeche)
+        self.btnAbbrechen.clicked.connect(frmGFZ.closeEvent)
+        self.btnGFZ.clicked.connect(frmGFZ.ladeGemeinde)
+        self.btGmdChoice.clicked.connect(frmGFZ.gmd_choice_toggled)
+        self.lstGemeinden.clicked['QModelIndex'].connect(frmGFZ.auswahlaenderung)
+        self.btnGFZVIId.clicked.connect(frmGFZ.ladeGFZWB)
+        self.btnKompetenzgrenzen.clicked.connect(frmGFZ.ladeKompetenzgrenzen)
+        self.btnVorarlberg.clicked.connect(frmGFZ.landesflaeche)
         QtCore.QMetaObject.connectSlotsByName(frmGFZ)
 
     def retranslateUi(self, frmGFZ):
-        frmGFZ.setWindowTitle(QtGui.QApplication.translate("frmGFZ", "Gefahrenzonenpläne", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnAbbrechen.setText(QtGui.QApplication.translate("frmGFZ", "Schließen", None, QtGui.QApplication.UnicodeUTF8))
-        self.groupBox.setTitle(QtGui.QApplication.translate("frmGFZ", "Wildbach- und Lawinenverbauung", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnGFZ.setText(QtGui.QApplication.translate("frmGFZ", "GFZ laden", None, QtGui.QApplication.UnicodeUTF8))
-        self.btGmdChoice.setText(QtGui.QApplication.translate("frmGFZ", "+", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnVorarlberg.setText(QtGui.QApplication.translate("frmGFZ", "Landesfläche Vlbg.", None, QtGui.QApplication.UnicodeUTF8))
-        self.groupBox_2.setTitle(QtGui.QApplication.translate("frmGFZ", "Abt. VIId - Wasserwirtschaft", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnGFZVIId.setText(QtGui.QApplication.translate("frmGFZ", "Daten laden", None, QtGui.QApplication.UnicodeUTF8))
-        self.GfzBwv.setText(QtGui.QApplication.translate("frmGFZ", "Gefahrenzonen BWV", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnKompetenzgrenzen.setText(QtGui.QApplication.translate("frmGFZ", "Kompetenzgrenzen  BWV - WLV", None, QtGui.QApplication.UnicodeUTF8))
-        self.ckUeberflutungsflaechen.setText(QtGui.QApplication.translate("frmGFZ", "Abflussuntersuchungen BWV", None, QtGui.QApplication.UnicodeUTF8))
+        _translate = QtCore.QCoreApplication.translate
+        frmGFZ.setWindowTitle(_translate("frmGFZ", "Gefahrenzonenpläne"))
+        self.btnAbbrechen.setText(_translate("frmGFZ", "Schließen"))
+        self.groupBox.setTitle(_translate("frmGFZ", "Wildbach- und Lawinenverbauung"))
+        self.btnGFZ.setText(_translate("frmGFZ", "GFZ laden"))
+        self.btGmdChoice.setText(_translate("frmGFZ", "+"))
+        self.btnVorarlberg.setText(_translate("frmGFZ", "Landesfläche Vlbg."))
+        self.groupBox_2.setTitle(_translate("frmGFZ", "Abt. VIId - Wasserwirtschaft"))
+        self.btnGFZVIId.setText(_translate("frmGFZ", "Daten laden"))
+        self.GfzBwv.setText(_translate("frmGFZ", "Gefahrenzonen BWV"))
+        self.btnKompetenzgrenzen.setText(_translate("frmGFZ", "Kompetenzgrenzen  BWV - WLV"))
+        self.ckUeberflutungsflaechen.setText(_translate("frmGFZ", "Abflussuntersuchungen BWV"))
 

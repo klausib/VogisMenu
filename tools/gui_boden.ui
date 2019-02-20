@@ -55,7 +55,7 @@
        <string>Digitale Bodenkarte</string>
       </property>
       <attribute name="buttonGroup">
-       <string>ckButtons</string>
+       <string notr="true">ckButtons</string>
       </attribute>
      </widget>
     </item>
@@ -65,7 +65,7 @@
        <string>Bodenprofile</string>
       </property>
       <attribute name="buttonGroup">
-       <string>ckButtons</string>
+       <string notr="true">ckButtons</string>
       </attribute>
      </widget>
     </item>

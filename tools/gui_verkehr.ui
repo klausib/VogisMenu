@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>410</width>
-    <height>340</height>
+    <height>359</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>10</x>
      <y>0</y>
      <width>391</width>
-     <height>251</height>
+     <height>271</height>
     </rect>
    </property>
    <property name="currentIndex">
@@ -31,7 +31,7 @@
       <x>0</x>
       <y>0</y>
       <width>391</width>
-      <height>116</height>
+      <height>109</height>
      </rect>
     </property>
     <attribute name="label">
@@ -79,19 +79,40 @@
      </attribute>
     </widget>
    </widget>
+   <widget class="QWidget" name="page_6">
+    <attribute name="label">
+     <string>Leitungskataster</string>
+    </attribute>
+    <widget class="QCheckBox" name="ckBeleuchtungsanlagen">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>20</y>
+       <width>281</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Beleuchtungsanlagen</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string>ckButtons</string>
+     </attribute>
+    </widget>
+   </widget>
    <widget class="QWidget" name="page_5">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
       <width>391</width>
-      <height>116</height>
+      <height>109</height>
      </rect>
     </property>
     <attribute name="label">
      <string>Öffentlicher Verkehr, Seilbahnen, Flughindernisse</string>
     </attribute>
-    <widget class="QCheckBox" name="ckOepnv">
+    <widget class="QCheckBox" name="ckOepnv_Verkehr">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -111,7 +132,7 @@
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>60</y>
+       <y>90</y>
        <width>271</width>
        <height>18</height>
       </rect>
@@ -127,7 +148,7 @@
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>90</y>
+       <y>120</y>
        <width>271</width>
        <height>18</height>
       </rect>
@@ -158,6 +179,22 @@
       <string>ckButtons</string>
      </attribute>
     </widget>
+    <widget class="QCheckBox" name="ckOepnv_Qualitaet">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>60</y>
+       <width>271</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ÖPNV Bedienqualität</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string>ckButtons</string>
+     </attribute>
+    </widget>
    </widget>
    <widget class="QWidget" name="page_2">
     <property name="geometry">
@@ -165,7 +202,7 @@
       <x>0</x>
       <y>0</y>
       <width>391</width>
-      <height>116</height>
+      <height>109</height>
      </rect>
     </property>
     <attribute name="label">
@@ -213,7 +250,7 @@
       <x>0</x>
       <y>0</y>
       <width>391</width>
-      <height>116</height>
+      <height>109</height>
      </rect>
     </property>
     <attribute name="label">
@@ -271,7 +308,7 @@
       <x>0</x>
       <y>0</y>
       <width>391</width>
-      <height>116</height>
+      <height>109</height>
      </rect>
     </property>
     <attribute name="label">
@@ -281,7 +318,7 @@
      <property name="geometry">
       <rect>
        <x>60</x>
-       <y>80</y>
+       <y>60</y>
        <width>141</width>
        <height>18</height>
       </rect>
@@ -297,7 +334,7 @@
      <property name="geometry">
       <rect>
        <x>60</x>
-       <y>20</y>
+       <y>0</y>
        <width>141</width>
        <height>18</height>
       </rect>
@@ -313,7 +350,7 @@
      <property name="geometry">
       <rect>
        <x>60</x>
-       <y>50</y>
+       <y>30</y>
        <width>171</width>
        <height>18</height>
       </rect>
@@ -325,13 +362,29 @@
       <string>ckButtons</string>
      </attribute>
     </widget>
+    <widget class="QCheckBox" name="ckRadschnellverbindungen">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>90</y>
+       <width>141</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Radschnellverbindungen</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string>ckButtons</string>
+     </attribute>
+    </widget>
    </widget>
   </widget>
   <widget class="QPushButton" name="btnRadAbbrechen">
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>290</y>
+     <y>310</y>
      <width>91</width>
      <height>23</height>
     </rect>
@@ -344,7 +397,7 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>290</y>
+     <y>310</y>
      <width>101</width>
      <height>23</height>
     </rect>
@@ -357,7 +410,7 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>260</y>
+     <y>280</y>
      <width>411</width>
      <height>16</height>
     </rect>

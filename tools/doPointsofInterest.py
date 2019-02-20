@@ -1,24 +1,20 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
 
-from PyQt4 import QtGui,QtCore
+from qgis.PyQt import QtGui,QtCore
 
 from qgis.core import *
 from gui_pointsofinterest import *
-#API up to 2.2
-if QGis.QGIS_VERSION_INT < 20300:
-    from ProjektImport import *
-else:
-    from ProjektImport_24 import *
+from ProjektImport import *
 
 
 
 
 #Dies Klassendefinition öffnet das Frame für
 #die Auswahl der Datenebenen
-class PointsofInterestDialog(QtGui.QDialog, Ui_frmPointsofInterest):
+class PointsofInterestDialog(QtWidgets.QDialog, Ui_frmPointsofInterest):
     def __init__(self,parent,iface,pfad = None):
-        QtGui.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
+        QtWidgets.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
         Ui_frmPointsofInterest.__init__(self)
 
         self.iface = iface
@@ -48,12 +44,8 @@ class PointsofInterestDialog(QtGui.QDialog, Ui_frmPointsofInterest):
             if button.isChecked():
 
                 if   ("ckBergspitzen" in button.objectName()):
-
                     pfad_ind = self.pfad + "/Ortsbezeichnung/Vlbg/berge/bergspitzen.qgs"
-
-
                 elif ("ckNamengut" in button.objectName()):
-
                     pfad_ind = self.pfad + "/Ortsbezeichnung/Vlbg/Namengut/namengut.qgs"
 
 

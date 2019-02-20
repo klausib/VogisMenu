@@ -1,22 +1,19 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
 
-from PyQt4 import QtGui,QtCore
+from qgis.PyQt import QtGui,QtCore
 
 from qgis.core import *
 from gui_landnutzung import *
-#API up to 2.2
-if QGis.QGIS_VERSION_INT < 20300:
-    from ProjektImport import *
-else:
-    from ProjektImport_24 import *
+from ProjektImport import *
+
 
 
 #Dies Klassendefinition öffnet das Frame für
 #die Auswahl der Datenebenen
-class LandnutzungDialog(QtGui.QDialog, Ui_frmLandnutzung):
+class LandnutzungDialog(QtWidgets.QDialog, Ui_frmLandnutzung):
     def __init__(self,parent,iface,pfad = None):
-        QtGui.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
+        QtWidgets.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
         Ui_frmLandnutzung.__init__(self)
 
         self.iface = iface
@@ -46,13 +43,6 @@ class LandnutzungDialog(QtGui.QDialog, Ui_frmLandnutzung):
                 if   ("LnRheintal" in button.objectName()):
 
                     pfad_ind = self.pfad + "/Rheintal/Landnutzung/landnutzung.qgs"
-
-
-##                elif ("Wildfuetterungen" in button.objectName()):
-##
-##                    pfad_ind = self.pfad + "/Vlbg/Jagdwirtschaft/jagdwirtschaft.qgs"
-##                    name.append(_fromUtf8("Wildfütterungen"))
-
 
 
                 self.landnutzung.importieren(pfad_ind)

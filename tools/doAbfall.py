@@ -1,19 +1,15 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
 
-from PyQt4 import QtGui,QtCore
+from qgis.PyQt import QtGui, QtCore, QtWidgets
 
 from qgis.core import *
 from gui_abfall import *
-#API up to 2.2
-if QGis.QGIS_VERSION_INT < 20300:
-    from ProjektImport import *
-else:
-    from ProjektImport_24 import *
+from ProjektImport import *
 
-class AbfallDialog(QtGui.QDialog, Ui_frmAbfall):
+class AbfallDialog(QtWidgets.QDialog, Ui_frmAbfall):
     def __init__(self,iface,pfad = None):
-        QtGui.QDialog.__init__(self)
+        QtWidgets.QDialog.__init__(self)
         Ui_frmAbfall.__init__(self)
 
         self.iface = iface
@@ -29,7 +25,6 @@ class AbfallDialog(QtGui.QDialog, Ui_frmAbfall):
     def accept(self):
 
         self.iface.mapCanvas().setRenderFlag(False)
-
         abfall = ProjektImport(self.iface)  #das Projekt Import Objekt instanzieren
 
         #sämtliche Radiobuttons des Dialogfeldes sind gruppiert in ckButtons
@@ -37,13 +32,9 @@ class AbfallDialog(QtGui.QDialog, Ui_frmAbfall):
         for button in self.checkButtonsGroup.buttons():
 
             if button.isChecked():  #wenn gechecket, wird geladen
-
                 if   ("Deponie" in button.text()):
-
                     abfall.importieren(self.pfad + "/Deponie/deponie.qgs",)
-
                 elif ("Altstandort" in button.text()):
-
-                    abfall.importieren(self.pfad + "/Altstandort/altstandorte.qgs",)
+                    abfall.importieren(self.pfad + "/Altstandort/verdachtsflaechenkataster.qgs",)
         self.iface.mapCanvas().setRenderFlag(True)
 

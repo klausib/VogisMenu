@@ -53,7 +53,7 @@
          <string>NATURA 2000 (Europaschutzgebiet)</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -63,7 +63,7 @@
          <string>Naturschutzgebiete (inkl. Streuwiesenbiotopverbund)</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -73,7 +73,7 @@
          <string>Landschaftsschutzgebiete</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -83,7 +83,7 @@
          <string>Pflanzenschutzgebiete</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -93,7 +93,7 @@
          <string>Geschützter Landschaftsteil</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -103,7 +103,7 @@
          <string>Biosphärenparks</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -113,7 +113,7 @@
          <string>Ruhezone</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -123,7 +123,7 @@
          <string>Örtliches Schutzgebiet</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -135,8 +135,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>561</width>
-      <height>230</height>
+      <width>98</width>
+      <height>28</height>
      </rect>
     </property>
     <attribute name="label">
@@ -155,7 +155,7 @@
       <string>Biotopinventar 2009</string>
      </property>
      <attribute name="buttonGroup">
-      <string>ckButtons</string>
+      <string notr="true">ckButtons</string>
      </attribute>
     </widget>
     <widget class="QGroupBox" name="groupBox">
@@ -277,8 +277,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>561</width>
-      <height>230</height>
+      <width>98</width>
+      <height>28</height>
      </rect>
     </property>
     <attribute name="label">
@@ -290,7 +290,7 @@
        <x>71</x>
        <y>31</y>
        <width>179</width>
-       <height>68</height>
+       <height>88</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
@@ -300,7 +300,7 @@
          <string>Evaluierung Streuwiesen (2000)</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -310,7 +310,7 @@
          <string>Naturdenkmale</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -320,7 +320,17 @@
          <string>Evaluierung Streuwiesen (2014)</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="ckAmphibienzugstellen">
+        <property name="text">
+         <string>Amphibienzugstellen</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>

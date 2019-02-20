@@ -1,22 +1,18 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
 
-from PyQt4 import QtGui,QtCore
+from qgis.PyQt import QtGui,QtCore
 
 from qgis.core import *
 from gui_klima import *
-#API up to 2.2
-if QGis.QGIS_VERSION_INT < 20300:
-    from ProjektImport import *
-else:
-    from ProjektImport_24 import *
+from ProjektImport import *
 import os
 
 
 
-class KlimaDialog(QtGui.QDialog, Ui_frmKlima):
+class KlimaDialog(QtWidgets.QDialog, Ui_frmKlima):
     def __init__(self,parent,iface,pfad = None):
-        QtGui.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
+        QtWidgets.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
         Ui_frmKlima.__init__(self)
 
         self.iface = iface
@@ -29,8 +25,10 @@ class KlimaDialog(QtGui.QDialog, Ui_frmKlima):
         self.klima = ProjektImport(self.iface)
 
         #die Connects
-        QtCore.QObject.connect(self.btnKartePDF, QtCore.SIGNAL("clicked()"), self.Kartebutton)
-        QtCore.QObject.connect(self.btnBeschreibungPDF, QtCore.SIGNAL("clicked()"), self.Kartebutton)
+        #QtCore.QObject.connect(self.btnKartePDF, QtCore.SIGNAL("clicked()"), self.Kartebutton)
+        #QtCore.QObject.connect(self.btnBeschreibungPDF, QtCore.SIGNAL("clicked()"), self.Kartebutton)
+        self.btnKartePDF.clicked.connect(self.Kartebutton)
+        self.btnBeschreibungPDF.clicked.connect(self.Kartebutton)
         #QtCore.QObject.connect(self.btnTempJahresmittelA3, QtCore.SIGNAL(_fromUtf8("clicked()")), self.infobuttton)
 
     def accept(self):

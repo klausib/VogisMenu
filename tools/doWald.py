@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
 
-from PyQt4 import QtGui,QtCore
+from qgis.PyQt import QtGui,QtCore
 
 from qgis.core import *
 from gui_wald import *
@@ -9,20 +9,16 @@ from osgeo import ogr
 
 from direk_laden import direk_laden
 
-#API up to 2.2
-if QGis.QGIS_VERSION_INT < 20300:
-    from ProjektImport import *
-else:
-    from ProjektImport_24 import *
+from ProjektImport import *
 
 
 
 
 #Dies Klassendefinition öffnet das Frame für
 #die Auswahl der Datenebenen
-class WaldDialog(QtGui.QDialog, Ui_frmWald):
+class WaldDialog(QtWidgets.QDialog, Ui_frmWald):
     def __init__(self,parent,iface,pfad = None, PGdb = None):
-        QtGui.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
+        QtWidgets.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
         Ui_frmWald.__init__(self)
 
         self.iface = iface
@@ -34,6 +30,11 @@ class WaldDialog(QtGui.QDialog, Ui_frmWald):
                                                     #deshalb hier
 
         self.wald = ProjektImport(self.iface)   #das Projekt Import Objekt instanzieren
+
+
+    def closeEvent(self,event = None):
+        self.close()
+
 
 
     #klickt man auf OK wird diese Methode ausgeführt
@@ -57,32 +58,13 @@ class WaldDialog(QtGui.QDialog, Ui_frmWald):
                     anzeigename = "1m Wald (aus Orthofotos 2001/02)"
                     self.raster = True
 
-                    #schlampig: Legendenshape hier dazuladen
-##                    if self.db != None:
-##                        try:  # Geodatenbank
-##                            uri = QgsDataSourceURI()
-##                            uri.setConnection(self.db.hostName(),str(self.db.port()),self.db.databaseName(),'','')  # Keine Kennwort nötig, Single Sign On
-##
-##                            # Geometriespalte bestimmen -- geht nur mit OGR
-##                            outputdb = ogr.Open('pg: host =' + self.db.hostName() + ' dbname =' + self.db.databaseName() + ' schemas=vorarlberg')
-##                            geom_column = outputdb.GetLayerByName('waldflaeche_luftbild_2001').GetGeometryColumn()
-##
-##                            uri.setDataSource('vorarlberg', 'waldflaeche_luftbild_2001', geom_column)
-##
-##                            waldlegende = QgsVectorLayer(uri.uri(), "waldflaeche_luftbild_2001","postgres")
-##                        #und prüfen ob erfolgreich geladen
-##                        except: #nicht erfolgreich geladen
-##                            QtGui.QMessageBox.about(None, "Fehler", "Layer ""waldflaeche_luftbild_2001"" in der Datenbank nicht gefunden - es wird aufs Filesystem umgeschaltet")
-##                            waldlegende = QgsVectorLayer(self.pfad + "/Waldflaechen/waldflaeche_luftbild_2001.shp", "waldflaeche_luftbild_2001.shp","ogr")
-##                    elif self.db == None:
-##                        waldlegende = QgsVectorLayer(self.pfad + "/Waldflaechen/waldflaeche_luftbild_2001.shp", "waldflaeche_luftbild_2001.shp","ogr")
-
+                    # Legendenshape hier dazuladen
                     waldlegende = direk_laden(self.db, "waldflaeche_luftbild_2001", "waldflaeche_luftbild_2001.shp", self.pfad + "/Waldflaechen/",self.iface)
 
 
                     #und prüfen ob erfolgreich geladen
                     if not waldlegende.isValid(): #nicht erfolgreich geladen
-                        QtGui.QMessageBox.about(None, "Fehler", "Legendenshape konnte nicht geladen werden")
+                        QtWidgets.QMessageBox.about(None, "Fehler", "Legendenshape konnte nicht geladen werden")
                     else:
                         #erfolgreich geladen
                         #dem Vektorlayer das QML File zuweisen
@@ -90,58 +72,34 @@ class WaldDialog(QtGui.QDialog, Ui_frmWald):
                         flagge = waldlegende.loadNamedStyle(self.pfad + "/Waldflaechen/wald_legende.qml")
                         if flagge[1]:
                             #Legendenansicht aktualisieren
-                            self.iface.legendInterface().refreshLayerSymbology( waldlegende )
+                            self.iface.layerTreeView().refreshLayerSymbology( waldlegende.id() )
                         else:
-                            QtGui.QMessageBox.about(None, "Fehler", "Waldlegende QML konnte nicht zugewiesen werden!")
-                        #Zur Map Layer registry hinzufügen damit der Layer
-                        #dargestellt wird
-                        QgsMapLayerRegistry.instance().addMapLayer(waldlegende)
-                        self.iface.legendInterface().setLayerVisible(waldlegende,0 )
-                        QgsMapLayerRegistry.instance().addMapLayer(waldlegende)
-
-                        #API up to 2.2
-                        if QGis.QGIS_VERSION_INT < 20300:
-                            self.legendTree = self.iface.mainWindow().findChild(QtGui.QDockWidget,"Legend").findChild(QtGui.QTreeWidget)
-                            dodl = self.legendTree.takeTopLevelItem(0)
-                            self.legendTree.addTopLevelItem(dodl)
-                            self.legendTree.expandItem(dodl)    #legende aufklappen
-                        else:
-                            kindi = QgsProject.instance().layerTreeRoot().findLayer(waldlegende.id())
-                            zwtsch = kindi.clone()
-                            QgsProject.instance().layerTreeRoot().insertChildNode(-1,zwtsch)
-                            kindi.parent().removeChildNode(kindi)
+                            QtWidgets.QMessageBox.about(None, "Fehler", "Waldlegende QML konnte nicht zugewiesen werden!")
 
 
-                        waldlegende.setLayerName(("1m Wald 2001/02 (Legende)"))
+                        QgsProject.instance().addMapLayer( waldlegende )
+                        #self.iface.legendInterface().setLayerVisible(waldflaeche,0 )
+                        lyr_tree = QgsProject.instance().layerTreeRoot().findLayer(waldlegende)
+                        lyr_tree.setItemVisibilityChecked(False)
 
 
-                elif (("WaldflaecheOek").decode('utf8') in button.objectName()):
+                        kindi = QgsProject.instance().layerTreeRoot().findLayer(waldlegende.id())
+                        zwtsch = kindi.clone()
+                        QgsProject.instance().layerTreeRoot().insertChildNode(-1,zwtsch)
+                        kindi.parent().removeChildNode(kindi)
 
-                   # schlampig: Waldflaech ÖK hier dazuladen
-##                    if self.db  != None:
-##                        try:
-##                            # Geodatenbank
-##                            uri = QgsDataSourceURI()
-##                            uri.setConnection(self.db.hostName(),str(self.db.port()),self.db.databaseName(),'','')  # Keine Kennwort nötig, Single Sign On
-##
-##                            # Geometriespalte bestimmen -- geht nur mit OGR
-##                            outputdb = ogr.Open('pg: host =' + self.db.hostName() + ' dbname =' + self.db.databaseName() + ' schemas=vorarlberg')
-##                            geom_column = outputdb.GetLayerByName('waldflaeche_oek').GetGeometryColumn()
-##
-##                            uri.setDataSource('vorarlberg', 'waldflaeche_oek', geom_column)
-##
-##                            waldflaeche = QgsVectorLayer(uri.uri(), "waldflaeche_oek","postgres")
-##                        except:
-##                            QtGui.QMessageBox.about(None, "Fehler", "Layer ""waldflaeche_oek"" in der Datenbank nicht gefunden - es wird aufs Filesystem umgeschaltet")
-##                            waldflaeche = QgsVectorLayer(self.pfad + "/Waldflaechen/waldflaeche_oek.shp", "waldflaeche_oek.shp","ogr")
-##                    else:
-##                        waldflaeche = QgsVectorLayer(self.pfad + "/Waldflaechen/waldflaeche_oek.shp", "waldflaeche_oek.shp","ogr")
+
+                        waldlegende.setName(("1m Wald 2001/02 (Legende)"))
+
+
+                elif (("WaldflaecheOek") in button.objectName()):
+
 
                     waldflaeche = direk_laden(self.db, "waldflaeche_oek", "waldflaeche_oek.shp", self.pfad + "/Waldflaechen/",self.iface)
 
                     #und prüfen ob erfolgreich geladen
                     if not waldflaeche.isValid(): #nicht erfolgreich geladen
-                        QtGui.QMessageBox.about(None, "Fehler", "Waldflaeche OEK konnte nicht geladen werden")
+                        QtWidgets.QMessageBox.about(None, "Fehler", "Waldflaeche OEK konnte nicht geladen werden")
                     else:
                         #erfolgreich geladen
                         #dem Vektorlayer das QML File zuweisen
@@ -149,55 +107,48 @@ class WaldDialog(QtGui.QDialog, Ui_frmWald):
                         flagge = waldflaeche.loadNamedStyle(self.pfad + "/Waldflaechen/waldflaeche_oek.qml")
                         if flagge[1]:
                             #Legendenansicht aktualisieren
-                            self.iface.legendInterface().refreshLayerSymbology( waldflaeche )
+                            #self.iface.legendInterface().refreshLayerSymbology( waldflaeche )
+                            self.iface.layerTreeView().refreshLayerSymbology( waldflaeche.id() )
                         else:
-                            QtGui.QMessageBox.about(None, "Fehler", "Waldflaeche QML konnte nicht zugewiesen werden!")
+                            QtWidgets.QMessageBox.about(None, "Fehler", "Waldflaeche QML konnte nicht zugewiesen werden!")
                         #Zur Map Layer registry hinzufügen damit der Layer
                         #dargestellt wird
-                        QgsMapLayerRegistry.instance().addMapLayer(waldflaeche)
-                        self.iface.legendInterface().setLayerVisible(waldflaeche,0 )
-                        QgsMapLayerRegistry.instance().addMapLayer(waldflaeche)
-                        waldflaeche.setLayerName(("Waldflaeche ÖK50").decode('utf8'))
+                        QgsProject.instance().addMapLayer( waldflaeche )
+                        lyr_tree = QgsProject.instance().layerTreeRoot().findLayer(waldflaeche)
+                        lyr_tree.setItemVisibilityChecked(False)
+                        waldflaeche.setName(("Waldflaeche ÖK50"))
 
                 elif ("Waldentwicklungsplan" in button.objectName()):
 
                     pfad_ind = self.pfad + "/Waldwirtschaft/waldwirtschaft.qgs"
 
-                    name.append(("WEP Funktionsflächen (a)").decode('utf8'))
+                    name.append(("WEP Funktionsflächen (a)"))
                     name.append(("WEP Windschutzstreifen (a)"))
                     name.append(("WEP Zeiger (a)"))
-                    name.append(("WEP Kreisflächen (a)").decode('utf8'))
+                    name.append(("WEP Kreisflächen (a)"))
 
 
                 elif ("Waldregionen" in button.objectName()):
-
                     pfad_ind = self.pfad + "/Waldaufsicht/waldregion.qgs"
                     name = None
                     #name.append(_fromUtf8("Nicht anrechenbare Jagdfläche"))
 
                 elif ("Waldkarte" in button.objectName()):
-
                     pfad_ind = self.pfad + "/Waldwirtschaft/waldwirtschaft.qgs"
                     name.append(("Waldkarte (a)"))
 
                 elif ("Saatgut" in button.objectName()):
-
                     pfad_ind = self.pfad + "/Waldwirtschaft/waldwirtschaft.qgs"
-
-                    name.append(("Saatgutbestände (a)").decode('utf8'))
-                    name.append(("Saatgutbestände Typ B (a)").decode('utf8'))
+                    name.append(("Saatgutbestände (a)"))
+                    name.append(("Saatgutbestände Typ B (a)"))
 
                 elif ("Auwald" in button.objectName()):
-
                     pfad_ind = self.pfad + "/Waldwirtschaft/waldwirtschaft.qgs"
-
-                    name.append(("Auwald").decode('utf8'))
+                    name.append(("Auwald"))
 
                 elif ("Ufergehoelz" in button.objectName()):
-
                     pfad_ind = self.pfad + "/Waldwirtschaft/waldwirtschaft.qgs"
-
-                    name.append(("Ufergehoelz").decode('utf8'))
+                    name.append(("Ufergehoelz"))
 
                 if self.raster:
                     #Rasterdatensatz laden und auf gültigkeit prüfen
@@ -206,30 +157,21 @@ class WaldDialog(QtGui.QDialog, Ui_frmWald):
 
                     #Raster erzeugen und Darstellung zuweisen
                     raster = QgsRasterLayer(pfad_ind,basename)
-                    #raster.setContrastEnhancementAlgorithm(contrast) #Entspricht StretchToMinimumMaximum wenn wert 1
-                    #QtGui.QMessageBox.about(None, "Fehler", "nach raster")
+
                     if not raster.isValid():
-                        QtGui.QMessageBox.about(None, "Fehler", "Laden des Datensatzes fehlgeschlagen")
+                        QtWidgets.QMessageBox.about(None, "Fehler", "Laden des Datensatzes fehlgeschlagen")
                         return #Ausführung des Sub wird hier einfach abgebrochen
 
 
-                    QgsMapLayerRegistry.instance().addMapLayer(raster)
-
-                    #API up to 2.2
-                    if QGis.QGIS_VERSION_INT < 20300:
-                        #Der geladene Rasterlayer wird in der Legende
-                        #ganz nach unten gerückt
-                        self.legendTree = self.iface.mainWindow().findChild(QtGui.QDockWidget,"Legend").findChild(QtGui.QTreeWidget)
-                        dodl = self.legendTree.takeTopLevelItem(0)
-                        self.legendTree.addTopLevelItem(dodl)
-                    else:
-                        kindi = QgsProject.instance().layerTreeRoot().findLayer(raster.id())
-                        zwtsch = kindi.clone()
-                        QgsProject.instance().layerTreeRoot().insertChildNode(-1,zwtsch)
-                        kindi.parent().removeChildNode(kindi)
+                    #QgsMapLayerRegistry.instance().addMapLayer(raster)
+                    QgsProject.instance().addMapLayer( raster )
+                    kindi = QgsProject.instance().layerTreeRoot().findLayer(raster.id())
+                    zwtsch = kindi.clone()
+                    QgsProject.instance().layerTreeRoot().insertChildNode(-1,zwtsch)
+                    kindi.parent().removeChildNode(kindi)
 
 
-                    raster.setLayerName((anzeigename).decode('utf8')) #ACHTUNG: Damit wird auch erzwungen, daß die Layerdarstellung
+                    raster.setName((anzeigename)) #ACHTUNG: Damit wird auch erzwungen, daß die Layerdarstellung
                                                                 #(Reihenfolge) aktualisiert wird!!
                     anzeigename = ""
 

@@ -1,31 +1,28 @@
   # -*- coding: utf-8 -*-
 #!/usr/bin/python
 
-from PyQt4 import QtGui,QtCore
+from qgis.PyQt import QtGui, QtCore
 
 from qgis.core import *
 from gui_blattschnitte import *
-#API up to 2.2
-if QGis.QGIS_VERSION_INT < 20300:
-    from ProjektImport import *
-else:
-    from ProjektImport_24 import *
+from ProjektImport import *
+
 
 
 #Dies Klassendefinition öffnet das Frame für
 #die Auswahl der Datenebenen
-class BlsDialog(QtGui.QDialog, Ui_frmBlattschnitte):
+class BlsDialog(QtWidgets.QDialog, Ui_frmBlattschnitte):
     def __init__(self,iface,pfad = None):
-        QtGui.QDialog.__init__(self)
+        QtWidgets.QDialog.__init__(self)
         Ui_frmBlattschnitte.__init__(self)
 
         self.iface = iface
         # Set up the user interface from Designer.
         self.setupUi(self)
         self.pfad = pfad
-        self.checkButtonsGroup.setExclusive(False)      #wenn im Designer gesetzt, wirds beim Coderzeugen nicht übernommen
-                                                        #deshlab hier
-        self.blattschnitte = ProjektImport(self.iface)    #das Projekt Import Objekt instanzieren
+        self.checkButtonsGroup.setExclusive(False)          # wenn im Designer gesetzt, wirds beim Coderzeugen nicht übernommen
+                                                            # deshlab hier
+        self.blattschnitte = ProjektImport(self.iface)      # das Projekt Import Objekt instanzieren
 
     #klickt man auf OK wird diese Methode ausgeführt
     #Da die Layer recht heterogen geordnet sind ist das

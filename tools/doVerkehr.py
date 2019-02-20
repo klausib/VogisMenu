@@ -1,18 +1,15 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
 
-from PyQt4 import QtGui,QtCore
+from qgis.PyQt import QtGui,QtCore
 
 from qgis.core import *
 from gui_verkehr import *
 from gui_wegtafeln import *
 from osgeo import ogr
 from direk_laden import direk_laden
-#API up to 2.2
-if QGis.QGIS_VERSION_INT < 20300:
-    from ProjektImport import *
-else:
-    from ProjektImport_24 import *
+from ProjektImport import *
+
 
 
 
@@ -22,9 +19,9 @@ else:
 #Dies Klassendefinition öffnet das Frame für
 #die Auswahl der Datenebenen Verkehr und enthält
 #auch weitere M
-class VerkehrDialog(QtGui.QDialog, Ui_frmVerkehr):
+class VerkehrDialog(QtWidgets.QDialog, Ui_frmVerkehr):
     def __init__(self,parent,iface,pfad = None, vogisPfad = None, PGdb = None):
-        QtGui.QDialog.__init__(self,parent)
+        QtWidgets.QDialog.__init__(self,parent)
         Ui_frmVerkehr.__init__(self)
 
 
@@ -58,11 +55,17 @@ class VerkehrDialog(QtGui.QDialog, Ui_frmVerkehr):
                 elif   ("Gemeindestrasse" in button.objectName()):
                     self.fullpath = self.pfad + "Strasse/Vlbg/Ortsstrasse/ortsstrasse.qgs"
                     self.verkehr.importieren(self.fullpath)
+                elif   ("Beleuchtungsanlagen" in button.objectName()):
+                    self.fullpath = self.pfad + "Strasse/Vlbg/Leitungskataster/Beleuchtungsanlagen.qgs"
+                    self.verkehr.importieren(self.fullpath,['Beleuchtungsanlagen Land','Schrank Land','Beleuchtungsanlagen Stadt/Gemeinde','Schrank Stadt/Gemeinde','Zuleitung'],None,None,None,'Beleuchtungsanlagen')
                 elif   ("Bahn" in button.objectName()):
                     self.fullpath = self.pfad + "Bahn/Vlbg/OEBB_MBS/bahnlinie.qgs"
                     self.verkehr.importieren(self.fullpath)
-                elif   ("Oepnv" in button.objectName()):
+                elif   ("Oepnv_Verkehr" in button.objectName()):
                     self.fullpath = self.pfad + "Oepnv/Vlbg/oeffentlicher_verkehr/Oeffentlicher_Verkehr.qgs"
+                    self.verkehr.importieren(self.fullpath)
+                elif   ("Oepnv_Qualitaet" in button.objectName()):
+                    self.fullpath = self.pfad + "Oepnv/Vlbg/oeffentlicher_verkehr/Bedienqualitaet.qgs"
                     self.verkehr.importieren(self.fullpath)
                 elif   ("Seilbahn" in button.objectName()):
                     self.fullpath = self.pfad + "Aufstiegshilfe/Vlbg/Seilbahn/Seilbahn.qgs"
@@ -76,45 +79,26 @@ class VerkehrDialog(QtGui.QDialog, Ui_frmVerkehr):
                 elif   ("Gueterweg" in button.objectName()):
                     self.fullpath = self.vogisPfad + "Verkehr/Weg/Vlbg/Gueterweg"
 
-                    #schlampig: Legendenshape hier dazuladen
-##                    if self.db  != None:
-##                        try:
-##                            # Geodatenbank
-##                            uri = QgsDataSourceURI()
-##                            uri.setConnection(self.db.hostName(),str(self.db.port()),self.db.databaseName(),'','')  # Keine Kennwort nötig, Single Sign On
-##
-##                            # Geometriespalte bestimmen -- geht nur mit OGR
-##                            outputdb = ogr.Open('pg: host =' + self.db.hostName() + ' dbname =' + self.db.databaseName() + ' schemas=vorarlberg')
-##                            geom_column = outputdb.GetLayerByName('gueterwege').GetGeometryColumn()
-##
-##                            uri.setDataSource('vorarlberg', 'gueterwege', geom_column)
-##
-##                            gueterweg = QgsVectorLayer(uri.uri(), "gueterwege","postgres")
-##                        except:
-##                            QtGui.QMessageBox.about(None, "Fehler", "Layer ""gueterwege"" in der Datenbank nicht gefunden - es wird aufs Filesystem umgeschaltet")
-##                            gueterweg = QgsVectorLayer(self.fullpath + "/gueterwege.shp","Gueterwege","ogr")
-##                    else:
-##                        gueterweg = QgsVectorLayer(self.fullpath + "/gueterwege.shp","Gueterwege","ogr")
-##
+
                     gueterweg = direk_laden(self.db, "gueterwege", "gueterwege.shp", self.fullpath + "/",self.iface)
 
 
                     #und prüfen ob erfolgreich geladen
                     if not gueterweg.isValid(): #nicht erfolgreich geladen
-                        QtGui.QMessageBox.about(None, "Fehler", ("Güterwege konnte nicht geladen werden").decode('utf8'))
+                        QtWidgets.QMessageBox.about(None, "Fehler", ("Güterwege konnte nicht geladen werden"))
                     else:   #erfolgreich geladen
                         #dem Vektorlayer das QML File zuweisen
                         #flagge[1] ist false wenn das file nich gefunden wird
                         flagge = gueterweg.loadNamedStyle(self.fullpath + "/gueterwege.qml")
                         if flagge[1]:
                             #Legendenansicht aktualisieren
-                            self.iface.legendInterface().refreshLayerSymbology( gueterweg )
+                            self.iface.layerTreeView().refreshLayerSymbology( gueterweg.id() )
                         else:
-                            QtGui.QMessageBox.about(None, "Fehler", ("Güterweg QML konnte nicht zugewiesen werden!").decode('utf8'))
+                            QtWidgets.QMessageBox.about(None, "Fehler", ("Güterweg QML konnte nicht zugewiesen werden!"))
                         #Zur Map Layer registry hinzufügen damit der Layer
                         #dargestellt wird
-                        QgsMapLayerRegistry.instance().addMapLayer(gueterweg)
-                        gueterweg.setLayerName(("Güterwege").decode('utf8'))
+                        QgsProject.instance().addMapLayer(gueterweg)
+                        gueterweg.setName(("Güterwege"))
 
                 elif   ("Wanderwege" in button.objectName()):
                     self.fullpath = self.vogisPfad + "Verkehr/Weg/Vlbg/Wanderweg/wandern.qgs"
@@ -134,6 +118,9 @@ class VerkehrDialog(QtGui.QDialog, Ui_frmVerkehr):
                 elif   ("Lrr_beschildert" in button.objectName()):
                     self.fullpath = self.vogisPfad + "Verkehr/Weg/Vlbg/Radwegweiser/Landesradrouten_beschildert.qgs"
                     self.verkehr.importieren(self.fullpath)
+                elif   ("Radschnellverbindungen" in button.objectName()):
+                    self.fullpath = self.vogisPfad + "Verkehr/Weg/Vlbg/Radschnellverbindungen/Radschnellverbindungen.qgs"
+                    self.verkehr.importieren(self.fullpath,['Radschnellverbindungen'])
 
         self.mc.setRenderFlag(True)
 
@@ -156,7 +143,7 @@ class VerkehrDialog(QtGui.QDialog, Ui_frmVerkehr):
             wegtafelnlayer = vorhanden
             wegtafeln = WegtafelnDialog(self,wegtafelnlayer,self.mc)
         else:
-            QtGui.QMessageBox.about(None, "Layer fehlt", "Layer Wegweiser ist nicht geladen") #Fehlermedlung falls nicht
+            QtWidgets.QMessageBox.about(None, "Layer fehlt", "Layer Wegweiser ist nicht geladen") #Fehlermedlung falls nicht
             return
 
 
@@ -167,9 +154,9 @@ class VerkehrDialog(QtGui.QDialog, Ui_frmVerkehr):
         self.close()
 
 #diese Klasse bedient den Wegtafeln Dialog frmWegtafeln
-class WegtafelnDialog(QtGui.QDialog, Ui_frmWegtafeln):
+class WegtafelnDialog(QtWidgets.QDialog, Ui_frmWegtafeln):
     def __init__(self,parent,tafeln_layer,mc):
-        QtGui.QDialog.__init__(self,parent)
+        QtWidgets.QDialog.__init__(self,parent)
         Ui_frmVerkehr.__init__(self)
 
         self.setupUi(self)
@@ -203,7 +190,7 @@ class WegtafelnDialog(QtGui.QDialog, Ui_frmWegtafeln):
         #Wir erhalten die ListItem Liste der Auswahl (SingleMode Selection!)
         auswahl = self.lstNummern.selectedItems()
         if (len(auswahl) == 0):    #wenn nichts ausgewählt ist
-            QtGui.QMessageBox.about(None, ("Nichts ausgewählt").decode('utf8'), ("Bitte eine Wegtafel auswählen").decode('utf8'))
+            QtGui.QMessageBox.about(None, ("Nichts ausgewählt"), ("Bitte eine Wegtafel auswählen"))
             return #und Methode verlassen
 
         #da eine Mehrfachauswahl im ListWidget nicht möglich ist, index immer 0

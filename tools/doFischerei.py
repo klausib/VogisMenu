@@ -1,23 +1,19 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
 
-from PyQt4 import QtGui,QtCore
+from qgis.PyQt import QtGui, QtCore
 
 from qgis.core import *
 from gui_fischerei import *
-#API up to 2.2
-if QGis.QGIS_VERSION_INT < 20300:
-    from ProjektImport import *
-else:
-    from ProjektImport_24 import *
+from ProjektImport import *
 
 
 
 #Dies Klassendefinition öffnet das Frame für
 #die Auswahl der Datenebenen
-class FischereiDialog(QtGui.QDialog, Ui_frmFischerei):
+class FischereiDialog(QtWidgets.QDialog, Ui_frmFischerei):
     def __init__(self,parent,iface,pfad = None):
-        QtGui.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
+        QtWidgets.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
         Ui_frmFischerei.__init__(self)
 
         self.iface = iface
@@ -46,10 +42,7 @@ class FischereiDialog(QtGui.QDialog, Ui_frmFischerei):
             if button.isChecked():
 
                 if   ("Fischereireviere" in button.objectName()):
-
                     pfad_ind = self.pfad + "/Vlbg/Fischereireviere/fischereireviere.qgs"
-
-
 
 
                 self.fischerei.importieren(pfad_ind) #ACHTUNG. name muß vom Typ Liste sein!!

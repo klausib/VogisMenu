@@ -2,24 +2,22 @@
 #!/usr/bin/python
 
 
-from PyQt4 import QtGui,QtCore, QtSql
+from qgis.PyQt import QtGui, QtCore, QtSql
 
 from qgis.core import *
 from qgis.gui import *
 from gui_geonam import *
 #from globale_variablen import *     #Die Adresse der Listen importieren: Modulübergreifende globale Variablen sind so möglich
 
-#API up to 2.2
-if QGis.QGIS_VERSION_INT < 20300:
-    from ProjektImport import *
-else:
-    from ProjektImport_24 import *
+
+from ProjektImport import *
+from doTextAnno import *
 import sys
 import string
 
-class Geonam(QtGui.QDialog, Ui_frmGeonam):
+class Geonam(QtWidgets.QDialog, Ui_frmGeonam):
     def __init__(self,iface,pfad = None, name = None, geonamgrafik = None, db = None, pg_table = ''):
-        QtGui.QDialog.__init__(self)
+        QtWidgets.QDialog.__init__(self)
         Ui_frmGeonam.__init__(self)
 
         self.iface = iface
@@ -36,25 +34,25 @@ class Geonam(QtGui.QDialog, Ui_frmGeonam):
 
 
         if self.db == None: # Filesystem -> SQLITE
-            #QtGui.QMessageBox.about(None, "Achtung", 'SQLITE')
+
             #Referenz auf die Datenquelle
             #Direkt über SQLITE
             self.db = QtSql.QSqlDatabase.addDatabase("QSQLITE");
             self.db.setDatabaseName(self.pfad + self.name + ".sqlite");
             self.db.setConnectOptions('QSQLITE_OPEN_READONLY')
             self.tablename = 'geonam'
-            #fehlverbindung abfangen
+            #Fehlverbindung abfangen
             if  not (self.db.open()):
                 QtGui.QMessageBox.about(None, "Achtung", ("Öffnen ÖK Geonam gescheitert").decode("utf-8"))
                 return
         else:
             self.tablename = 'vorarlberg.' + pg_table
             self.pg_flag = True
+
         #Abfragen instanzieren
         self.abfrage = QtSql.QSqlQuery(self.db)
-        #self.abfrage.exec_("SELECT  BEGRIFF  FROM geonam order by BEGRIFF")
         self.abfrage.exec_("SELECT  begriff  FROM " + self.tablename + " order by begriff")
-        #QtGui.QMessageBox.about(None, "Achtung", str(self.tablename) + ' ' + str(self.db.open()))
+
 
         #Modelle instanzieren (Anzeige im Listenfeld)
         self.modelli = QtSql.QSqlQueryModel()
@@ -128,81 +126,49 @@ class Geonam(QtGui.QDialog, Ui_frmGeonam):
         self.btnAnzeigen.setDisabled(False)
 
 
-    #Wird auf den button anzeigen geklickt wird diese Methode als
-    #Slot ausgeführt!
+    # Wird auf den button anzeigen geklickt wird diese Methode als
+    # Slot ausgeführt!
     def geonamZoom(self):
-        #wieder nur lokale Variable....
-        mc=self.iface.mapCanvas()
 
-        #Ist die GraphiksItemGroup auf None gesetzt (durch das aktivieren der
-        #löschroutine geonamclear oder durch erstmaliges Verwende vom VogisMenü aus
-        #muß sie (wieder) erzeugt werden
-        if self.geonamgrafik is None:
-            self.geonamgrafik = QtGui.QGraphicsItemGroup(None,mc.scene())
-
-
-        height2 = 50 #50m Toleranz
-        width2 = 50 #50m Toleranz
-        #rect = QgsRectangle(self.Rechtswert[0] -width2, self.Hochwert[0] -height2, self.Rechtswert[0] +width2, self.Hochwert[0] +height2)
-        rect = QgsRectangle(self.Rechtswert -width2, self.Hochwert -height2, self.Rechtswert +width2, self.Hochwert +height2)
-
-
-        # dann den extent setzen
-        mc.setExtent(rect)
-        #und auf den Maßstab 3000 reinzoomen
-        #mc.zoomScale(scale)
-
-        #Tip: Style Exportieren, im XML stehen dann die Properties, dort einfach rausnehmen
+        # Tip: Style Exportieren, im XML stehen dann die Properties, dort einfach rausnehmen
         #damit man weiß was es für Properties gibt!!
         #diese props gelten für das Kreuzchen das auf die Adresskoordinate gesetzt wird
         props = { 'color' : '255,0,0', 'color_border' : '255,0,0' , 'name' : 'cross', 'size' : '4' }
 
-        #Ein textgrafikobjekt für die Textdarstellung erzeugen
-        text = QtGui.QTextDocument(self)
-
-        #Das Fontobjekt fürs Textobjekt
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        text.setDefaultFont(font)
-        text.setHtml("<font color = \"#FF0000\">" + self.Text + "</font>")
-
-         # Benötigte Framgröße
-        frame_groesse = text.size()
-
-
         #Hilfspunkt zur Text/Kreuzchen Positionierung
-        #punkti = QgsPoint(self.Rechtswert[0],self.Hochwert[0])
-        punkti = QgsPoint(self.Rechtswert,self.Hochwert)
+        punkti = QgsPointXY(self.Rechtswert,self.Hochwert)
 
         #Offset der Textposition
         Offset = QtCore.QPointF()
         Offset.setX(0)
         Offset.setY(0)
 
-         #DAS objekt um Kreuzchen und Text zu zeichnen
-        textAnno = QgsTextAnnotationItem(self.iface.mapCanvas())
-        textAnno.setFrameSize(frame_groesse)   # ohne Framgröße keine Darstellung im Drucklayout
-        textAnno.setMapPosition(punkti)
-        textAnno.setFrameBorderWidth(0.0)
-        textAnno.setOffsetFromReferencePoint(Offset)
+        # wieder nur lokale Variable....
+        mc=self.iface.mapCanvas()
 
-        textAnno.setDocument(text)  #Text zuweisen
-        farbe = textAnno.frameColor()   #die Framefarbe auf unsichtbar schalten
-        farbe.setAlpha(0)               #sonst gibts ein kleines Darstellungsartefakt
-        textAnno.setFrameColor(farbe)
+        #Ist die GraphiksItemGroup auf None gesetzt (durch das aktivieren der
+        #löschroutine geonamclear oder durch erstmaliges Verwende vom VogisMenü aus
+        #muß sie (wieder) erzeugt werden
+        if self.geonamgrafik is None:
+            self.geonamgrafik = QtWidgets.QGraphicsItemGroup()
+            mc.scene().addItem(self.geonamgrafik)
 
-        #textAnno.setMarkerSymbol geht nicht!!
-        #deshalb so: wir wollen nicht den Standardknödel
-        #sondern ein rotes Kreuzchen
-        s = textAnno.markerSymbol() #1. das eingestellte Marker Symbol holen
-        #Die neuen Properties...
-        sl = QgsSymbolLayerV2Registry.instance().symbolLayerMetadata("SimpleMarker").createSymbolLayer(props)   #in der Schleife sonst Probleme im Qgis
 
-        s.changeSymbolLayer(0,sl)   #2. das neue Symbol zuweisen
-        self.geonamgrafik.addToGroup(textAnno)  #WICHTIG: zur QGraphicsItemGroup
-                                                #damit es auch beim löschen in dieser ganz
-                                                #klar zugeordnet ist
+        height2 = 50 #50m Toleranz
+        width2 = 50 #50m Toleranz
+        rect = QgsRectangle(self.Rechtswert -width2, self.Hochwert -height2, self.Rechtswert +width2, self.Hochwert +height2)
 
+
+
+        # dann den extent setzen
+        mc.setExtent(rect)
+
+        # Das spezielle QgsMapCanvasAnnotationItem Objekt
+        zeichne_mich = draw_text_class(mc,self.Text,props,punkti,Offset)
+        self.textanno = zeichne_mich.gen()
+        self.geonamgrafik.addToGroup(self.textanno) # WICHTIG: zur QGraphicsItemGroup
+                                                    # damit es auch beim löschen in dieser ganz
+                                                    # klar zugeordnet ist
 
         #anzeige refreshen
         mc.refresh()
@@ -214,7 +180,7 @@ class Geonam(QtGui.QDialog, Ui_frmGeonam):
     def imlistenfeldsuchen(self):
 
         #Abfrage mit Textinhalt im Lineditfeld machen
-        self.abfrage.exec_("SELECT  BEGRIFF  FROM  " + self.tablename + "  where lower(BEGRIFF) LIKE '%" + string.lower(self.linSuche.text()) + "%' order by BEGRIFF")
+        self.abfrage.exec_("SELECT  BEGRIFF  FROM  " + self.tablename + "  where lower(BEGRIFF) LIKE '%" + str.lower(self.linSuche.text()) + "%' order by BEGRIFF")
 
         #und das dazugehörige Modell erzeugen
         #das dann dem ListView hinterlegt wird
@@ -238,14 +204,14 @@ class Geonam(QtGui.QDialog, Ui_frmGeonam):
     def abbrechen(self):
         self.close()
 
-    #Hier nochmal ganz was wichtigs: Diese Methode ist ein Slot der
-    #aufgerufen wird, wenn die GUI der Geonamsuche geschlossen wird (und mit ihm alle Kindobjekte)
-    #damit wir aber auch später noch die eventuell eingefügten Geonam Grafikobjekte identifizieren
-    #können und dadurch gesondert löschen, werden diese in der QGraphicsItemGroup zusammengefaßt
-    #und hier kurz vor dem Ende an VogisMain zurückgegeben!! VogisMain behält das und gibt beim
-    #nächsten Aufruf der Geonamsuche diese wieder mit. Dort können dann weitere hinzugefügt werden oder alle gelöscht
-    #würde man dies nicht so machen kann man immer nur alle Grafikobjekte löschen, und das könnten
-    #den User ärgern...
+    # Hier nochmal ganz was wichtigs: Diese Methode ist ein Slot der
+    # aufgerufen wird, wenn die GUI der Geonamsuche geschlossen wird (und mit ihm alle Kindobjekte)
+    # damit wir aber auch später noch die eventuell eingefügten Geonam Grafikobjekte identifizieren
+    # können und dadurch gesondert löschen, werden diese in der QGraphicsItemGroup zusammengefaßt
+    # und hier kurz vor dem Ende an VogisMain zurückgegeben!! VogisMain behält das und gibt beim
+    # nächsten Aufruf der Geonamsuche diese wieder mit. Dort können dann weitere hinzugefügt werden oder alle gelöscht
+    # würde man dies nicht so machen kann man immer nur alle Grafikobjekte löschen, und das könnten
+    # den User ärgern...
     def grafikreturn(self):
         return self.geonamgrafik
 

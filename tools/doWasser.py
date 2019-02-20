@@ -1,29 +1,22 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
 
-from PyQt4 import QtGui,QtCore
+from qgis.PyQt import QtGui,QtCore
 
 from qgis.core import *
 from gui_wasser import *
 from qgis.gui import *
 from qgis.analysis import *
-#API up to 2.2
-if QGis.QGIS_VERSION_INT < 20300:
-    from ProjektImport import *
-else:
-    from ProjektImport_24 import *
+from ProjektImport import *
 import os
-
-
-
 
 
 
 #Die Klassendefinition öffnet das Frame für
 #die Auswahl der Datenebenen Wasser
-class WasserDialog(QtGui.QDialog, Ui_frmWasser):
+class WasserDialog(QtWidgets.QDialog, Ui_frmWasser):
     def __init__(self,parent,iface,pfad = None):
-        QtGui.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog
+        QtWidgets.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog
         Ui_frmWasser.__init__(self)
 
 
@@ -36,10 +29,6 @@ class WasserDialog(QtGui.QDialog, Ui_frmWasser):
                                             #deshalb hier
 
         self.wasser = ProjektImport(self.iface)    #das Projekt Import Objekt instanzieren
-
-
-
-
 
 
 
@@ -59,10 +48,6 @@ class WasserDialog(QtGui.QDialog, Ui_frmWasser):
             if button.isChecked(): #wenn gecket wird geladen
                 if   ("Brunnen" in button.objectName()):
                     self.fullpath = self.pfad + "Brunnen/Vlbg/Brunnen/brunnen.qgs"
-                    self.wasser.importieren(self.fullpath)
-
-                elif   ("ckQuellen" in button.objectName()):
-                    self.fullpath = self.pfad + "Quellen/Vlbg/Quellpunkte/quellen.qgs"
                     self.wasser.importieren(self.fullpath)
 
                 elif   ("SchutzSchongebiete" in button.objectName()):
@@ -133,6 +118,14 @@ class WasserDialog(QtGui.QDialog, Ui_frmWasser):
                     self.fullpath  = self.pfad +  "Messstellen/Vlbg/Messstellen/grundwasser_messstellen.qgs"
                     self.wasser.importieren(self.fullpath,None,"grundwasser",False, False, None, None, False)
 
+                elif   ("Quellenmessstellen" in button.objectName()):
+                    self.fullpath  = self.pfad +  "Messstellen/Vlbg/Messstellen/quellen_messstellen.qgs"
+                    self.wasser.importieren(self.fullpath,None,"quellen",False, False, None, None, False)
+
+                elif   ("ckQuellen" in button.objectName()):
+                    self.fullpath = self.pfad + "Quellen/Vlbg/Quellpunkte/quellen.qgs"
+                    self.wasser.importieren(self.fullpath)
+
                 elif   ("Grundwasserfelder" in button.objectName()):
                     self.fullpath  = self.pfad +  "Grundwasser/Vlbg/Grundwasserfelder/grundwasserfelder.qgs"
                     self.wasser.importieren(self.fullpath)
@@ -146,7 +139,7 @@ class WasserDialog(QtGui.QDialog, Ui_frmWasser):
                     self.wasser.importieren(self.fullpath,None,"Vlbg_Umgebung17",False, False, None, None, False)
 
                 elif   ("Gewaessernetz2012Vlbg" in button.objectName()):
-                    self.fullpath  = self.pfad +  "Fluesse/Vlbg/Fluesse1t/Fluesse1t.qgs"
+                    self.fullpath  = self.pfad +  "Fluesse/Vlbg_Umgebung/Fluesse1t/fluesse1t_nur_vorarlberg.qgs"
                     self.wasser.importieren(self.fullpath,None,"Vlbg12",False, False, None, None, False)
 
                 elif   ("Gewaessernetz2012Umgebung" in button.objectName()):
@@ -161,24 +154,32 @@ class WasserDialog(QtGui.QDialog, Ui_frmWasser):
                     self.fullpath  = self.pfad +  "Fluesse/Vlbg_Umgebung/Fluesse50t/Fluesse50t.qgs"
                     self.wasser.importieren(self.fullpath,None,"Vlbg_Umgebung00",False, False, None, None, False)
 
+                elif   ("Gewaesserbewirtschaftungsplan2015" in button.objectName()):
+                    self.fullpath  = self.pfad +  "Fluesse/Vlbg/ngp/NGP2015.qgs"
+                    self.wasser.importieren(self.fullpath,None,None,False, False, None, None, False)
+
                 elif   ("Direkteinleitungen" in button.objectName()):
-                    self.fullpath  = self.pfad +  "Fluesse/Vlbg/Strukturzustand/direkteinleitungen2012.qgs"
+                    self.fullpath  = self.pfad +  "Fluesse/Vlbg/Strukturzustand/direkteinleitungen.qgs"
                     self.wasser.importieren(self.fullpath,None,"Strukturzustand",False, False, None, None, False)
 
                 elif   ("Kontinuumsunterbrechungen" in button.objectName()):
-                    self.fullpath  = self.pfad +  "Fluesse/Vlbg/Strukturzustand/kontinuumsunterbrechungen2012.qgs"
+                    self.fullpath  = self.pfad +  "Fluesse/Vlbg/Strukturzustand/kontinuumsunterbrechungen.qgs"
                     self.wasser.importieren(self.fullpath,None,"Strukturzustand",False, False, None, None, False)
 
-                elif   (("SohleBoeschung").decode('utf8') in button.objectName()):
-                    self.fullpath  = self.pfad +  "Fluesse/Vlbg/Strukturzustand/sohle_boeschung2012.qgs"
+                elif   (("SohleBoeschung") in button.objectName()):
+                    self.fullpath  = self.pfad +  "Fluesse/Vlbg/Strukturzustand/sohle_boeschung.qgs"
                     self.wasser.importieren(self.fullpath,None,"Strukturzustand",False, False, None, None, False)
 
                 elif   ("Strukturzustand" in button.objectName()):
-                    self.fullpath  = self.pfad +  "Fluesse/Vlbg/Strukturzustand/strukturzustand2012.qgs"
+                    self.fullpath  = self.pfad +  "Fluesse/Vlbg/Strukturzustand/strukturzustand.qgs"
                     self.wasser.importieren(self.fullpath,None,"Strukturzustand",False, False, None, None, False)
 
                 elif   ("Ufervegetation" in button.objectName()):
-                    self.fullpath  = self.pfad +  "Fluesse/Vlbg/Strukturzustand/ufervegetation2012.qgs"
+                    self.fullpath  = self.pfad +  "Fluesse/Vlbg/Strukturzustand/ufervegetation.qgs"
+                    self.wasser.importieren(self.fullpath,None,"Strukturzustand",False, False, None, None, False)
+
+                elif   ("Abflussregime" in button.objectName()):
+                    self.fullpath  = self.pfad +  "Fluesse/Vlbg/Strukturzustand/abflussregime.qgs"
                     self.wasser.importieren(self.fullpath,None,"Strukturzustand",False, False, None, None, False)
 
                 elif   ("ckBodenseeAlles" in button.objectName()):
@@ -230,9 +231,7 @@ class WasserDialog(QtGui.QDialog, Ui_frmWasser):
 
 
 
-
         self.iface.mapCanvas().setRenderFlag(True)
-
 
 
 

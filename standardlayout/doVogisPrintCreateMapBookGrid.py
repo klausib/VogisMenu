@@ -1,6 +1,6 @@
  # -*- coding: utf8 -*-
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from qgis.PyQt import *
+from qgis.PyQt import *
 from qgis.core import *
 from qgis.gui import *
 #from soverify.tools.dbTools import DbObj
@@ -9,7 +9,7 @@ from VogisPrint_Utils import *
 #import os
 
 
-class CreateMapBookGrid( QObject ):
+class CreateMapBookGrid( QtCore.QObject ):
 
     def __init__( self, iface, gridType, printScale, printFormat, layoutIndex, layerName, dkm_stand):
         self.iface = iface
@@ -27,10 +27,11 @@ class CreateMapBookGrid( QObject ):
     def run( self ):
 
         # Does not work with geographic coordinate systems.
-        projectEPSG = self.canvas.mapRenderer().destinationCrs().toProj4()
+        #projectEPSG = self.canvas.mapRenderer().destinationCrs().toProj4()
+        projectEPSG = self.canvas.mapSettings().destinationCrs().toProj4()
         if str.find(str(projectEPSG),  "+proj=longlat") >= 0:
             # FIXME Überstzung !
-            QMessageBox.warning( None, "", "EasyPrint Mapbook Grid does not work with geographic coordinate systems.")
+            QtWidgets.QMessageBox.warning( None, "", "EasyPrint Mapbook Grid does not work with geographic coordinate systems.")
             return
 
 
@@ -38,7 +39,7 @@ class CreateMapBookGrid( QObject ):
         #QMessageBox.about(None, "doVogisPrintCreateMapBookGrid.py:35", "self.layerName %s" %(self.layerName))
         mapLayer = getLayerByName(self.layerName)
         if mapLayer == None:
-            QMessageBox.warning( None, "Fehler !", "Kein Layer gefunden.")
+            QtWidgets.QMessageBox.warning( None, "Fehler !", "Kein Layer gefunden.")
             return
 
         mapType = mapLayer.type()
@@ -49,26 +50,26 @@ class CreateMapBookGrid( QObject ):
         if self.gridType == 3:
 
             # FIXME Wie diese Grid-Memory-Layers uebersetzen ?
-            text = QCoreApplication.translate("grid-memoryName-typ3", "Mapbook linear")
+            text = QtWidgets.QApplication.translate("grid-memoryName-typ3", "Mapbook linear")
             self.memoryName = text
 
-            if mapType <> QgsMapLayer.VectorLayer:
-                QMessageBox.warning( None, "", "EasyPrint Mapbook Linear will not work with raster layers.")
+            if mapType != QgsMapLayer.VectorLayer:
+                QtWidgets.QMessageBox.warning( None, "", "EasyPrint Mapbook Linear will not work with raster layers.")
                 return
 
-            if mapLayer.geometryType() <> 1:
-                QMessageBox.warning( None, "", "EasyPrint Mapbook Linear will only work with linestring layers.")
+            if mapLayer.geometryType() != 1:
+                QtGui.QMessageBox.warning( None, "", "EasyPrint Mapbook Linear will only work with linestring layers.")
                 return
 
         else:
             # FIXME Wie diese Grid-Memory-Layers uebersetzen ?
-            text = QCoreApplication.translate("grid-memoryName", "Mapbook grid")
+            text = QtWidgets.QApplication.translate("grid-memoryName", "Mapbook grid")
             self.memoryName = text
 
             if mapType == QgsMapLayer.VectorLayer:
                 if mapLayer.geometryType() == 0:
                     # FIXME Translation
-                    QMessageBox.warning( None, "", "Point layers do not work.")
+                    QtWidgets.QMessageBox.warning( None, "", "Point layers do not work.")
                     return
 
 
@@ -76,30 +77,29 @@ class CreateMapBookGrid( QObject ):
 
         # Vorhandene Grids entfernen
         memlayername = self.memoryName
-##        QString.fromUtf8(memlayername)
         memlayer_vorhanden = getVectorLayerByName(memlayername)
         if memlayer_vorhanden == None:
             #QMessageBox.about(None, "doVogisPrintCreateMapBookGrid.py:78", "kein memorylayer vorhanden")
             pass
         else:
-            QgsMapLayerRegistry.instance().removeMapLayers( [memlayer_vorhanden.id()] )
+            QgsProject.instance().removeMapLayers( [memlayer_vorhanden.id()] )
             #QMessageBox.about(None, "doVogisPrintCreateMapBookGrid.py:83", "memorylayer geloescht")
 
 
         memlayer = QgsVectorLayer("Polygon", self.memoryName, "memory")
-        qml = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + '/python/plugins/VogisMenu/standardlayout/styles/regular_grid_andy.qml'))
+        qml = QtCore.QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + '/python/plugins/VogisMenu/standardlayout/styles/regular_grid_andy.qml')
         memlayer.loadNamedStyle(qml)
         memprovider = memlayer.dataProvider()
-        memprovider.addAttributes( [ QgsField("name", QVariant.String), QgsField("rotation", QVariant.Double), QgsField("printformat", QVariant.String), QgsField("printscale", QVariant.Double), QgsField("layoutindex", QVariant.Int)] )
-        QgsMapLayerRegistry.instance().addMapLayer(memlayer, True)
-##        memlayer.updateFieldMap()
+        memprovider.addAttributes( [ QgsField("name", QtCore.QVariant.String), QgsField("rotation", QtCore.QVariant.Double), QgsField("printformat", QtCore.QVariant.String), QgsField("printscale", QtCore.QVariant.Double), QgsField("layoutindex", QtCore.QVariant.Int)] )
+
+        QgsProject.instance().addMapLayer(memlayer, True)
         memlayer.updateFields()
-        memlayer.setCrs( self.canvas.mapRenderer().destinationCrs() )
+        memlayer.setCrs( self.canvas.mapSettings().destinationCrs() )
 
         # Hier sicherheitshabler nochmal prüfen
         mapLayer = getLayerByName(self.layerName)
         if mapLayer == None:
-            QMessageBox.critical( None, "Fehler !", "Kein Layer %s gefunden." %(self.layerName))
+            QtWidgets.QMessageBox.critical( None, "Fehler !", "Kein Layer %s gefunden." %(self.layerName))
             return
 
 
@@ -128,7 +128,7 @@ class CreateMapBookGrid( QObject ):
 
             mapWidth,  mapHeight = self.getMapExtent()
             rect = QgsRectangle (0, 0, mapWidth, mapHeight)
-            QMessageBox.about(None, "doVogisPrintCreateMapBookGrid.py:108", "mapWidth %d  mapHeight %d  self.gridType %d" %(self.printScale, mapType,  self.gridType))
+            QtWidgets.QMessageBox.about(None, "doVogisPrintCreateMapBookGrid.py:108", "mapWidth %d  mapHeight %d  self.gridType %d" %(self.printScale, mapType,  self.gridType))
 
             # while schleife solange SELF.startPoint vorhanden ist. sonst ist ja der Rest innerhalb des Frames.
             # vielleicht noch zur sicherheit ein maximum...
@@ -158,16 +158,7 @@ class CreateMapBookGrid( QObject ):
                 optimalPoint = rotate(QgsGeometry.fromPoint(QgsPoint(startPoint.x()+mapWidth, startPoint.y())), startPoint, i*math.pi/180).asPoint()
                 toleranceSqrDist = (((optimalPoint.sqrDist(g.vertexAt(1)))**0.5)*0.5)**2   # Multiplikator (halbe Strecke) frei waehlbar.
 
-                f.setAttributeMap( { 0 : QVariant(str(i)), 1 : QVariant(float(0.0)), 2 : QVariant(str(self.printFormat)), 3 : QVariant(float(self.printScale[3:])), 4 : QVariant(int(self.layoutIndex)) } )
-
-                #print "*************************"
-                #print f.attributeMap()[0].type()
-
-
-#                f.setGeometry(g)
-#                memprovider.addFeatures( [ f ] )
-
-
+                f.setAttributeMap( { 0 : QtCore.QVariant(str(i)), 1 : QtCore.QVariant(float(0.0)), 2 : QtCore.QVariant(str(self.printFormat)), 3 : QtCore.QVariant(float(self.printScale[3:])), 4 : QtCore.QVariant(int(self.layoutIndex)) } )
 
                 boundary = QgsGeometry.fromPolyline(g.asPolygon()[0])
                 boundaryIntersection = boundary.intersection(QgsGeometry.fromPolyline(line))
@@ -180,8 +171,7 @@ class CreateMapBookGrid( QObject ):
                     result = boundaryIntersection.asMultiPoint()
                 else:
                     dummy.append(str(i))
-                    print "Should not reach here"
-                    QMessageBox.warning( None, "", "Should not reach here. Unknown geometry type.")
+                    QtWidgets.QMessageBox.warning( None, "", "Should not reach here. Unknown geometry type.")
                     return
 
                 # Es ist ja auch möglich, dass ein Stück Geometrie, das momentan noch nicht interessiert (weiter vorne liegt) bereits im
@@ -212,7 +202,7 @@ class CreateMapBookGrid( QObject ):
                                 continue
 
                         polygonIntersection = g.intersection(lineGeom)
-                        print polygonIntersection.wkbType()
+                        #print polygonIntersection.wkbType()
                         if polygonIntersection.wkbType() == 5:
                             mpolyline = polygonIntersection.asMultiPolyline()
                             for k in range(len(mpolyline)):
@@ -223,7 +213,8 @@ class CreateMapBookGrid( QObject ):
                         elif polygonIntersection.wkbType() == 2:
                             polyline = polygonIntersection.asPolyline()
                         else:
-                            print "should never reach here #2"
+                            pass
+                            #print "should never reach here #2"
 
 
                     if len(result) % 2 == 1 and g.intersects(QgsGeometry.fromPoint(lastPoint)):
@@ -237,7 +228,8 @@ class CreateMapBookGrid( QObject ):
                                 else:
                                     polyline = mpolyline[j]
                         else:
-                            print "should never reach here #3"
+                            pass
+                            #print "should never reach here #3"
 
 
 
@@ -247,7 +239,7 @@ class CreateMapBookGrid( QObject ):
 
 
                     polylineGeom = QgsGeometry.fromPolyline(polyline)
-#                    print polylineGeom.asPolyline()
+                    #print polylineGeom.asPolyline()
                     f.setGeometry(polylineGeom)
                     memprovider.addFeatures( [ f ] )
 
@@ -269,7 +261,7 @@ class CreateMapBookGrid( QObject ):
             extent = mapLayer.extent()
 
             if mapWidth < 1 or mapHeight < 1:
-                QMessageBox.critical(None, "Achtung!", "mapWidth %s  mapHeight %s  " %(mapWidth, mapHeight))
+                QtWidgets.QMessageBox.critical(None, "Achtung!", "mapWidth %s  mapHeight %s  " %(mapWidth, mapHeight))
                 return
 
 
@@ -290,7 +282,6 @@ class CreateMapBookGrid( QObject ):
                     f = QgsFeature()
                     f.setGeometry(QgsGeometry.fromRect(rect))
                     # Attribute einfügen
-##                    f.setAttributeMap( { 0 : QVariant(str(i) + "." + str(j)), 1 : QVariant(float(0.0)), 2 : QVariant(str(self.printFormat)), 3 : QVariant(self.printScale), 4 : QVariant(int(self.layoutIndex)), 5 : QVariant(int(self.overlapPercentage)) } )
                     f.setAttributes( [ (str(i) + "." + str(j)), (float(0.0)), (str(self.printFormat)),  (self.printScale), (int(self.layoutIndex)) ] )
 
                     if self.gridType == 2 and mapType == QgsMapLayer.VectorLayer:
@@ -308,15 +299,14 @@ class CreateMapBookGrid( QObject ):
                         memprovider.addFeatures( [ f ] )
 
             memlayer.updateExtents()
-            self.iface.legendInterface().setLayerVisible(memlayer,  True)
-            self.iface.mapCanvas().refresh()
+
 
 
     # --------------------------------------------------------------------------------------
     # createSpatialIndex()
     # --------------------------------------------------------------------------------------
     def createSpatialIndex( self, layer ):
-        if layer == None or layer.type() <> 0:
+        if layer == None or layer.type() != 0:
             return
         self.layer = layer
         self.provider = layer.dataProvider()
@@ -399,5 +389,5 @@ class CreateMapBookGrid( QObject ):
 
     def accept(self):
         if self.mbfexportpath.text() == "":
-            QMessageBox.warning( None, "", QtCore.QString.fromUtf8("Kein Pfad für den Export gewählt!"))
+            QtWidgets.QMessageBox.warning( None, "", QtCore.QString.fromUtf8("Kein Pfad für den Export gewählt!"))
             return

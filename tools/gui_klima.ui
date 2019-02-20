@@ -65,8 +65,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>329</width>
-      <height>179</height>
+      <width>327</width>
+      <height>177</height>
      </rect>
     </property>
     <attribute name="label">
@@ -85,7 +85,7 @@
       <string>Mittleres Jahresmaximum der Lufttemperatur</string>
      </property>
      <attribute name="buttonGroup">
-      <string>ckButtons</string>
+      <string notr="true">ckButtons</string>
      </attribute>
     </widget>
     <widget class="QCheckBox" name="ckTempJahresmittel">
@@ -101,7 +101,7 @@
       <string>Jahresmittel der Lufttemperatur</string>
      </property>
      <attribute name="buttonGroup">
-      <string>ckButtons</string>
+      <string notr="true">ckButtons</string>
      </attribute>
     </widget>
     <widget class="QCheckBox" name="ckHeisstage">
@@ -117,7 +117,7 @@
       <string>Mittlere Zahl von heissen Tagen</string>
      </property>
      <attribute name="buttonGroup">
-      <string>ckButtons</string>
+      <string notr="true">ckButtons</string>
      </attribute>
     </widget>
     <widget class="QCheckBox" name="ckEistage">
@@ -133,7 +133,7 @@
       <string>Mittlere Zahl von Eistagen</string>
      </property>
      <attribute name="buttonGroup">
-      <string>ckButtons</string>
+      <string notr="true">ckButtons</string>
      </attribute>
     </widget>
     <widget class="QCheckBox" name="ckHeizgrad">
@@ -149,7 +149,7 @@
       <string>Mittlere jährliche Heizgradtagszahl</string>
      </property>
      <attribute name="buttonGroup">
-      <string>ckButtons</string>
+      <string notr="true">ckButtons</string>
      </attribute>
     </widget>
     <widget class="QCheckBox" name="ckVegetationsperiode">
@@ -165,7 +165,7 @@
       <string>Dauer der Vegetationsperiode</string>
      </property>
      <attribute name="buttonGroup">
-      <string>ckButtons</string>
+      <string notr="true">ckButtons</string>
      </attribute>
     </widget>
    </widget>
@@ -174,8 +174,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>329</width>
-      <height>179</height>
+      <width>327</width>
+      <height>177</height>
      </rect>
     </property>
     <attribute name="label">
@@ -187,8 +187,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>329</width>
-      <height>179</height>
+      <width>327</width>
+      <height>177</height>
      </rect>
     </property>
     <attribute name="label">
@@ -200,19 +200,19 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>329</width>
-      <height>179</height>
+      <width>327</width>
+      <height>177</height>
      </rect>
     </property>
     <attribute name="label">
      <string>Niederschlag</string>
     </attribute>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>246</width>
+       <width>247</width>
        <height>65</height>
       </rect>
      </property>
@@ -223,7 +223,7 @@
          <string>Jahresniederschlagssumme</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -233,7 +233,7 @@
          <string>Anzahl der Tage mit mind. 1 mm Niederschlag</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -243,7 +243,7 @@
          <string>Anzahl der Tage mit mind. 10 mm Niederschlag</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -255,8 +255,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>329</width>
-      <height>179</height>
+      <width>327</width>
+      <height>177</height>
      </rect>
     </property>
     <attribute name="label">
@@ -268,8 +268,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>329</width>
-      <height>179</height>
+      <width>327</width>
+      <height>177</height>
      </rect>
     </property>
     <attribute name="label">
@@ -281,8 +281,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>329</width>
-      <height>179</height>
+      <width>327</width>
+      <height>177</height>
      </rect>
     </property>
     <attribute name="label">
@@ -294,8 +294,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>329</width>
-      <height>179</height>
+      <width>327</width>
+      <height>177</height>
      </rect>
     </property>
     <attribute name="label">
@@ -307,8 +307,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>329</width>
-      <height>179</height>
+      <width>327</width>
+      <height>177</height>
      </rect>
     </property>
     <attribute name="label">
@@ -320,8 +320,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>329</width>
-      <height>179</height>
+      <width>327</width>
+      <height>177</height>
      </rect>
     </property>
     <attribute name="label">

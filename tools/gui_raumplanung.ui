@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>270</y>
+     <y>290</y>
      <width>101</width>
      <height>23</height>
     </rect>
@@ -30,7 +30,7 @@
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>270</y>
+     <y>290</y>
      <width>101</width>
      <height>23</height>
     </rect>
@@ -45,17 +45,43 @@
      <x>50</x>
      <y>20</y>
      <width>195</width>
-     <height>231</height>
+     <height>249</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QCheckBox" name="ckGruenzone">
+     <widget class="QCheckBox" name="ckFundzonen">
       <property name="enabled">
        <bool>true</bool>
       </property>
       <property name="text">
-       <string>Grünzone</string>
+       <string>Archäologische Fundzonen</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>ckButtons</string>
+      </attribute>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="ckBauflaechen">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="text">
+       <string>Bauflächen-Nutzung</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string>ckButtons</string>
+      </attribute>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="ckBlauzone">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="text">
+       <string>Blauzone</string>
       </property>
       <attribute name="buttonGroup">
        <string>ckButtons</string>
@@ -89,12 +115,12 @@
      </widget>
     </item>
     <item>
-     <widget class="QCheckBox" name="ckBauflaechen">
+     <widget class="QCheckBox" name="ckGruenzone">
       <property name="enabled">
        <bool>true</bool>
       </property>
       <property name="text">
-       <string>Bauflächen-Nutzung</string>
+       <string>Grünzone</string>
       </property>
       <attribute name="buttonGroup">
        <string>ckButtons</string>
@@ -102,12 +128,12 @@
      </widget>
     </item>
     <item>
-     <widget class="QCheckBox" name="ckSeveso">
+     <widget class="QCheckBox" name="ckMaisaess">
       <property name="enabled">
        <bool>true</bool>
       </property>
       <property name="text">
-       <string>Seveso II Richtlinie</string>
+       <string>Maisäß Gebietsausweisung</string>
       </property>
       <attribute name="buttonGroup">
        <string>ckButtons</string>
@@ -115,12 +141,12 @@
      </widget>
     </item>
     <item>
-     <widget class="QCheckBox" name="ckFundzonen">
+     <widget class="QCheckBox" name="ckMauerinventar">
       <property name="enabled">
        <bool>true</bool>
       </property>
       <property name="text">
-       <string>Archäologische Fundzonen</string>
+       <string>Mauerinventar</string>
       </property>
       <attribute name="buttonGroup">
        <string>ckButtons</string>
@@ -141,12 +167,12 @@
      </widget>
     </item>
     <item>
-     <widget class="QCheckBox" name="ckBlauzone">
+     <widget class="QCheckBox" name="ckSeveso">
       <property name="enabled">
        <bool>true</bool>
       </property>
       <property name="text">
-       <string>Blauzone</string>
+       <string>Seveso II Richtlinie</string>
       </property>
       <attribute name="buttonGroup">
        <string>ckButtons</string>
@@ -160,19 +186,6 @@
       </property>
       <property name="text">
        <string>Weißzone</string>
-      </property>
-      <attribute name="buttonGroup">
-       <string>ckButtons</string>
-      </attribute>
-     </widget>
-    </item>
-    <item>
-     <widget class="QCheckBox" name="ckMauerinventar">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="text">
-       <string>Mauerinventar</string>
       </property>
       <attribute name="buttonGroup">
        <string>ckButtons</string>

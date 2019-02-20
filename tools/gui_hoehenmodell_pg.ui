@@ -62,8 +62,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>309</width>
-      <height>395</height>
+      <width>98</width>
+      <height>28</height>
      </rect>
     </property>
     <attribute name="label">
@@ -101,7 +101,7 @@
           <bool>false</bool>
          </property>
          <attribute name="buttonGroup">
-          <string>ckButtons</string>
+          <string notr="true">ckButtons</string>
          </attribute>
         </widget>
        </item>
@@ -115,7 +115,7 @@
           <bool>false</bool>
          </property>
          <attribute name="buttonGroup">
-          <string>ckButtons</string>
+          <string notr="true">ckButtons</string>
          </attribute>
         </widget>
        </item>
@@ -132,7 +132,7 @@
           <bool>false</bool>
          </property>
          <attribute name="buttonGroup">
-          <string>ckButtons</string>
+          <string notr="true">ckButtons</string>
          </attribute>
         </widget>
        </item>
@@ -149,7 +149,7 @@
           <bool>false</bool>
          </property>
          <attribute name="buttonGroup">
-          <string>ckButtons</string>
+          <string notr="true">ckButtons</string>
          </attribute>
         </widget>
        </item>
@@ -165,7 +165,7 @@
           <bool>false</bool>
          </property>
          <attribute name="buttonGroup">
-          <string>ckButtons</string>
+          <string notr="true">ckButtons</string>
          </attribute>
         </widget>
        </item>
@@ -216,7 +216,7 @@
           <bool>true</bool>
          </property>
          <attribute name="buttonGroup">
-          <string>ckButtons</string>
+          <string notr="true">ckButtons</string>
          </attribute>
         </widget>
        </item>
@@ -229,7 +229,7 @@
           <bool>true</bool>
          </property>
          <attribute name="buttonGroup">
-          <string>ckButtons</string>
+          <string notr="true">ckButtons</string>
          </attribute>
         </widget>
        </item>
@@ -259,8 +259,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>100</width>
-        <height>30</height>
+        <width>98</width>
+        <height>28</height>
        </rect>
       </property>
       <attribute name="label">
@@ -297,7 +297,7 @@
             <bool>true</bool>
            </property>
            <attribute name="buttonGroup">
-            <string>ckButtons</string>
+            <string notr="true">ckButtons</string>
            </attribute>
           </widget>
          </item>
@@ -310,7 +310,7 @@
             <bool>true</bool>
            </property>
            <attribute name="buttonGroup">
-            <string>ckButtons</string>
+            <string notr="true">ckButtons</string>
            </attribute>
           </widget>
          </item>
@@ -348,7 +348,7 @@
             <bool>true</bool>
            </property>
            <attribute name="buttonGroup">
-            <string>ckButtons</string>
+            <string notr="true">ckButtons</string>
            </attribute>
           </widget>
          </item>
@@ -361,7 +361,7 @@
             <bool>true</bool>
            </property>
            <attribute name="buttonGroup">
-            <string>ckButtons</string>
+            <string notr="true">ckButtons</string>
            </attribute>
           </widget>
          </item>
@@ -389,7 +389,7 @@
             <bool>true</bool>
            </property>
            <attribute name="buttonGroup">
-            <string>ckButtons</string>
+            <string notr="true">ckButtons</string>
            </attribute>
           </widget>
          </item>
@@ -405,7 +405,7 @@
             <bool>true</bool>
            </property>
            <attribute name="buttonGroup">
-            <string>ckButtons</string>
+            <string notr="true">ckButtons</string>
            </attribute>
           </widget>
          </item>
@@ -421,7 +421,7 @@
             <bool>true</bool>
            </property>
            <attribute name="buttonGroup">
-            <string>ckButtons</string>
+            <string notr="true">ckButtons</string>
            </attribute>
           </widget>
          </item>
@@ -472,7 +472,7 @@
             <bool>true</bool>
            </property>
            <attribute name="buttonGroup">
-            <string>ckButtons</string>
+            <string notr="true">ckButtons</string>
            </attribute>
           </widget>
          </item>
@@ -485,7 +485,7 @@
             <bool>true</bool>
            </property>
            <attribute name="buttonGroup">
-            <string>ckButtons</string>
+            <string notr="true">ckButtons</string>
            </attribute>
           </widget>
          </item>
@@ -523,7 +523,7 @@
             <bool>true</bool>
            </property>
            <attribute name="buttonGroup">
-            <string>ckButtons</string>
+            <string notr="true">ckButtons</string>
            </attribute>
           </widget>
          </item>
@@ -536,7 +536,7 @@
             <bool>true</bool>
            </property>
            <attribute name="buttonGroup">
-            <string>ckButtons</string>
+            <string notr="true">ckButtons</string>
            </attribute>
           </widget>
          </item>
@@ -564,7 +564,7 @@
             <bool>true</bool>
            </property>
            <attribute name="buttonGroup">
-            <string>ckButtons</string>
+            <string notr="true">ckButtons</string>
            </attribute>
           </widget>
          </item>
@@ -580,7 +580,7 @@
             <bool>true</bool>
            </property>
            <attribute name="buttonGroup">
-            <string>ckButtons</string>
+            <string notr="true">ckButtons</string>
            </attribute>
           </widget>
          </item>
@@ -596,7 +596,7 @@
             <bool>true</bool>
            </property>
            <attribute name="buttonGroup">
-            <string>ckButtons</string>
+            <string notr="true">ckButtons</string>
            </attribute>
           </widget>
          </item>

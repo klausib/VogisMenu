@@ -68,7 +68,7 @@
         <bool>true</bool>
        </property>
        <attribute name="buttonGroup">
-        <string>buttonGroup</string>
+        <string notr="true">buttonGroup</string>
        </attribute>
       </widget>
      </item>
@@ -83,7 +83,7 @@
         <string>Adressen Landesfläche</string>
        </property>
        <attribute name="buttonGroup">
-        <string>buttonGroup</string>
+        <string notr="true">buttonGroup</string>
        </attribute>
       </widget>
      </item>

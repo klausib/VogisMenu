@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>362</width>
-    <height>481</height>
+    <height>499</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>0</x>
      <y>0</y>
      <width>361</width>
-     <height>411</height>
+     <height>431</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -34,7 +34,7 @@
       <x>0</x>
       <y>0</y>
       <width>359</width>
-      <height>166</height>
+      <height>159</height>
      </rect>
     </property>
     <attribute name="label">
@@ -56,7 +56,7 @@
          <string>Quellen</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -66,7 +66,7 @@
          <string>Brunnen</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -76,7 +76,7 @@
          <string>Schutz- und Schongebiete</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -88,8 +88,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>359</width>
-      <height>166</height>
+      <width>98</width>
+      <height>28</height>
      </rect>
     </property>
     <attribute name="label">
@@ -111,7 +111,7 @@
          <string>Grundwasserwärme-Pumpen</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -121,7 +121,7 @@
          <string>Erdwärmeanlagen</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -131,7 +131,7 @@
          <string>Kühlwasseranlagen Grundwasser</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -141,7 +141,7 @@
          <string>Kühlwasseranlagen Oberflächengewässer</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -151,7 +151,7 @@
          <string>weitere Grundwasseranlagen (z.B. Versickerung)</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -163,8 +163,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>359</width>
-      <height>166</height>
+      <width>98</width>
+      <height>28</height>
      </rect>
     </property>
     <attribute name="label">
@@ -186,7 +186,7 @@
          <string>Kraftwerke</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -196,7 +196,7 @@
          <string>Betriebe (z.B. Beschneiungsanlagen)</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -206,7 +206,7 @@
          <string>Geschieberückhalteeinrichtungen</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -216,7 +216,7 @@
          <string> Anlagen an Gewässern (z.B. Entnahmen)</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -228,8 +228,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>359</width>
-      <height>166</height>
+      <width>98</width>
+      <height>28</height>
      </rect>
     </property>
     <attribute name="label">
@@ -251,7 +251,7 @@
          <string>Kommunale Kläranlagen</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -261,7 +261,7 @@
          <string>Kleinkläranalgen</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -271,7 +271,7 @@
          <string>Betriebliche Kläranlagen</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -281,7 +281,7 @@
          <string>Öffentliche Tankstellen</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -294,7 +294,7 @@
       <x>0</x>
       <y>0</y>
       <width>359</width>
-      <height>166</height>
+      <height>159</height>
      </rect>
     </property>
     <attribute name="label">
@@ -304,7 +304,7 @@
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>0</y>
+       <y>10</y>
        <width>184</width>
        <height>140</height>
       </rect>
@@ -316,7 +316,7 @@
          <string>Niederschlag-Messstellen</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -326,7 +326,7 @@
          <string>Oberflächenwasser-Messstellen</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -336,7 +336,17 @@
          <string>Grundwasser-Messstellen</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ckQuellenmessstellen">
+        <property name="text">
+         <string>Quellen-Messstellen</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -346,7 +356,7 @@
          <string>Grundwasserfelder</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -358,8 +368,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>359</width>
-      <height>166</height>
+      <width>98</width>
+      <height>28</height>
      </rect>
     </property>
     <attribute name="label">
@@ -381,7 +391,7 @@
          <string>Fließgewässer</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -391,7 +401,7 @@
          <string>Oberflächenwasser - Messstellen</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -401,7 +411,7 @@
          <string>Quellen</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -411,7 +421,7 @@
          <string>Rhein Donau Wasserscheide</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -423,8 +433,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>359</width>
-      <height>166</height>
+      <width>98</width>
+      <height>28</height>
      </rect>
     </property>
     <attribute name="label">
@@ -446,7 +456,7 @@
          <string>Gewässernetz 2017 Vorarlberg</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -456,7 +466,7 @@
          <string>Gewässernetz 2017 Vorarlberg + Umgebung</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -466,7 +476,7 @@
          <string>Gewässernetz 2012 Vorarlberg</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -476,7 +486,7 @@
          <string>Gewaessernetz 2012 Vorarlberg + Umgebung</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -489,7 +499,7 @@
          <string>Gewässernetz 2000 Vorarlberg</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -502,11 +512,40 @@
          <string>Gewaessernetz 2000 Vorarlberg + Umgebung</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
      </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="page_5">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>98</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Nationaler Gewässerbewirtschaftungsplan</string>
+    </attribute>
+    <widget class="QCheckBox" name="ckGewaesserbewirtschaftungsplan2015">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>323</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>NGP 2015</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">ckButtons</string>
+     </attribute>
     </widget>
    </widget>
    <widget class="QWidget" name="page_3">
@@ -514,8 +553,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>359</width>
-      <height>166</height>
+      <width>98</width>
+      <height>28</height>
      </rect>
     </property>
     <attribute name="label">
@@ -527,7 +566,7 @@
        <x>50</x>
        <y>10</y>
        <width>170</width>
-       <height>116</height>
+       <height>134</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="formLayout">
@@ -537,7 +576,7 @@
          <string>Direkteinleitungen</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -547,7 +586,7 @@
          <string>Kontinuumsunterbrechungen</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -557,7 +596,7 @@
          <string>Sohle Böschung</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -567,7 +606,7 @@
          <string>Strukturzustand</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -577,7 +616,17 @@
          <string>Ufervegetation</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QCheckBox" name="ckAbflussregime">
+        <property name="text">
+         <string>Abflussregime</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -589,8 +638,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>359</width>
-      <height>166</height>
+      <width>98</width>
+      <height>28</height>
      </rect>
     </property>
     <attribute name="label">
@@ -635,7 +684,7 @@
          <string>Bodensee -&gt; alles</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -648,7 +697,7 @@
          <string>Bodensee -&gt; nur Wasserfläche</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -661,7 +710,7 @@
          <string>Bodensee -&gt; nur 25m Tiefenlinien</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -674,7 +723,7 @@
          <string>Bodensee -&gt; nur 5m Tiefenlinien</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -687,7 +736,7 @@
          <string>Bodensee -&gt; nur Uferlinie</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -700,7 +749,7 @@
          <string>Andere Seen u. stehende Gewässer Vorarlbergs</string>
         </property>
         <attribute name="buttonGroup">
-         <string>ckButtons</string>
+         <string notr="true">ckButtons</string>
         </attribute>
        </widget>
       </item>
@@ -712,7 +761,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>440</y>
+     <y>450</y>
      <width>101</width>
      <height>23</height>
     </rect>
@@ -725,7 +774,7 @@
    <property name="geometry">
     <rect>
      <x>230</x>
-     <y>440</y>
+     <y>450</y>
      <width>101</width>
      <height>23</height>
     </rect>

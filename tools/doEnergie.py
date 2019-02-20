@@ -1,24 +1,21 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
 
-from PyQt4 import QtGui,QtCore
+from qgis.PyQt import QtGui, QtCore
 
 from qgis.core import *
 from gui_energie import *
-#API up to 2.2
-if QGis.QGIS_VERSION_INT < 20300:
-    from ProjektImport import *
-else:
-    from ProjektImport_24 import *
+from ProjektImport import *
+
 
 
 
 #Dies Klassendefinition öffnet das Frame für
 #die Auswahl der Datenebenen
 
-class EnergieDialog(QtGui.QDialog, Ui_frmEnergie):
+class EnergieDialog(QtWidgets.QDialog, Ui_frmEnergie):
     def __init__(self,iface,pfad = None):
-        QtGui.QDialog.__init__(self)
+        QtWidgets.QDialog.__init__(self)
         Ui_frmEnergie.__init__(self)
 
 
@@ -49,11 +46,9 @@ class EnergieDialog(QtGui.QDialog, Ui_frmEnergie):
             if button.isChecked():
 
                 if   ("Energieversorgung: GAS" in button.text()):
-
                     Energie.importieren(self.pfad + "/Gasversorgung/gas.qgs",)
 
                 elif ("Energieversorgung: STROM" in button.text()):
-
                     Energie.importieren(self.pfad + "/Stromversorgung/stromversorgung.qgs",)
 
         self.iface.mapCanvas().setRenderFlag(True)

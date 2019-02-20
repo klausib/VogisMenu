@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>303</width>
-    <height>347</height>
+    <height>209</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <rect>
      <x>30</x>
      <y>10</y>
-     <width>241</width>
+     <width>231</width>
      <height>121</height>
     </rect>
    </property>
@@ -30,7 +30,7 @@
      <rect>
       <x>20</x>
       <y>20</y>
-      <width>113</width>
+      <width>191</width>
       <height>92</height>
      </rect>
     </property>
@@ -41,7 +41,7 @@
         <string>Politische Grenzen</string>
        </property>
        <attribute name="buttonGroup">
-        <string>buttonGroup</string>
+        <string notr="true">buttonGroup</string>
        </attribute>
       </widget>
      </item>
@@ -51,7 +51,7 @@
         <string>Katastralgrenzen</string>
        </property>
        <attribute name="buttonGroup">
-        <string>buttonGroup</string>
+        <string notr="true">buttonGroup</string>
        </attribute>
       </widget>
      </item>
@@ -61,7 +61,7 @@
         <string>Zählsprengel</string>
        </property>
        <attribute name="buttonGroup">
-        <string>buttonGroup</string>
+        <string notr="true">buttonGroup</string>
        </attribute>
       </widget>
      </item>
@@ -71,72 +71,7 @@
         <string>Gemeinden</string>
        </property>
        <attribute name="buttonGroup">
-        <string>buttonGroup</string>
-       </attribute>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <widget class="QGroupBox" name="groupBox_2">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>140</y>
-     <width>241</width>
-     <height>131</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Österreich und Umgebung</string>
-   </property>
-   <widget class="QWidget" name="verticalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>20</y>
-      <width>160</width>
-      <height>92</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
-     <item>
-      <widget class="QCheckBox" name="ckOGemeinden">
-       <property name="text">
-        <string>Österreich Gemeinden</string>
-       </property>
-       <attribute name="buttonGroup">
-        <string>buttonGroup</string>
-       </attribute>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="ckOBezirke">
-       <property name="text">
-        <string>Österreich Bezirke</string>
-       </property>
-       <attribute name="buttonGroup">
-        <string>buttonGroup</string>
-       </attribute>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="ckOBundeslaender">
-       <property name="text">
-        <string>Österreich Bundesländer</string>
-       </property>
-       <attribute name="buttonGroup">
-        <string>buttonGroup</string>
-       </attribute>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="ckONachbarlaender">
-       <property name="text">
-        <string>Österreich Nachbarländer</string>
-       </property>
-       <attribute name="buttonGroup">
-        <string>buttonGroup</string>
+        <string notr="true">buttonGroup</string>
        </attribute>
       </widget>
      </item>
@@ -146,8 +81,8 @@
   <widget class="QPushButton" name="btnAbbrechen">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>290</y>
+     <x>170</x>
+     <y>150</y>
      <width>81</width>
      <height>31</height>
     </rect>
@@ -159,8 +94,8 @@
   <widget class="QPushButton" name="btnLaden">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>290</y>
+     <x>40</x>
+     <y>150</y>
      <width>81</width>
      <height>31</height>
     </rect>

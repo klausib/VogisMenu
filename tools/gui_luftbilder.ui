@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>560</width>
-    <height>489</height>
+    <height>506</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>10</x>
      <y>20</y>
      <width>261</width>
-     <height>451</height>
+     <height>471</height>
     </rect>
    </property>
    <property name="font">
@@ -34,21 +34,23 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>320</y>
+      <y>340</y>
       <width>143</width>
       <height>19</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>PEF Orthophoto 198x</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="ir2001">
@@ -62,56 +64,68 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>IR Orthophoto 2001/02</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="sw199x">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>290</y>
+      <y>390</y>
       <width>181</width>
       <height>18</height>
      </rect>
     </property>
+    <property name="maximumSize">
+     <size>
+      <width>16777215</width>
+      <height>18</height>
+     </size>
+    </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>SW Orthophoto 1987/94/95</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="sw195x">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>390</y>
+      <y>430</y>
       <width>142</width>
       <height>19</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>SW Orthophoto 195x</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="pe2001">
@@ -125,35 +139,39 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>PEF Orthophoto 2001/02</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="sw197x">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>370</y>
+      <y>410</y>
       <width>142</width>
       <height>18</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>SW Orthophoto 197x</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="ef2005">
@@ -167,14 +185,16 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>EF Orthophoto Hochwasser 2005</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="ef2006">
@@ -188,14 +208,16 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>EF Orthophoto 2006</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="ir2009">
@@ -209,14 +231,16 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>IR Orthophoto 2009</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="ef2009">
@@ -230,35 +254,39 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>EF Orthophoto 2009</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="ir198x">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>340</y>
+      <y>360</y>
       <width>143</width>
       <height>19</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>IR Orthophoto 198x</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="ir2012">
@@ -272,14 +300,16 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>IR Orthophoto 2012</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="ef2012">
@@ -293,35 +323,39 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>EF Orthophoto 2012</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="sw193x">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>410</y>
+      <y>450</y>
       <width>142</width>
       <height>18</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>SW Orthophoto 193x</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="ef2015">
@@ -335,14 +369,16 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>EF Orthophoto 2015</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="ir2015">
@@ -356,14 +392,62 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>IR Orthophoto 2015</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
+    </attribute>
+   </widget>
+   <widget class="QRadioButton" name="pe199x">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>288</y>
+      <width>143</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>PEF Orthophoto 199x</string>
+    </property>
+    <attribute name="buttonGroup">
+     <string notr="true">buttonGroup</string>
+    </attribute>
+   </widget>
+   <widget class="QRadioButton" name="ir199x">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>308</y>
+      <width>143</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>IR Orthophoto 199x</string>
+    </property>
+    <attribute name="buttonGroup">
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
   </widget>
@@ -395,14 +479,16 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>Winterorthophoto 2005</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="wi2009">
@@ -416,14 +502,16 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>Winterorthophoto 2009</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="wi2010">
@@ -437,14 +525,16 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>Winterorthophoto 2010</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="wi20xx">
@@ -458,14 +548,16 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>Winterorthophoto 2005 - 2011</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="wi2015">
@@ -479,14 +571,16 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>Winterorthophoto 2015</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
   </widget>
@@ -518,14 +612,16 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>Teilflächen</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="luftbilder_punkte">
@@ -539,14 +635,16 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>Übersicht der verfügbaren Luftbilder</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
    <widget class="QRadioButton" name="ef2010">
@@ -560,14 +658,16 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>EF Orthophotos 2010 (Pfänder HW u.a.)</string>
     </property>
     <attribute name="buttonGroup">
-     <string>buttonGroup</string>
+     <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
   </widget>
@@ -575,7 +675,7 @@
    <property name="geometry">
     <rect>
      <x>290</x>
-     <y>440</y>
+     <y>460</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -588,7 +688,7 @@
    <property name="geometry">
     <rect>
      <x>410</x>
-     <y>440</y>
+     <y>460</y>
      <width>111</width>
      <height>31</height>
     </rect>

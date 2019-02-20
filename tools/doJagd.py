@@ -1,22 +1,19 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
 
-from PyQt4 import QtGui,QtCore
+from qgis.PyQt import QtGui,QtCore
 
 from qgis.core import *
 from gui_jagd import *
-#API up to 2.2
-if QGis.QGIS_VERSION_INT < 20300:
-    from ProjektImport import *
-else:
-    from ProjektImport_24 import *
+from ProjektImport import *
+
 
 
 #Dies Klassendefinition öffnet das Frame für
 #die Auswahl der Datenebenen
-class JagdDialog(QtGui.QDialog, Ui_frmJagd):
+class JagdDialog(QtWidgets.QDialog, Ui_frmJagd):
     def __init__(self,parent,iface,pfad = None):
-        QtGui.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
+        QtWidgets.QDialog.__init__(self,parent) #den parent brauchts für einen modalen dialog!!
         Ui_frmJagd.__init__(self)
 
         self.iface = iface
@@ -52,7 +49,7 @@ class JagdDialog(QtGui.QDialog, Ui_frmJagd):
                 elif ("Wildfuetterungen" in button.objectName()):
 
                     pfad_ind = self.pfad + "/Vlbg/Jagdwirtschaft/jagdwirtschaft.qgs"
-                    name.append(("Wildfütterungen").decode('utf8'))
+                    name.append(("Wildfütterungen"))
 
                 elif ("Rotwildwintergatter" in button.objectName()):
 
@@ -63,7 +60,7 @@ class JagdDialog(QtGui.QDialog, Ui_frmJagd):
                 elif ("Rotwildgebiete" in button.objectName()):
 
                     pfad_ind = self.pfad + "/Vlbg/Raumplanung/raumplanung.qgs"
-                    name.append(("Rotwildräume").decode('utf8'))
+                    name.append(("Rotwildräume"))
 
                 elif ("Wildregionen" in button.objectName()):
 

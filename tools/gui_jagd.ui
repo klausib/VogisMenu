@@ -60,7 +60,7 @@
        <string>Jagdreviere</string>
       </property>
       <attribute name="buttonGroup">
-       <string>ckButtons</string>
+       <string notr="true">ckButtons</string>
       </attribute>
      </widget>
     </item>
@@ -75,7 +75,7 @@
        <string>Rotwildgebiete</string>
       </property>
       <attribute name="buttonGroup">
-       <string>ckButtons</string>
+       <string notr="true">ckButtons</string>
       </attribute>
      </widget>
     </item>
@@ -90,7 +90,7 @@
        <string>Wildregionen</string>
       </property>
       <attribute name="buttonGroup">
-       <string>ckButtons</string>
+       <string notr="true">ckButtons</string>
       </attribute>
      </widget>
     </item>
@@ -105,7 +105,7 @@
        <string>Wildbehandlungszonen</string>
       </property>
       <attribute name="buttonGroup">
-       <string>ckButtons</string>
+       <string notr="true">ckButtons</string>
       </attribute>
      </widget>
     </item>
@@ -120,7 +120,7 @@
        <string>Wildfreihaltungen</string>
       </property>
       <attribute name="buttonGroup">
-       <string>ckButtons</string>
+       <string notr="true">ckButtons</string>
       </attribute>
      </widget>
     </item>
@@ -135,7 +135,7 @@
        <string>Wildruhezonen</string>
       </property>
       <attribute name="buttonGroup">
-       <string>ckButtons</string>
+       <string notr="true">ckButtons</string>
       </attribute>
      </widget>
     </item>
@@ -150,7 +150,7 @@
        <string>Gamszonierung</string>
       </property>
       <attribute name="buttonGroup">
-       <string>ckButtons</string>
+       <string notr="true">ckButtons</string>
       </attribute>
      </widget>
     </item>
@@ -165,7 +165,7 @@
        <string>Wildfütterungen</string>
       </property>
       <attribute name="buttonGroup">
-       <string>ckButtons</string>
+       <string notr="true">ckButtons</string>
       </attribute>
      </widget>
     </item>
@@ -180,7 +180,7 @@
        <string>Rotwildwintergatter</string>
       </property>
       <attribute name="buttonGroup">
-       <string>ckButtons</string>
+       <string notr="true">ckButtons</string>
       </attribute>
      </widget>
     </item>

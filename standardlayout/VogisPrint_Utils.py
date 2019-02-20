@@ -1,8 +1,8 @@
 # -*- coding: latin1 -*-
 # Import the PyQt and QGIS libraries
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
-from PyQt4 import QtXml
+from qgis.PyQt import *
+from qgis.PyQt import *
+from qgis.PyQt import QtXml
 from qgis.core import *
 from qgis.gui import *
 import math, time, os
@@ -46,7 +46,7 @@ def getPapersize(format):
                         return height,  width
                     except ValueError:
                         pass
-#                        print "height/width float error"
+                        #print "height/width float error"
             sube = sube.nextSibling()
         n = n.nextSibling()
 
@@ -63,22 +63,9 @@ def getLayouts(stand_dkm):
 
     layouts = []
 
-    #layoutsfilename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/VogisMenu/standardlayout/layouts/layouts.xml"))
+
     layoutsfilename = os.path.dirname(__file__)  + "/layouts/layouts.xml"
-    #print os.name
 
-    # DKM-Stand vom V-Laufwerk lesen
-    #try:
-#        if os.name != 'posix':
-            #f=open('V:\Geodaten\Grenzen\DKM\_Allgemein\Stand.txt', 'r')
-#            stand_dkm = f.readline()
-#        else:
-#            f=open('/mnt/v-laufwerk/Geodaten/Grenzen/DKM/_Allgemein/Stand.txt', 'r')
-#            stand_dkm = f.readline()
-#    except IOError:
-        #print "Error lesen Stand.txt"
-
-##    try:
     layoutsfile = open(layoutsfilename,"r")
     layoutsxml = layoutsfile.read()
 
@@ -109,7 +96,7 @@ def getLayouts(stand_dkm):
                     while not marginnode.isNull():
                         try:
                             margins.append( float(marginnode.toElement().text()) )
-                            print marginnode.toElement().text()
+                            #print marginnode.toElement().text()
                         except ValueError:
                             margins.append( float(0.0) )
                         marginnode = marginnode.nextSibling()
@@ -187,8 +174,6 @@ def getLayouts(stand_dkm):
 
                         if type == "copyright":
                             text = deconode.toElement().text()
-##                                QMessageBox.information(None, 'Deconode', str(deconode))
-##                                QMessageBox.information(None, 'DKM', str(stand_dkm))
                             text = text + stand_dkm
                             decoration.setText(text)
 
@@ -205,12 +190,6 @@ def getLayouts(stand_dkm):
             layouts.append(layout)
 
         node = node.nextSibling()
-
-##    except IOError:
-    #print "error opening preferences.xml"
-    #QMessageBox.information(None, 'Deconode', str('G'))
-
-    #print "Ende getLayouts()."
 
     return layouts
 
@@ -310,38 +289,40 @@ def rotatePoint(point,  angle):
 # (c) Carson Farmer / fTools
 #
 def getLayerNames( vTypes,  providerException=None ):
-    layermap = QgsMapLayerRegistry.instance().mapLayers()
+    layermap = QgsProject.instance().mapLayers()
     layerlist = []
     if vTypes == "all":
-        for name, layer in layermap.iteritems():
-            provider = layer.dataProvider()
+
+        for k in layermap:
+            provider =  layermap[k].dataProvider()
             ## Is this a bug??? I only get "None" as provider for a TIFF....???
             if provider == None:
-                layerlist.append( unicode( layer.name() ) )
+                layerlist.append( unicode( layermap[k].name() ) )
                 continue
             providerName = provider.name()
             if providerName == providerException:
                 continue
             else:
-                layerlist.append( unicode( layer.name() ) )
+                layerlist.append( unicode(  layermap[k].name() ) )
     else:
-        for name, layer in layermap.iteritems():
-            if layer.type() == QgsMapLayer.VectorLayer:
-                if layer.geometryType() in vTypes:
-                    layerlist.append( unicode( layer.name() ) )
-            elif layer.type() == QgsMapLayer.RasterLayer:
+        #for name, layer in layermap.iteritems():
+        for k in layermap:
+            if  layermap[k].type() == QgsMapLayer.VectorLayer:
+                if  layermap[k].geometryType() in vTypes:
+                    layerlist.append( unicode( layermap[k].name() ) )
+            elif  layermap[k].type() == QgsMapLayer.RasterLayer:
                 if "Raster" in vTypes:
-                    layerlist.append( unicode( layer.name() ) )
+                    layerlist.append( unicode(  layermap[k].name() ) )
     return layerlist
 
 
 # Return QgsMapLayer from a layer name ( as string )
 def getLayerByName( myName ):
-    layermap = QgsMapLayerRegistry.instance().mapLayers()
-    for name, layer in layermap.iteritems():
-        if layer.name() == myName:
-            if layer.isValid():
-                return layer
+    layermap = QgsProject.instance().mapLayers()
+    for k in layermap:
+        if layermap[k].name() == myName:
+            if layermap[k].isValid():
+                return layermap[k]
             else:
                 return None
 
@@ -349,10 +330,10 @@ def getLayerByName( myName ):
 # Return QgsVectorLayer from a layer name ( as string )
 # (c) Carson Farmer / fTools
 def getVectorLayerByName( myName ):
-    layermap = QgsMapLayerRegistry.instance().mapLayers()
-    for name, layer in layermap.iteritems():
-        if layer.type() == QgsMapLayer.VectorLayer and layer.name() == myName:
-            if layer.isValid():
-                return layer
+    layermap = QgsProject.instance().mapLayers()
+    for k in layermap:
+        if layermap[k].type() == QgsMapLayer.VectorLayer and layermap[k].name() == myName:
+            if layermap[k].isValid():
+                return layermap[k]
             else:
                 return None

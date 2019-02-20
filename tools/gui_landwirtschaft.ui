@@ -63,7 +63,7 @@
        <string>Alpen, Vor- und Maisäße</string>
       </property>
       <attribute name="buttonGroup">
-       <string>ckButtons</string>
+       <string notr="true">ckButtons</string>
       </attribute>
      </widget>
     </item>
@@ -81,7 +81,7 @@
        <string>Benachteiligte Gebiete</string>
       </property>
       <attribute name="buttonGroup">
-       <string>ckButtons</string>
+       <string notr="true">ckButtons</string>
       </attribute>
      </widget>
     </item>
@@ -94,7 +94,7 @@
        <string>Bodenklimazahl (Ertragswerte)</string>
       </property>
       <attribute name="buttonGroup">
-       <string>ckButtons</string>
+       <string notr="true">ckButtons</string>
       </attribute>
      </widget>
     </item>
@@ -131,7 +131,7 @@
         <string>Eigentumsverhältnisse</string>
        </property>
        <attribute name="buttonGroup">
-        <string>ckButtons</string>
+        <string notr="true">ckButtons</string>
        </attribute>
       </widget>
      </item>
@@ -144,7 +144,7 @@
         <string>Alp-Art</string>
        </property>
        <attribute name="buttonGroup">
-        <string>ckButtons</string>
+        <string notr="true">ckButtons</string>
        </attribute>
       </widget>
      </item>
